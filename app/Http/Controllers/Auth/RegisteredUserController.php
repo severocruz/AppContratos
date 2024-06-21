@@ -31,15 +31,37 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'a_paterno'=> ['required','alpha:ascii', 'string', 'max:45'],
+            'a_materno'=> ['required','alpha:ascii', 'string', 'max:45'],
+            'nombres'=> ['required','alpha:ascii', 'string', 'max:60'],
+            'ci'=> ['required', 'string', 'max:15'],
+            'id_dep'=> ['required','integer'],
+            'name' => ['required', 'string', 'max:60'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'direccion' => ['required', 'string', 'max:60'],
+            'telefono' => ['required','string', 'max:60'],
+            'id_estus',
+            'id_tipous',
+            'id_uscrea',
+            'id_usmodif'
+            
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+             'a_paterno'=>$request->a_paterno,
+            'a_materno'=>$request->a_materno,
+            'nombres'=>$request->nombres,
+            'ci'=>$request->ci,
+            'id_dep'=>$request->id_dep,
+            'name' =>$request->name,
+            //'password' =>$request->password,
             'password' => Hash::make($request->password),
+            'email' =>$request->email,
+            'direccion' =>$request->direccion,
+            'telefono' =>$request->telefono,
+            'id_estus'=>$request->id_estus,
+            'id_tipous'=>$request->id_tipous,
         ]);
 
         event(new Registered($user));
