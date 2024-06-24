@@ -257,5 +257,9 @@
     "Address": "Domicilio",
     "Phone":"Telefono",
     "User type":"Tipo de usuario",
-    "Dashboard":"Panel"
+    "Staff":"Personal",
+    "Requirements":"Requerimientos",
+    "Contracts":"Contratos",
+    "New personnel":"Nuevo Personal"
+
 }

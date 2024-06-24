@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\DatosPerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequerimientoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,9 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/personal', function(){
-        return view('personal.index');
-    })->name('personal.index');
+    
+    Route::get('/personal',[DatosPerController::class,'index'])->name('personal.index');
+    Route::get('/personalNew',[DatosPerController::class,'create'])->name('personal.new');
+    Route::get('/requerimientos',[RequerimientoController::class,'index'])->name('requerimientos.index');
+    Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
 });
 
 require __DIR__.'/auth.php';
