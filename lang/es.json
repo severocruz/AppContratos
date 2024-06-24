@@ -260,6 +260,8 @@
     "Staff":"Personal",
     "Requirements":"Requerimientos",
     "Contracts":"Contratos",
-    "New personnel":"Nuevo Personal"
-
+    "New personnel":"Nuevo Personal",
+    "Last name 1":"Primer Apellido",
+    "Last name 2":"Segundo Apellido",
+    "Birthdate":"Fecha de Nacimiento"
 }
