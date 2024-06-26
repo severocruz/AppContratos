@@ -10,9 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- @dump($errors->get('a_paterno')) --}}
-                    @if(session('status'))
-                        <div class="bg-green-500">{{__('Successfully created staff')}}</div>
-                    @endif
+                    
                     <form action="{{route('personal.store')}}" method="POST" >
                         @csrf
                         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
@@ -215,9 +213,10 @@
                             </div>
                         </div>
                         
-                        <button>
+                        <x-primary-button>Enviar</x-primary-button>
+                        {{-- <button>
                             Enviar
-                        </button>
+                        </button> --}}
                     </form>
                     
                         

@@ -9,16 +9,37 @@ use App\Http\Requests\StoreDatosPerRequest;
 use App\Http\Requests\UpdateDatosPerRequest;
 use App\Utils\PersonalUtil;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 class DatosPerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        
+    public function index(Request $request)
+    {  
         //
-        return view('personal.index');
+        $npage=1;
+        $str="";
+        $keyword="%";
+        if (array_key_exists('strBusqueda',$request->input())) {
+            # code..
+            $str = $request->input()['strBusqueda']?$request->input()['strBusqueda']:'';
+            $keyword= '%'.strtoupper($str).'%';
+        }
+
+        if (array_key_exists('npage',$request->input())) {
+            $npage = $request->input()['npage']?$request->input()['npage']:1;
+        }
+
+        $personalList = DatosPer::where(function($query) use($keyword) {
+            $query->where("a_paterno","LIKE",$keyword);
+            $query->orWhere("a_materno","LIKE",$keyword);
+            $query->orWhere("nombres","LIKE",$keyword);
+        } )->where('id_esper','<>','5')->paginate(10,['*'],'page',$npage);
+         
+        
+       return view('personal.index',['personalList'=>$personalList,'str'=>$str]);
+       //return view('personal.index',['request'=> $request]);
     }
 
     /**
@@ -65,7 +86,7 @@ class DatosPerController extends Controller
         $personalStore['estado_conteo'] = 'habil';
         $personalStore['matricula']=$perUtil->generaMatricula($personalStore['sexo'],$personalStore['fecha_nac'],$personalStore['a_paterno'],$personalStore['a_materno'],$personalStore['nombres']);
         DatosPer::create($personalStore->toArray());
-        session()->flash('status');
+        session()->flash('status','Successfully created staff');
         return to_route('personal.new') ;
                 //
     }

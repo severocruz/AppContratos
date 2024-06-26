@@ -281,5 +281,6 @@
     "Port number":"Número de Puerta",
      "Choose a department":"Elija un departamento",
      "Choose a Afp":"Elija un Afp",
-     "Successfully created staff":"Personal creado con éxito"
+     "Successfully created staff":"Personal creado con éxito",
+     "Count":"Conteo"
 }
