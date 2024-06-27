@@ -128,6 +128,7 @@ class DatosPerController extends Controller
      */
     public function update(UpdateDatosPerRequest $request, DatosPer $datosPer)
     {
+        $nombrefoto='';
         if ($request->hasFile('avatar')) {
             # code...
             $file=$request->file('avatar');
@@ -137,8 +138,8 @@ class DatosPerController extends Controller
         }
 
         $validated=$request->validate([
-            'a_paterno'=>['string', 'max:45','min:2'],
-            'a_materno'=>['string', 'max:45','min:2'],
+            'a_paterno'=>[ 'max:45'],
+            'a_materno'=>[ 'max:45'],
             'nombres'=>['required', 'string', 'max:45','min:2'],
             'CI'=> ['required','unique:datos_per,CI,'.$datosPer->id_per.',id_per'],
             'id_dep'=>['required','numeric','min:1'],
@@ -164,7 +165,8 @@ class DatosPerController extends Controller
             $personalStore['id_esper'] = 3;
             $personalStore['estado_conteo'] = 'habil';
             $personalStore['matricula']=$perUtil->generaMatricula($personalStore['sexo'],$personalStore['fecha_nac'],$personalStore['a_paterno'],$personalStore['a_materno'],$personalStore['nombres']);
-            $datosPer->update($personalStore);
+            $personalStore['foto']=$nombrefoto;
+            $datosPer->update($personalStore);  
             session()->flash('status','Successfully updated staff');
             return to_route('personal.edit',$datosPer) ;
     }

@@ -28,7 +28,7 @@
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG {{__('or')}} GIF (MAX. 400x400px).</p>
                                 </div>
                                 <div class="md:w-1/4 px-3 mb-6 md:mb-0">
-                                    <img class="object-cover w-32 h-32 rounded-full" src="{{old('foto',$personal->foto)?'storage/fotos/'.old('foto',$personal->foto):'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApLJxJLPubp4KuCafWl1G85OVieXwcG-11Q&usqp=CAU'}}" alt="">
+                                    <img class="object-cover w-32 h-32 rounded-full" src="{{old('foto',$personal->foto)?'/storage/fotos/'.old('foto',$personal->foto):'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApLJxJLPubp4KuCafWl1G85OVieXwcG-11Q&usqp=CAU'}}" alt="">
                                 </div>
                             </div>
                             <div class="-mx-3 md:flex mb-6">
