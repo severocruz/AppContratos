@@ -4,7 +4,7 @@
             {{ __('Staff') }}
         </h2>
     </x-slot>
-    {{-- @dump($personalList) --}}
+    {{-- @dump($personalList->all()[5]->estadoPersonal->esper) --}}
     
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -50,7 +50,10 @@
                                                 {{__('Count')}}
                                             </th>
             
-            
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                {{__('Status')}}
+                                            </th>
+
                                             <th scope="col" class="relative py-3.5 px-4">
                                                 <span class="sr-only">Actions</span>
                                             </th>
@@ -75,17 +78,23 @@
                                                     <h2 class="text-sm font-normal">{{$person->conteo}}</h2>
                                                 </div>
                                             </td>
-                                            
+                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 {{$person->id_esper==1?'text-yellow-500 bg-yellow-100/60':($person->id_esper==2?'text-orange-500 bg-orange-100/60':($person->id_esper==4?'text-blue-500 bg-blue-100/60':'text-green-500 bg-green-100/60'))}} dark:bg-gray-800">
+                                                     <h2 class="text-sm font-normal">{{$person->estadoPersonal->esper}}</h2>
+                                                </div>
+                                            </td>
                                             
                                             <td class="px-4 py-4 text-sm whitespace-nowrap">
                                                 <div class="flex items-center gap-x-6">
-                                                    <button class="inline-flex items-center text-gray-400 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-900 focus:outline-none">
-                                                        <svg width="20" height="20" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M4.5 7L2 4.5M2 4.5L4.5 2M2 4.5H8C8.53043 4.5 9.03914 4.71071 9.41421 5.08579C9.78929 5.46086 10 5.96957 10 6.5V10" stroke="#667085" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                                        </svg>
-                                                        Ver
+                                                    <a href="{{route('personal.edit',$person)}}" class="inline-flex items-center text-gray-400 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-900 focus:outline-none">
                                                         
-                                                    </button>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                          </svg>
+                                                          
+                                                        Editar
+                                                        
+                                                    </a>
             
                                                     <button class="inline-flex items-center  text-red-400 transition-colors duration-200 hover:text-red-700 focus:outline-none">
                                                         <svg width="30" height="30" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

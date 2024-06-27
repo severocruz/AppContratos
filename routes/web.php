@@ -34,7 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/personal',[DatosPerController::class,'index'])->name('personal.index');
     Route::get('/personalNew',[DatosPerController::class,'create'])->name('personal.new');
     Route::post('/personal', [DatosPerController::class,'store'])->name('personal.store');
-
+    Route::get('/personal/{datosper}/edit',[DatosPerController::class,'edit'])->name('personal.edit');
+    Route::put('/personal/{datosPer}',[DatosPerController::class,'update'])->name('personal.update');
     Route::get('/requerimientos',[RequerimientoController::class,'index'])->name('requerimientos.index');
     Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
 });

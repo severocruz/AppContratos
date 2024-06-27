@@ -31,12 +31,12 @@ class DatosPerController extends Controller
             $npage = $request->input()['npage']?$request->input()['npage']:1;
         }
 
-        $personalList = DatosPer::where(function($query) use($keyword) {
+        $personalList = DatosPer::with('estadoPersonal')->where(function($query) use($keyword) {
             $query->where("a_paterno","LIKE",$keyword);
             $query->orWhere("a_materno","LIKE",$keyword);
             $query->orWhere("nombres","LIKE",$keyword);
-        } )->where('id_esper','<>','5')->paginate(10,['*'],'page',$npage);
-         
+        } )->where('id_esper','<','5')->paginate(10,['*'],'page',$npage);
+        //$personalList=$personalList->with('estadoPersonal'); 
         
        return view('personal.index',['personalList'=>$personalList,'str'=>$str]);
        //return view('personal.index',['request'=> $request]);
@@ -59,9 +59,9 @@ class DatosPerController extends Controller
     public function store(StoreDatosPerRequest $request)
     {
         $request->validate([
-        'a_paterno'=>['required','alpha:ascii', 'string', 'max:45','min:2'],
-        'a_materno'=>['required','alpha:ascii', 'string', 'max:45','min:2'],
-        'nombres'=>['required','alpha:ascii', 'string', 'max:45','min:2'],
+        'a_paterno'=>['required', 'string', 'max:45','min:2'],
+        'a_materno'=>['required', 'string', 'max:45','min:2'],
+        'nombres'=>['required', 'string', 'max:45','min:2'],
         'CI'=> ['required','unique:datos_per,CI'],
         'id_dep'=>['required','numeric','min:1'],
         'est_civil'=>'required',
@@ -102,9 +102,13 @@ class DatosPerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DatosPer $datosPer)
+    public function edit($datosPer)
     {
+        $personal =DatosPer::findOrFail($datosPer); 
+        $departamentos = Departamento::where ('estado','=','1')->get();
+        $afps = Afp::where('estado','=','1')->get();
         //
+        return view('personal.edit',['personal'=>$personal,'departamentos'=>$departamentos,'afps'=>$afps]);
     }
 
     /**
@@ -112,7 +116,38 @@ class DatosPerController extends Controller
      */
     public function update(UpdateDatosPerRequest $request, DatosPer $datosPer)
     {
-        //
+
+        $validated=$request->validate([
+            'a_paterno'=>['required', 'string', 'max:45','min:2'],
+            'a_materno'=>['required', 'string', 'max:45','min:2'],
+            'nombres'=>['required', 'string', 'max:45','min:2'],
+            'CI'=> ['required','unique:datos_per,CI,'.$datosPer->id_per.',id_per'],
+            'id_dep'=>['required','numeric','min:1'],
+            'est_civil'=>'required',
+            'sexo'=>'required',
+            'localidad'=>['required','string', 'max:45','min:5'],
+            'direccion'=>['required', 'string', 'max:250','min:10'],
+            'calle'=>['required', 'string', 'max:55'],
+            'No'=>['required', 'string', 'max:10'],
+            'telefono'=>['required', 'string', 'max:40','min:6'],
+            'email'=>['required','email','unique:datos_per,email,'.$datosPer->id_per.',id_per'],
+            'fecha_nac'=>'required',
+            'id_afp'=>['required','numeric','min:1']
+            ]);
+            $perUtil = new PersonalUtil();
+            $personalStore=$validated;
+            $personalStore['a_paterno']=strtoupper($personalStore['a_paterno']);
+            $personalStore['a_materno']=strtoupper($personalStore['a_materno']);
+            $personalStore['nombres']=strtoupper($personalStore['nombres']);
+           // $personalStore['hashDp']=Hash::make($personalStore['CI'].$personalStore['a_paterno'].$personalStore['a_materno'].$personalStore['nombres']);
+            $personalStore['id_usmodif']=auth()->id();
+            $personalStore['fecha_modif']=date("Y-m-d H:i:s");
+            $personalStore['id_esper'] = 3;
+            $personalStore['estado_conteo'] = 'habil';
+            $personalStore['matricula']=$perUtil->generaMatricula($personalStore['sexo'],$personalStore['fecha_nac'],$personalStore['a_paterno'],$personalStore['a_materno'],$personalStore['nombres']);
+            $datosPer->update($personalStore);
+            session()->flash('status','Successfully updated staff');
+            return to_route('personal.edit',$datosPer) ;
     }
 
     /**

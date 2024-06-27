@@ -282,5 +282,8 @@
      "Choose a department":"Elija un departamento",
      "Choose a Afp":"Elija un Afp",
      "Successfully created staff":"Personal creado con éxito",
-     "Count":"Conteo"
+     "Successfully edited staff":"Personal editado con éxito",
+     "Count":"Conteo",
+     "Status":"Estado",
+     "Edit personnel":"Editar Personal"
 }

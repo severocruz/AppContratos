@@ -84,7 +84,7 @@
                @click="$store.sidebar.active = 'personal' "
                class=" relative flex items-center w-11/12 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
                x-bind:class="{'justify-start': $store.sidebar.full, 'sm:justify-center':!$store.sidebar.full,'text-gray-200 bg-gray-700':$store.sidebar.active == 'personal','text-gray-400 ':$store.sidebar.active != 'personal'}"
-               :href="route('personal.index')" :active="request()->routeIs('personal.index')||request()->routeIs('personal.new')">
+               :href="route('personal.index')" :active="request()->routeIs('personal.*')">
 
                    <svg xmlns="http://www.w3.org/2000/svg"
                    class="h-6 w-6"

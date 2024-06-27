@@ -9,7 +9,7 @@ class Requerimiento extends Model
 {
     use HasFactory;
     protected $table = 'requerimiento';
-    protected $timestamps = false;
+    protected $timestamp = false;
     protected $primariKey = 'id_req';
     public $incrementing = true;
 }

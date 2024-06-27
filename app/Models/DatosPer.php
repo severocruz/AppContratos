@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DatosPer extends Model
 {
     use HasFactory;
@@ -12,6 +12,7 @@ class DatosPer extends Model
     public $timestamps = false;
     protected $primaryKey= "id_per";
     public $incrementing = true;
+
     protected $fillable = [
         'a_paterno',
         'a_materno',
@@ -42,7 +43,11 @@ class DatosPer extends Model
         "hashDp"
     ];
 
+    public function estadoPersonal():BelongsTo{
+        return $this->belongsTo(EstadoPersonal::class,"id_esper","id_esper");
+    }
     public function requerimientos(){
         return $this->hasMany('App\Models\Requerimiento','id_per','id_per');
     }
+
 }
