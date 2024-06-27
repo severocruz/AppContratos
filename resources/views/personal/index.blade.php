@@ -64,7 +64,7 @@
                                         <tr>
                                             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                                 <div class="flex items-center gap-x-2">
-                                                    <img class="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="">
+                                                    <img class="object-cover w-8 h-8 rounded-full" src="{{$person->foto?'storage/fotos/'.$person->foto:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApLJxJLPubp4KuCafWl1G85OVieXwcG-11Q&usqp=CAU'}}" alt="">
                                                     <div>
                                                         <h2 class="text-md-center font-bold  text-gray-800 dark:text-white "> {{$person->a_paterno." ".$person->a_materno." ".$person->nombres}}</h2>
                                                         <p class="text-xs font-semibold text-gray-600 dark:text-gray-400">CI: {{$person->CI}} | Telefono: {{$person->telefono}}</p>

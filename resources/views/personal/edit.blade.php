@@ -14,9 +14,23 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- @dump($errors->get('a_paterno')) --}}
                     
-                    <form action="{{route('personal.update',$personal)}}" method="POST" >
+                    <form action="{{route('personal.update',$personal)}}" method="POST" enctype="multipart/form-data" >
                         @csrf @method('PUT')
                         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+                            <div class="-mx-3 md:flex mb-6">
+                                <div class="md:w-1/5 px-3 mb-6 md:mb-0">
+                                </div>
+                                <div class="md:w-2/4 px-3 mb-6 md:mb-0">
+                                    <label class="uppercase block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input"> 
+                                        {{ __('Photo') }}
+                                    </label>
+                                    <input name="avatar" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG {{__('or')}} GIF (MAX. 400x400px).</p>
+                                </div>
+                                <div class="md:w-1/4 px-3 mb-6 md:mb-0">
+                                    <img class="object-cover w-32 h-32 rounded-full" src="{{old('foto',$personal->foto)?'storage/fotos/'.old('foto',$personal->foto):'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApLJxJLPubp4KuCafWl1G85OVieXwcG-11Q&usqp=CAU'}}" alt="">
+                                </div>
+                            </div>
                             <div class="-mx-3 md:flex mb-6">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
 
