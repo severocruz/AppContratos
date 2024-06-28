@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequerimientoRequest extends FormRequest
+class StoreCargosRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,5 +25,4 @@ class StoreRequerimientoRequest extends FormRequest
             //
         ];
     }
-   
 }

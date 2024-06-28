@@ -36,8 +36,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/personal', [DatosPerController::class,'store'])->name('personal.store');
     Route::get('/personal/{datosper}/edit',[DatosPerController::class,'edit'])->name('personal.edit');
     Route::put('/personal/{datosPer}',[DatosPerController::class,'update'])->name('personal.update');
+    
     Route::get('/requerimientos',[RequerimientoController::class,'index'])->name('requerimientos.index');
+    Route::get('/requerimientosNew',[RequerimientoController::class,'create'])->name('requerimiento.new');
+    Route::post('/requerimientos', [RequerimientoController::class,'store'])->name('requerimiento.store');
+    
+
     Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
+
+    
 });
 
 require __DIR__.'/auth.php';
