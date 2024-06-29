@@ -36,7 +36,7 @@ class DatosPerController extends Controller
             $query->where("a_paterno","LIKE",$keyword);
             $query->orWhere("a_materno","LIKE",$keyword);
             $query->orWhere("nombres","LIKE",$keyword);
-        } )->where('id_esper','<','5')->paginate(10,['*'],'page',$npage);
+        } )->where('id_esper','<','5')->orderBy('id_per','DESC')->paginate(10,['*'],'page',$npage);
         //$personalList=$personalList->with('estadoPersonal'); 
         
        return view('personal.index',['personalList'=>$personalList,'str'=>$str]);

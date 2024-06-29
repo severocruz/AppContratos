@@ -12,7 +12,7 @@ class Requerimiento extends Model
     protected $table = 'requerimiento';
     public $timestamps = false;
     
-    protected $primariKey = 'id_req';
+    protected $primaryKey = 'id_req';
     public $incrementing = true;
 
     protected $fillable = [

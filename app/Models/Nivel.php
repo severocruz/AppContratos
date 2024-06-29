@@ -11,7 +11,7 @@ class Nivel extends Model
     protected $table = 'nivel';
     public $timestamps = false;
     
-    protected $primariKey = 'id_niv';
+    protected $primaryKey = 'id_niv';
     public $incrementing = true;
 
     protected $fillable = [];   

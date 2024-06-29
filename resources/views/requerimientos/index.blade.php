@@ -16,14 +16,17 @@
                             {{__('New requeriment')}}
                             </x-nav-link>
                         </div>
-                        @dump($requerimientoList)
-                        {{-- <div class="flex-col pt-3 border-t-2">
-                            <form action="{{route('personal.index')}}" method="GET" >
+                        {{-- @dump($requerimientoList) --}}
+                         <div class="flex-col pt-3 border-t-2">
+                            <form action="{{route('requerimientos.index')}}" method="GET" >
                                @csrf
-                                <input type="text" value="{{$str}}" name="strBusqueda" id="strBusqueda" placeholder="buqueda...."/>
+                               Filtrar   entre el&nbsp; 
+                                <input type="date" value="{{$fecha1}}" name="fecha1" id="fecha1"/>
+                                &nbsp;y&nbsp;   
+                                <input type="date" value="{{$fecha2}}" name="fecha2" id="fecha2"/>
                                 <button class="bg-blue-200 text-blue-600 px-3 py-1 rounded-full">Buscar</button>
                             </form>
-                        </div> --}}
+                        </div> 
 
                     </div> 
                 </div>
@@ -96,7 +99,7 @@
                                                         </x-slot>   
                                                         <x-slot name="content">
                                                             {{-- {{route('personal.edit',$person)}} --}}
-                                                            <x-dropdown-link href="#" class="items-center text-gray-400 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-900 focus:outline-none">
+                                                            <x-dropdown-link href="{{route('requerimiento.edit',$requerimiento)}}" class="items-center text-gray-400 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-900 focus:outline-none">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                                   </svg>
@@ -127,7 +130,7 @@
             
                 <div class="flex items-center justify-between mt-6">
                     @if ($requerimientoList->currentPage()>1)
-                        <x-nav-link :href="'requerimientos?strBusqueda='.$str.'&npage='.$requerimientoList->currentPage()-1" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                        <x-nav-link :href="$fecha1&&$fecha2?'requerimientos?fecha1='.$fecha1.'&fecha2='.$fecha2.'&npage='.$requerimientoList->currentPage()-1:'requerimientos?npage='.$requerimientoList->currentPage()-1" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
                             </svg>
@@ -142,7 +145,7 @@
                         
                         @for($j = $requerimientoList->currentPage()-2;$j<=$requerimientoList->currentPage()+2;$j++)
                             @if ($j > 0 && $j<($requerimientoList->lastPage()-3))
-                                <x-nav-link :href="'requerimientos?strBusqueda='.$str.'&npage='.$j" 
+                                <x-nav-link :href="$fecha1&&$fecha2?'requerimientos?fecha1='.$fecha1.'&fecha2='.$fecha2.'&npage='.$j:'requerimientos?npage='.$j " 
                                 :active="$requerimientoList->currentPage()==$j"
                                 class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
                                     {{$j}}
@@ -152,7 +155,7 @@
                             <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">...</a>
                         @for($i = $requerimientoList->lastPage()-3;$i<=$requerimientoList->lastPage();$i++)
                             @if ($i > 0)
-                                <x-nav-link :href="'requerimientos?strBusqueda='.$str.'&npage='.$i" 
+                            <x-nav-link :href="$fecha1&&$fecha2?'requerimientos?fecha1='.$fecha1.'&fecha2='.$fecha2.'&npage='.$i:'requerimientos?npage='.$i " 
                                 :active="$requerimientoList->currentPage()==$i"
                                 class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
                                     {{$i}}
@@ -161,8 +164,8 @@
                         @endfor
                     </div>
                     @if ($requerimientoList->lastPage()>$requerimientoList->currentPage())
-                        
-                        <x-nav-link :href="'requerimientos?strBusqueda='.$str.'&npage='.$requerimientoList->currentPage()+1" 
+                    
+                        <x-nav-link :href="$fecha1&&$fecha2?'requerimientos?fecha1='.$fecha1.'&fecha2='.$fecha2.'&npage='.$requerimientoList->currentPage()+1:'requerimientos?npage='.$requerimientoList->currentPage()+1" 
                             class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
                             >
                             <span>

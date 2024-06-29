@@ -11,7 +11,7 @@ class Cargos extends Model
     protected $table = 'cargos';
     public $timestamps = false;
     
-    protected $primariKey = 'id_car';
+    protected $primaryKey = 'id_car';
     public $incrementing = true;
 
     protected $fillable = [] ;

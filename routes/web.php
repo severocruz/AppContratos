@@ -40,7 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/requerimientos',[RequerimientoController::class,'index'])->name('requerimientos.index');
     Route::get('/requerimientosNew',[RequerimientoController::class,'create'])->name('requerimiento.new');
     Route::post('/requerimientos', [RequerimientoController::class,'store'])->name('requerimiento.store');
-    
+    Route::get('/requerimientos/{requerimiento}/edit', [RequerimientoController::class,'edit'])->name('requerimiento.edit');
+    Route::put('/requerimientos/{requerimiento}',[RequerimientoController::class,'update'])->name('requerimiento.update');
 
     Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
 

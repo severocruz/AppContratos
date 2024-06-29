@@ -11,7 +11,7 @@ class EstadoRequerimiento extends Model
     protected $table = 'estado_requerimiento';
     public $timestamps = false;
     
-    protected $primariKey = 'id_esreq';
+    protected $primaryKey = 'id_esreq';
     public $incrementing = true;
 
     protected $fillable = [];   

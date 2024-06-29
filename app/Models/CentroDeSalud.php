@@ -10,7 +10,7 @@ class CentroDeSalud extends Model
     use HasFactory;
     protected $table = 'centro_de_salud';
     public $timestamps = false;
-    protected $primariKey = 'id_cs';
+    protected $primaryKey = 'id_cs';
     public $incrementing = true;
     
     protected $fillable = [] ;

@@ -11,7 +11,7 @@ class TipoContrato extends Model
     protected $table = 'tipo_contrato';
     public $timestamps = false;
     
-    protected $primariKey = 'id_tic';
+    protected $primaryKey = 'id_tic';
     public $incrementing = true;
 
     protected $fillable = [] ;

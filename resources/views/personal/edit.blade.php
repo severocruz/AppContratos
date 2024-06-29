@@ -234,7 +234,8 @@
                             Enviar
                         </button> --}}
                     </form>
-                    
-                        
-                    
+                </div>    
+            </div>  
+        </div>        
+    </div>              
 </x-app-layout>

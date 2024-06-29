@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateRequerimientoRequest;
 use App\Models\Cargos;
 use App\Models\CentroDeSalud;
 use App\Models\TipoContrato;
+use App\Models\DatosPer;
 use App\Models\Nivel;
 use Illuminate\Http\Request;
 
@@ -22,21 +23,24 @@ class RequerimientoController extends Controller
           $npage=1;
           $str="";
         //   $keyword="%";
-        //   if (array_key_exists('strBusqueda',$request->input())) {
-        //       # code..
-        //       $str = $request->input()['strBusqueda']?$request->input()['strBusqueda']:'';
-        //       $keyword= '%'.strtoupper($str).'%';
-        //   }
+          
   
           if (array_key_exists('npage',$request->input())) {
               $npage = $request->input()['npage']?$request->input()['npage']:1;
           }
-  
-          $requerimientoList = Requerimiento::with('cargos')->with('centroDeSalud')->with('estadoRequerimiento')->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
+          $fecha1="";
+          $fecha2="";
+          if (array_key_exists('fecha1',$request->input()) && array_key_exists('fecha2',$request->input()) ) {
+            $fecha1=$request->input("fecha1");
+            $fecha2=$request->input("fecha2");
+            $requerimientoList = Requerimiento::with('cargos')->with('centroDeSalud')->with('estadoRequerimiento')->whereBetween('fechareq',[$fecha1,$fecha2])->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
+          }else{
+            $requerimientoList = Requerimiento::with('cargos')->with('centroDeSalud')->with('estadoRequerimiento')->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
+          }
           //$personalList=$personalList->with('estadoPersonal'); 
           
         return view('requerimientos.index',['requerimientoList'=>$requerimientoList,
-                                            'str'=>$str]);
+                                            'fecha1'=>$fecha1,'fecha2'=>$fecha2]);
         //
     }
 
@@ -100,9 +104,26 @@ class RequerimientoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Requerimiento $requerimiento)
+    public function edit($requerimiento)
     {
-        //
+        $requerimient=Requerimiento::findOrFail($requerimiento);
+        $centrosSalud=CentroDeSalud::where('estado','=','1')->get();
+        $tiposContrato=TipoContrato::where('estado','=','1')->get();
+        $cargos = Cargos::where('estado','=','1')->get();
+        $niveles = Nivel::where('estado','=','1')->get();
+        $personal = [];
+        if ($requerimient->id_per){
+            $personal= DatosPer::where('id_per','=',$requerimient->id_per);
+        }
+
+        return view('requerimientos.edit',['requerimiento'=> $requerimient,
+                                            'centrosSalud'=>$centrosSalud,
+                                            'tiposContrato'=>$tiposContrato,
+                                            'cargos'=>$cargos,
+                                            'niveles'=>$niveles,
+                                            'personal'=> $personal
+                                            ]);
+        
     }
 
     /**
