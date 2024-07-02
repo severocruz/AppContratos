@@ -4,21 +4,21 @@
             {{ __('Requirements') }}
         </h2>
     </x-slot>
-
+    <div class="flex-col ">
+        <x-nav-link
+        :href="route('requerimiento.new')">
+        {{__('New requeriment')}}
+        </x-nav-link>
+    </div>
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex-row">
-                        <div class="flex-col ">
-                            <x-nav-link
-                            :href="route('requerimiento.new')">
-                            {{__('New requeriment')}}
-                            </x-nav-link>
-                        </div>
+                        
                         {{-- @dump($requerimientoList) --}}
                          <div class="flex-col pt-3 border-t-2">
-                            <form action="{{route('requerimientos.index')}}" method="GET" >
+                            <form action="{{route('requerimiento.index')}}" method="GET" >
                                @csrf
                                Filtrar   entre el&nbsp; 
                                 <input type="date" value="{{$fecha1}}" name="fecha1" id="fecha1"/>
@@ -36,7 +36,7 @@
                 <div class="flex flex-col">
                     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                            <div class="overflow-x-auto border border-gray-200 dark:border-gray-700 md:rounded-lg">
                                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead class="bg-gray-50 dark:bg-gray-800">
                                         <tr>

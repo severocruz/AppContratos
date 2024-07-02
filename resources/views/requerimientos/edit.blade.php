@@ -4,49 +4,68 @@
             {{ __('Edit Requeriment') }}
         </h2>
     </x-slot>
-    
+    <div class="flex-col ">
+        <x-nav-link
+        :href="route('requerimiento.show',$requerimiento)">
+        {{-- {{__('New requeriment')}} --}}
+        Hoja de requerimiento
+        </x-nav-link>
+    </div>
+    {{-- @dump($docAdjuntos) --}}
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 
-                @if($personal)
+                {{-- @if($personal) --}}
                     <div class="p-6 text-gray-900 dark:text-gray-100" >
                         <h1 class="text-2xl font-bold text-center mt-4">Datos del Personal</h1>
+                        @if ($personal)
+                         <div></div>    
+                        @else
+                            <form id="formBusqueda">
+                                @csrf 
+                                <input type="text" name="cibus" id="cibus" placeholder="Carnet...."> 
+                                <button class="bg-blue-200 text-blue-600 px-3 py-1 rounded-full" name="obtener" id="obtener" >Buscar</button>    
+                            </form>
+                        @endif
                         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                             <div class="-mx-3 md:flex mb-6">
-                                <div class="md:w-1/3 px-3">
+                                <div class="md:w-2/4 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="nombre">
                                         {{__('Names')}}
                                     </label>
-                                    <input type="text" name="nombre" id="nombre"  value="{{$personal['nombres'].' '.$personal['a_paterno'].' '.$personal['a_materno']}}"
+                                    <input type="text" name="nombre" id="nombre" readonly value="{{$personal?$personal->nombres.' '.$personal->a_paterno.' '.$personal->a_materno:''}}"
                                         class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                 </div>
-                                <div class="md:w-1/3 px-3">
+                                <div class="md:w-1/4 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="CI">
                                         {{__('CI')}}
                                     </label>
-                                    <input type="text" name="CI" id="CI"  value="{{$personal['CI']}}"
+                                    <input type="text" name="CI" id="CI" readonly value="{{$personal?$personal->CI:''}}"
                                         class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                 </div>
-                                <div class="md:w-1/3 px-3">
+                                <div class="md:w-1/4 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="matricula">
                                         {{__('matricula')}}
                                     </label>
-                                    <input type="text" name="matricula" id="matricula"  value="{{$personal['matricula']}}"
+                                    <input type="text" name="matricula" id="matricula" readonly value="{{$personal?$personal['matricula']:''}}"
                                         class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endif
+                {{-- @else --}}
+                
+                {{-- @endif --}}
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- @dump(old()) --}}
                     <h1 class="text-2xl font-bold text-center mt-4">Datos del Requerimiento</h1>
                     <form action="{{route('requerimiento.update',$requerimiento)}}" method="POST">
                         @csrf @method('PUT')
+                        <input type="hidden" name="id_per" id="id_per" value="{{$personal?$personal->id_per:''}}">
                         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                             <div class="-mx-3 md:flex mb-6">
                                 
@@ -157,18 +176,26 @@
                             
                             
                             <div class="-mx-3 md:flex mb-6">
-                                <div class="md:w-11/12 px-3 mb-6 md:mb-0 ">
+                                <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
+                                    @foreach($docAdjuntos as $doc )
+                                    <label for="{{'adj'.$doc->id_adj}}" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
+                                        -{{$doc->documento}}
+                                    </label>
+                                    <input type="checkbox" name="docadj[{{$doc->id_adj}}]" id="{{'adj'.$doc->id_adj}}" value="{{$doc->id_adj}}" {{$doc->checked?'checked disabled':''}} ></br>
+                                    @endforeach
+                                </div>
+                                <div class="md:w-2/3 px-3 mb-6 md:mb-0 ">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                     for="observaciones">
                                     {{ __('Observations') }}
                                     </label>
                                     <textarea type="text" name="observaciones" id="observaciones"  
                                     class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                                    {{old('observaciones',$requerimiento->Observaciones)}}
+                                    {{old('observaciones',$requerimiento->observaciones)}}
                                     </textarea>
                                     <x-input-error :messages="$errors->get('observaciones')" />                              
                                 </div>
-                               
+                                
                             </div>
                             
                             
@@ -185,3 +212,42 @@
     </div>                
                     
 </x-app-layout>
+
+    <script>     
+        //cibus,obtenr
+        //alert(strbus);
+    if (document.querySelector('#id_per').value==="") {
+        
+        const bobt = document.querySelector('#obtener');
+        bobt.addEventListener('click',function (event) {
+            event.preventDefault();
+            const cibus = document.querySelector('#cibus');
+            strbus = cibus.value;
+            const url ="{{route('personal.getbyci')}}?CI="+strbus;
+            fetch(url,{
+                method: 'GET',
+                headers:{
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }).then(response=>response.json())
+            .then(function (data){
+                    //console.log('data',  data );
+                    if (data.length>0) {
+                        
+                        console.log('first', data[0].nombres)
+                        document.querySelector('#nombre').value=data[0].nombres+' '+data[0].a_paterno+' '+data[0].a_materno;
+                        document.querySelector('#CI').value=data[0].CI;
+                        document.querySelector('#matricula').value=data[0].matricula;
+                        document.querySelector('#id_per').value=data[0].id_per;
+                    } else {
+                        alert("No se encontró el personal")
+                    }
+                    //console.log('data.length', data.length)
+            }).catch(function (error){
+                console.log('error', error);  
+            });
+          
+        });
+    }
+    </script>

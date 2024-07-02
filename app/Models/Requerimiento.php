@@ -31,12 +31,12 @@ class Requerimiento extends Model
     "nota",
     "foto",
     "observaciones",
-    //"id_esreq",
+    "id_esreq",
     "fecha_nota",
     "id_usmodif",
     "fecha_modif",
     //"conteo_impresion",
-    //"conteo_edicion"
+    "conteo_edicion"
     ] ;
 
     public function centroDeSalud():BelongsTo{
@@ -48,4 +48,9 @@ class Requerimiento extends Model
     public function estadoRequerimiento():BelongsTo{
         return $this->belongsTo(EstadoRequerimiento::class,"id_esreq","id_esreq");
     }
+
+    public function adjReq() {
+        return $this->hasMany(AdjReq::class,"id_req","id_req");
+    }
+     
 }

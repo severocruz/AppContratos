@@ -152,7 +152,8 @@ class DatosPerController extends Controller
             'telefono'=>['required', 'string', 'max:40','min:6'],
             'email'=>['required','email','unique:datos_per,email,'.$datosPer->id_per.',id_per'],
             'fecha_nac'=>'required',
-            'id_afp'=>['required','numeric','min:1']
+            'id_afp'=>['required','numeric','min:1'],
+            
             ]);
             $perUtil = new PersonalUtil();
             $personalStore=$validated;
@@ -169,6 +170,13 @@ class DatosPerController extends Controller
             $datosPer->update($personalStore);  
             session()->flash('status','Successfully updated staff');
             return to_route('personal.edit',$datosPer) ;
+    }
+
+    public function geByCI(Request $request ){
+
+        $ci = trim($request->input('CI')) ;
+        $datosPer = DatosPer::where('CI','=',$ci)->get() ;
+        return $datosPer->all();
     }
 
     /**
