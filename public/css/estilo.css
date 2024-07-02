@@ -1,0 +1,279 @@
+/*--------contrato------------*/
+@media all {
+   div.saltopagina{
+      display: none;
+   }
+}
+   
+@media print{
+   div.saltopagina{ 
+      display:block; 
+      page-break-before:always;
+   }
+   #listarcon{
+   	visibility: hidden;
+   }
+   #imprimirc{
+   	visibility: hidden;
+   }
+  .parrafo p{margin: 0;}
+}
+body, p, td, th{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  color: #000;
+  background: #fff;
+}
+h1, h2, h3, h4, h5, h6{
+  font-family:"Trebuchet MS", Verdana, Arial, sans-serif;
+  text-align: center;
+}
+#cod{text-align: right;}
+#f1	{text-align: left;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	}
+#lema{text-align: center;
+    margin-top: 10px;
+    margin-bottom: 70px;
+}
+table{ width: 100%; 
+}
+.parrafo{text-align: justify;}
+
+blockquote, pre, code, cite{
+  color:#666;
+}
+.firmas{
+	text-align: center;
+}
+.titulo{
+	font: 100% calibri;
+	text-align: center;
+}
+.subtis{
+	text-align: center;
+	
+}
+.subtitulo{
+	font:150% sans-serif;
+	text-align: center;
+}
+.subtitulo2{
+	font:120% sans-serif;
+  text-align: center;	
+}
+.logo{
+	float: left;
+	width: 120px;
+	height: 133px;
+}
+.qr{
+	float: right;
+	width: 135px;
+	height: 135px;
+}
+#carta{
+	margin-left: 35px;
+	margin-right: 25px;
+}
+/*---------------credenciales------------------*/
+#marcofrente{
+	position: relative;
+	border-color: white;
+	border-style: solid;
+	width: 8.5cm;
+  height: 5.5cm;
+}
+#fondofrente{
+	width: 8.5cm;
+	height: 5.5cm;
+}
+#datosh{
+	position: absolute;
+	background-color: transparent;
+	text-align: center;
+	width: 4.7cm;
+	height: 2.5cm;
+	left: 0.1cm;
+    top: 1.7cm;
+}
+#datosh2{
+  position: absolute;
+  background-color: transparent;
+  text-align: center;
+  width: 4.7cm;
+  height: 1.3cm;
+  left: 0.1cm;
+    top: 4cm;
+}
+#ci{
+  position: absolute;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  left: 4.7cm;
+  top: 1.7cm;
+  font-size: 3.2mm;
+
+}
+
+#mat{
+  position: absolute;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  left: 8cm;
+  top: 1.7cm;
+  font-size: 3.2mm;
+}
+b{
+	font-size: 4mm;
+}
+.cargo{
+  font-size: 3mm;
+}
+#fotoh{
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  position: absolute;
+  left: 5.1cm;
+  top: 1.2cm;
+  width: 2.7cm;
+  height: 2.8cm;
+}
+#marcoatras{
+	position:relative;
+	width: 8.5cm;
+  height:  5.5cm;
+}
+#fondoatras{
+	width: 8.5cm;
+	height: 5.5cm;
+}
+#qrh{
+  position: absolute;
+  left: 7.1cm;
+  top: 4.1cm;
+  width: 1.3cm;
+  height: 1.3cm;
+
+}
+#hashh{
+	position: absolute;
+	left: 0.1cm;
+   top: 0.3cm;
+  font-size: 2.3mm;
+  color: white;
+}
+#perev{
+ position: absolute;
+ background-color: transparent;
+ text-align: center;
+ left: 4mm;
+ top: 7.5cm;
+ font-size: 0.4cm; 
+}
+#marcofrentev{	
+	position: relative;
+	border-color: #fff;
+	border-style: solid;
+	width: 5.4cm;
+  height: 8.5cm;
+}
+#fondofrentev{
+width: 5.4cm;
+  height: 8.5cm;
+}
+#marcoatrasv{
+	position:relative;
+	border-color: #fff;
+	border-style: solid;
+
+	width: 5.4cm;
+  height: 8.5cm;
+}
+#fondoatrasv{
+  width: 5.4cm;
+  height: 8.5cm;
+  transform: rotate(180deg);
+}
+#fotov{
+  border-color: #000;
+  border-style: solid;
+  position: absolute;
+  border-width: 1px;
+  left: 10mm;
+  top: 19mm;
+  width: 3.3cm;
+  height: 2.9cm;
+}
+#civ{
+  position: absolute;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  left: 2mm;
+  top: 20mm;
+  font-size: 5mm;
+}
+#matv{
+  position: absolute;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  left: 4.7cm;
+  top: 20mm;
+  font-size: 5mm;
+}
+#datosv{
+	position: absolute;
+	background-color: transparent;
+	text-align: center;
+	 width: 5.2cm;
+	height: auto;
+	left: 2mm;
+  top: 6.1cm;
+  font-size: 4mm;
+}
+#nombrev{
+  position: absolute;
+  background-color: transparent;
+  text-align: center;
+  width: 5.1cm;
+  height: auto;
+  left: 2mm;
+  top: 49mm;
+  font-size: 4.5mm;
+  font-weight: bold;
+}
+#qrv{
+  position: absolute;
+  left: 9mm;
+  top: 10mm;
+  width: 3.5cm;
+  height: 3.5cm;
+  transform: rotate(180deg);
+}
+#hashv{
+	writing-mode: vertical-lr;
+	transform: rotate(360deg);
+	position: absolute;
+	background-color: #fff;
+	left: 5.1cm;
+  top: 1.5cm;
+  font-size: 1.5mm;
+  z-index: 10;
+}
+#hashvf{
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  position: absolute;
+  background-color: #fff;
+  left: 0.1cm;
+  top: 2cm;
+  font-size: 1.5mm;
+  z-index: 10;
+}
+/*tabla del avc*/
+.letrapeque{
+  font-size: 2.5mm;
+
+}

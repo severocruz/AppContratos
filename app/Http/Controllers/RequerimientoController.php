@@ -13,6 +13,8 @@ use App\Models\DatosPer;
 use App\Models\DocAdjunto;
 use App\Models\Nivel;
 use App\Models\RegEstadosReq;
+use App\Models\Departamento;
+use App\Models\Afp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class RequerimientoController extends Controller
@@ -105,7 +107,31 @@ class RequerimientoController extends Controller
     public function show(Requerimiento $requerimiento)
     {
         //
-        return view('requerimientos.show',['requerimiento'=> $requerimiento]);
+        $cad = '';
+        if(isset($requerimiento->nroReq)){
+            $mas = 10 - strlen($requerimiento->nroReq);
+            for ($i=0; $i < $mas ; $i++) { 
+                $cad .= "0";
+            }
+            $cad.=$requerimiento->nroReq;  
+        }    
+        
+        $centroSalud=CentroDeSalud::findOrFail($requerimiento->id_cs);
+        $tipoContrato=TipoContrato::findOrFail($requerimiento->id_tic);
+        $cargo = Cargos::findOrFail($requerimiento->id_car);
+        $nivel = Nivel::findOrFail($requerimiento->id_niv);
+        $persona =DatosPer::findOrFail($requerimiento->id_per);
+        $depa = Departamento::findOrFail($persona->id_dep);
+        $afpa = Afp::findOrFail($persona->id_afp);
+        return view('requerimientos.show',['requerimiento'=> $requerimiento,
+        'centroSalud'=>$centroSalud,
+        'cadNroReq'=>$cad,
+        'tipoContrato'=>$tipoContrato,
+        'cargo'=>$cargo,
+        'nivel'=>$nivel,
+        'persona'=>$persona,
+        'depa'=>$depa,
+        'afpa'=>$afpa]);
     }
 
     /**
