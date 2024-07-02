@@ -15,6 +15,8 @@ use App\Models\Nivel;
 use App\Models\RegEstadosReq;
 use App\Models\Departamento;
 use App\Models\Afp;
+use App\Models\RevisionesReq;
+use App\Models\RevisorReq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class RequerimientoController extends Controller
@@ -157,7 +159,8 @@ class RequerimientoController extends Controller
         if ($requerimient->id_per){
             $personal= DatosPer::where('id_per','=',$requerimient->id_per)->get()->first();
         }
-
+        $revisionesReq = RevisionesReq::with('revisorReq')->where('id_req','=',$requerimient->id_req)->get();
+        $yoRevisorReq = RevisorReq::where('id_us','=',auth()->id())->where('estado','=','1')->get()->first();
         return view('requerimientos.edit',['requerimiento'=> $requerimient,
                                             'centrosSalud'=>$centrosSalud,
                                             'tiposContrato'=>$tiposContrato,
@@ -165,7 +168,9 @@ class RequerimientoController extends Controller
                                             'niveles'=>$niveles,
                                             'personal'=> $personal,
                                             'docAdjuntos'=>$docAdjuntos,
-                                            'adjReq'=> $adjReq
+                                            'adjReq'=> $adjReq,
+                                            'revisionesReq'=>$revisionesReq,
+                                            'yoRevisorReq'=> $yoRevisorReq
                                             ]);
         
     }
@@ -204,17 +209,17 @@ class RequerimientoController extends Controller
               //  echo($requerimiento->id_req);
                 AdjReq::create(["id_req"=>$requerimiento->id_req,
                 "id_adj"=>$doc,"observaciones"=>""]);
-                $requerimientoUpdate["foto"]= Hash::make($requerimiento->id_req.$requerimiento->fechareq);
             }
         }
         
         $requerimientoUpdate['id_usmodif']=auth()->id();
         $requerimientoUpdate['fecha_modif']=date("Y-m-d H:i:s");
         $requerimientoUpdate['conteo_edicion']=$requerimiento->conteo_edicion+1;
-
+        
         if (key_exists("id_per",$validated) && isset($validated["id_per"]) ) {
             if($validated["id_per"] != $requerimiento->id_per )
             {
+                $requerimientoUpdate["foto"]= Hash::make($requerimiento->id_req.$requerimiento->fechareq);
                 $requerimientoUpdate["id_esreq"]=1;
                 RegEstadosReq::create(["id_us"=>auth()->id(),
                 "id_req"=>$requerimiento->id_req,

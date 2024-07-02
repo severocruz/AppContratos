@@ -4,6 +4,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\DatosPerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequerimientoController;
+use App\Http\Controllers\RevisionesReqController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/requerimientos/{requerimiento}/edit', [RequerimientoController::class,'edit'])->name('requerimiento.edit');
     Route::put('/requerimientos/{requerimiento}',[RequerimientoController::class,'update'])->name('requerimiento.update');
     Route::get('/requerimientos/{requerimiento}/show',[RequerimientoController::class,'show'])->name('requerimiento.show');
+
+    Route::post('/revisionesreq', [RevisionesReqController::class,'store'])->name('revisionesreq.store');
+
 
     Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
 

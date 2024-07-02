@@ -1,7 +1,6 @@
 {{--  --}}
 {{-- @dump($requerimiento) --}}
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,7 +26,11 @@
  {{-- if (isset($this->data ['qr']): }} --}}
   {{-- <img src="./codqr/tempPersonal/" class="qr" >	 --}}
  {{-- endif }} --}}
-
+    @if(isset($requerimiento->foto))
+        <div class="qr">
+            {!! QrCode::size(135)->generate($requerimiento->foto) !!}
+        </div>
+    @endif
 	 <div> 
 		<div class="titulo"><b><h1>CAJA NACIONAL DE SALUD</h1></b></div>
 		<div class="subtitulo"><b>ADMINISTRACIÓN REGIONAL LA PAZ </b></div>

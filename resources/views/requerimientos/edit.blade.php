@@ -6,7 +6,13 @@
     </x-slot>
     <div class="flex-col ">
         <x-nav-link
-        :href="route('requerimiento.show',$requerimiento)">
+        :href="route('requerimiento.show',$requerimiento)" target="_blank">
+        {{-- {{__('New requeriment')}} --}}
+        Hoja de requerimiento
+        </x-nav-link>
+        .::.
+        <x-nav-link
+        :href="route('requerimiento.show',$requerimiento)" target="_blank">
         {{-- {{__('New requeriment')}} --}}
         Hoja de requerimiento
         </x-nav-link>
@@ -58,7 +64,34 @@
                         </div>
                     </div>
                 {{-- @else --}}
-                
+                <h1 class="text-2xl font-bold text-center mt-4">Revisiones de antecedentes</h1>
+                    <div class="bg-white w-full shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+                        <div class="-mx-3 md:flex mb-6">
+                            
+                            <div class="md:w-11/12 px-3">
+                                <table class="w-full text-left text-sm text-slate-700 dark:text-slate-300" >
+                                    <thead class="border-b border-slate-300 bg-slate-100 text-sm text-black dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                                        <tr>
+                                            <th scope="col" class="p-4">Autoridad</th>
+                                            <th scope="col" class="p-4">Dictamen</th>
+                                            <th scope="col" class="p-4">Observacion</th>
+                                            <th scope="col" class="p-4">Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-300 dark:divide-slate-700">
+                                        @foreach($revisionesReq as $revision)
+                                        <tr>
+                                            <td class="p-4">{{$revision->revisorReq->tipo}}</td>
+                                            <td class="p-4">{{$revision->dictamen}}</td>
+                                            <td class="p-4">{{$revision->observaciones}}</td>
+                                            <td class="p-4">{{date_format (date_create($revision->fecha),"d/m/Y H:i:s")}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 {{-- @endif --}}
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- @dump(old()) --}}
@@ -206,11 +239,79 @@
                             Enviar
                         </button> --}}
                     </form>
+                    
                 </div>
             </div>
         </div>
-    </div>                
-                    
+    </div>
+    {{-- @dump($yoRevisorReq) --}}
+    @if(isset($yoRevisorReq))        
+<div x-data="{ 'showModal': false }"
+    @keydown.escape="showModal = false"
+    >
+    <!-- Trigger for Modal -->
+    <button type="button" @click="showModal = true">Open Modal</button>
+
+    <!-- Modal -->
+    <div
+        class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
+        x-show="showModal"
+    >
+        <!-- Modal inner -->
+        <div
+            class="max-w-3xl px-5 py-4 mx-auto text-left bg-white rounded shadow-xl"
+            @click.away="showModal = false"
+            x-transition:enter="motion-safe:ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90"
+            x-transition:enter-end="opacity-100 scale-100"
+        >
+            <!-- Title / Close-->
+            <div class="flex items-center justify-between ">
+                <h5 class="mr-3 text-black max-w-none">Agregar Revision de Requerimiento</h5>
+
+                <button type="button" class="z-50 cursor-pointer" @click="showModal = false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- content -->
+            <form action="{{route('revisionesreq.store')}}" method="POST">
+                @csrf
+                <input type="hidden" name="id_req" value="{{$requerimiento->id_req}}" >
+                <input type="hidden" name="id_revisor" value="{{$yoRevisorReq->id}}">
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-1/2 px-3">
+                        <label for="positivo" class="uppercase tracking-wide text-black text-xs font-bold mb-2">
+                            Dictamen
+                        </label>
+                        <br>
+                        <label  class="tracking-wide text-black text-xs font-bold mb-2">
+                        <input type="radio" name="dictamen" required id="positivo" value="positivo">
+                        <span class="caption">Positivo </span>
+                        </label>
+                        <label  class="tracking-wide text-black text-xs font-bold mb-2">
+                            <input type="radio" name="dictamen" required id="negativo" value="negativo">
+                            <span class="caption">Negativo</span>
+                        </label>
+                    </div>
+                    <div class="md:w-1/2 px-3">
+                        <label class="tracking-wide text-black text-xs font-bold mb-2"
+                                            for="observaciones">
+                                            Observaciones
+                                        </label>
+                                        <textarea type="text" name="observaciones" id="observaciones"  
+                                            class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">    
+                                        </textarea>
+                    </div>  
+                </div>
+                <button class="bg-blue-200 text-blue-900 px-3 py-1 rounded-full">Guardar</button>              
+            </form>
+        </div>
+    </div>
+</div>      
+    @endif             
 </x-app-layout>
 
     <script>     
