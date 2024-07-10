@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class RevisorReq extends Model
@@ -18,4 +19,7 @@ class RevisorReq extends Model
     "tipo",
     "estado"
       ] ;
+    public function user(): BelongsTo{
+      return $this->belongsTo(User::class,"id_us");
+    }
 }

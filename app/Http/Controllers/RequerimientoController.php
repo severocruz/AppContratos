@@ -72,6 +72,10 @@ class RequerimientoController extends Controller
      */
     public function store(StoreRequerimientoRequest $request)
     {
+        dump($request->all());
+        if($request->get('id_tic')!= '9')  
+        {
+            
         $request->validate([
                 "id_cs"=>["required"],
                 "id_tic"=>["required"],
@@ -89,17 +93,39 @@ class RequerimientoController extends Controller
                 //"id_esreq"=>["required"],
                 //"fecha_nota"=>["required"],
                 ]);
+            }else{
+                $request->validate([
+                    "id_cs"=>["required"],
+                    "id_tic"=>["required"],
+                    "id_niv"=>["required"],
+                    "id_car"=>["required"],
+                    //"nroReq"=>["required"],
+                    "motivo"=>["required"],
+                    //"fechareq"=>["required"],
+                    //"fechaIni"=>["required"],
+                    "fechaFin"=>["required"],
+                    //"jornada"=>["required"],
+                    //"nota"=>["required"],
+                    //"foto"=>["required"],
+                    //"observaciones"=>["required"],
+                    //"id_esreq"=>["required"],
+                    //"fecha_nota"=>["required"],
+                    ]);
+            }
         $requerimientoStore= $request;
         //$requerimientoStore['motivo'] = strtoupper($requerimientoStore['motivo']);
+       
         $requerimientoStore['id_us']=auth()->id();
-         if(!($requerimientoStore->hasKey('nroReq'))){
+        $nro=$requerimientoStore->get('nroReq');
+         if(!(isset($nro))){
              $requerimientoStore['nroReq']= '';
          }
-       // dump($requerimientoStore->toArray());
-        Requerimiento::create($requerimientoStore->toArray());
-        session()->flash('status','Requirement created successfully');
-        return to_route('requerimiento.new') ;
-        //return "guardando el requerimiento";
+        
+       Requerimiento::create($requerimientoStore->toArray());
+       session()->flash('status','Requirement created successfully');
+       return to_route('requerimiento.index') ;
+        
+       //return "guardando el requerimiento";
         //
     }
 
@@ -125,6 +151,12 @@ class RequerimientoController extends Controller
         $persona =DatosPer::findOrFail($requerimiento->id_per);
         $depa = Departamento::findOrFail($persona->id_dep);
         $afpa = Afp::findOrFail($persona->id_afp);
+        $revisionJuridico = RevisionesReq::join("revisor_req","revisiones_req.id_revisor","=","revisor_req.id")
+        ->join("users","users.id","=","revisor_req.id_us")
+        ->where("id_req","=",$requerimiento->id_req)->where('revisor_req.tipo','juridico')->first();
+        $revisionSumariante = RevisionesReq::join("revisor_req","revisiones_req.id_revisor","=","revisor_req.id")
+        ->join("users","users.id","=","revisor_req.id_us")
+        ->where("id_req","=",$requerimiento->id_req)->where('revisor_req.tipo','sumariante')->first();
         return view('requerimientos.show',['requerimiento'=> $requerimiento,
         'centroSalud'=>$centroSalud,
         'cadNroReq'=>$cad,
@@ -133,7 +165,9 @@ class RequerimientoController extends Controller
         'nivel'=>$nivel,
         'persona'=>$persona,
         'depa'=>$depa,
-        'afpa'=>$afpa]);
+        'afpa'=>$afpa,
+        'revisionJuridico'=>$revisionJuridico,
+        'revisionSumariante'=>$revisionSumariante]);
     }
 
     /**
@@ -161,6 +195,7 @@ class RequerimientoController extends Controller
         }
         $revisionesReq = RevisionesReq::with('revisorReq')->where('id_req','=',$requerimient->id_req)->get();
         $yoRevisorReq = RevisorReq::where('id_us','=',auth()->id())->where('estado','=','1')->get()->first();
+        
         return view('requerimientos.edit',['requerimiento'=> $requerimient,
                                             'centrosSalud'=>$centrosSalud,
                                             'tiposContrato'=>$tiposContrato,
@@ -236,6 +271,19 @@ class RequerimientoController extends Controller
       //return ;
     }
 
+    public function updateStatus(UpdateRequerimientoRequest $request, Requerimiento $requerimiento){
+         $request['id_usmodif']=auth()->id();
+         $request['fecha_modif']=date("Y-m-d H:i:s");
+         $request['conteo_edicion']=$requerimiento->conteo_edicion+1;
+         $requerimiento->update($request->all());
+         if($request['id_esreq']=='2')
+         {
+            session()->flash('status','Requirement Rejected');
+        }else{
+             session()->flash('status','Requirement enabled');
+         }
+         return to_route('requerimiento.edit',$requerimiento);
+    }
     /**
      * Remove the specified resource from storage.
      */

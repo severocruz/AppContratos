@@ -308,5 +308,8 @@
      "Requirement created successfully":"Requerimiento creado exitosamente",
      "Successfully updated Requirement":"Requerimiento editado exitosamente",
      "Creation date":"Fecha de creación",
-     "Edit Requeriment":"Editar Requerimiento"
+     "Edit Requeriment":"Editar Requerimiento",
+     "Requirement enabled":"Requerimiento habilitado",
+     "Requirement Rejected":"Requerimiento rechazado"
+
 }

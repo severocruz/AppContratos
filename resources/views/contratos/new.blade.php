@@ -1,41 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Edit Requeriment') }}
+            Nuevo Contrato
         </h2>
     </x-slot>
-    <div class="flex-col ">
-        <x-nav-link
-        :href="route('requerimiento.show',$requerimiento)" target="_blank">
-        {{-- {{__('New requeriment')}} --}}
-        Hoja de requerimiento
-        </x-nav-link>
+    <div class="flex-col">
         .::.
-        <x-nav-link
-        :href="route('requerimiento.show',$requerimiento)" target="_blank">
-        {{-- {{__('New requeriment')}} --}}
-        Hoja de requerimiento
-        </x-nav-link>
     </div>
     {{-- @dump($docAdjuntos) --}}
     <div class="py-3 px-0">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-2 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 
-                {{-- @if($personal) --}}
-                    <div class="p-6 text-gray-900 dark:text-gray-100" >
+                
+                    <div class="p-0 text-gray-900 dark:text-gray-100" >
                         <h1 class="text-2xl font-bold text-center mt-4">Datos del Personal</h1>
-                        @if ($personal)
-                         <div></div>    
-                        @else
-                            <form id="formBusqueda">
-                                @csrf 
-                                <input type="text" name="cibus" id="cibus" placeholder="Carnet...."> 
-                                <button class="bg-blue-200 text-blue-600 px-3 py-1 rounded-full" name="obtener" id="obtener" >Buscar</button>    
-                            </form>
-                        @endif
-                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                            <div class="-mx-3 md:flex mb-6">
+                        
+                        <div class="bg-white shadow-md rounded px-4 pt-2 pb-2 mb-0 flex flex-col">
+                            <div class="-mx-3 md:flex mb-2">
                                 <div class="md:w-2/4 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="nombre">
@@ -63,45 +45,17 @@
                             </div>
                         </div>
                     </div>
-                {{-- @else --}}
-                <h1 class="text-2xl font-bold text-center mt-4">Revisiones de antecedentes</h1>
-                    <div class="bg-white w-full shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                        <div class="-mx-3 md:flex mb-6">
-                            
-                            <div class="md:w-11/12 px-3">
-                                <table class="w-full text-left text-sm text-slate-700 dark:text-slate-300" >
-                                    <thead class="border-b border-slate-300 bg-slate-100 text-sm text-black dark:border-slate-700 dark:bg-slate-800 dark:text-white">
-                                        <tr>
-                                            <th scope="col" class="p-4">Autoridad</th>
-                                            <th scope="col" class="p-4">Dictamen</th>
-                                            <th scope="col" class="p-4">Observacion</th>
-                                            <th scope="col" class="p-4">Fecha</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-300 dark:divide-slate-700">
-                                        @foreach($revisionesReq as $revision)
-                                        <tr>
-                                            <td class="p-4">{{$revision->revisorReq->tipo}}</td>
-                                            <td class="p-4">{{$revision->dictamen}}</td>
-                                            <td class="p-4">{{$revision->observaciones}}</td>
-                                            <td class="p-4">{{date_format (date_create($revision->fecha),"d/m/Y H:i:s")}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                {{-- @endif --}}
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                
+                <div class="p-0 text-gray-900 dark:text-gray-100">
                     {{-- @dump(old()) --}}
-                    <h1 class="text-2xl font-bold text-center mt-4">Datos del Requerimiento</h1>
-                    <form action="{{route('requerimiento.update',$requerimiento)}}" method="POST">
-                        @csrf @method('PUT')
+                    <h1 class="text-2xl font-bold text-center mt-4">Datos del Contrato</h1>
+                    {{-- action="{{route('contrato.update')}}" --}}
+                    <form  method="POST">
+                        @csrf 
                         <input type="hidden" name="id_per" id="id_per" value="{{$personal?$personal->id_per:''}}">
-                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                            <div class="-mx-3 md:flex mb-6">
-                                
+                        <input type="hidden" name="id_req" id="id_req" value="{{$personal?$personal->id_per:''}}">
+                        <div class="bg-white shadow-md rounded px-4 pt-2 pb-1 mb-4 flex flex-col">
+                            <div class="-mx-3 md:flex mb-1">         
                                 <div class="md:w-1/3 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="id_cs">
                                         {{ __('Workplace') }}
@@ -143,7 +97,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_niv" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Level')}}</label>
                                     <div>        
@@ -171,7 +125,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/4 px-3 mb-6 md:mb-0">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="fechaIni">
                                         {{ __('Start date') }}
@@ -206,25 +160,27 @@
                                 </div>
                             </div>
                             
-                            <div class="-mx-3 md:flex mb-6">
-                                <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
-                                    @foreach($docAdjuntos as $doc )
-                                    <label for="{{'adj'.$doc->id_adj}}" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
-                                        -{{$doc->documento}}
-                                    </label>
-                                    <input type="checkbox" name="docadj[{{$doc->id_adj}}]" id="{{'adj'.$doc->id_adj}}" value="{{$doc->id_adj}}" {{$doc->checked?'checked disabled':''}} ></br>
-                                    @endforeach
-                                </div>
-                                <div class="md:w-2/3 px-3 mb-6 md:mb-0 ">
+                            <div class="-mx-3 md:flex mb-1">
+                                
+                                <div class="md:w-1/2 px-3 mb-6 md:mb-0 ">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                     for="observaciones">
-                                    {{ __('Observations') }}
+                                    Parentesco Familiar
                                     </label>
                                     <textarea type="text" name="observaciones" id="observaciones"  
                                     class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
-                                    {{old('observaciones',$requerimiento->observaciones)}}
                                     </textarea>
                                     <x-input-error :messages="$errors->get('observaciones')" />                              
+                                </div>
+                                <div class="md:w-1/2 px-3 mb-6 md:mb-0 ">
+                                    <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
+                                    for="observaciones2">
+                                    Observaciones
+                                    </label>
+                                    <textarea type="text" name="observaciones2" id="observaciones2"  
+                                    class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    </textarea>
+                                    <x-input-error :messages="$errors->get('observaciones2')" />                              
                                 </div>
                                 
                             </div>
@@ -232,52 +188,25 @@
                             
                         </div>
                         
-                        <x-primary-button>Guardar cambios</x-primary-button>
+                        <x-primary-button>Guardar </x-primary-button>
                         {{-- <button>
                             Enviar
                         </button> --}}
                     </form>
                 
                 </div>
-                <div class=" flex mb-4">
-                @if($requerimiento->id_esreq == '1' && count($revisionesReq)>1)
-                    <div class="md:w-1/4 px-2" >
-                        <form action="{{route('requerimiento.updateStatus',$requerimiento)}}" method="POST">
-                           @csrf @method('PUT')
-                            <input type="hidden" name="id_esreq" value="5">
-                            <input type="hidden" name="id_req" value="{{$requerimiento->id_req}}">
-                            <button class="bg-green-200 text-green-600 px-3 py-1 rounded-full">Habilitar</button>
-                        </form> 
-                        
-                    </div>
-                    <div class="md:w-1/4 px-2">                        
-                        <form action="{{route('requerimiento.updateStatus',$requerimiento)}}" method="POST">
-                            @csrf @method('PUT')
-                            <input type="hidden" name="id_esreq" value="2">
-                            <input type="hidden" name="id_req" value="{{$requerimiento->id_req}}">
-                            <button class="bg-red-200 text-red-600 px-3 py-1 rounded-full">Rechazar</button>
-                        </form>
-                    </div>
                     
-                    @endif
-                    @if ($requerimiento->id_esreq=='5')
-                    <div class="md:w-1/4 px-2">
-                        <x-nav-link :href="route('contratos.new',$requerimiento)" class="bg-green-200 text-green-600 px-3 py-1 rounded-full">Crear Contrato</x-nav-link>                                            
-                    </div>
-                    @endif
-                </div>    
             </div>
         </div>
     </div>
-    {{-- @dump($yoRevisorReq) --}}
-    @if(isset($yoRevisorReq))        
+       
 <div x-data="{ 'showModal': false }"
     @keydown.escape="showModal = false"
     >
     <!-- Trigger for Modal -->
 
     <button class=" bg-slate-600 text-blue-900 font-extrabold" type="button" @click="showModal = true">
-        Revision {{$yoRevisorReq->tipo}}
+        Open Modal
     </button>
 
     <!-- Modal -->
@@ -308,7 +237,7 @@
             <form action="{{route('revisionesreq.store')}}" method="POST">
                 @csrf
                 <input type="hidden" name="id_req" value="{{$requerimiento->id_req}}" >
-                <input type="hidden" name="id_revisor" value="{{$yoRevisorReq->id}}">
+                
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/2 px-3">
                         <label for="positivo" class="uppercase tracking-wide text-black text-xs font-bold mb-2">
@@ -339,44 +268,6 @@
         </div>
     </div>
 </div>      
-    @endif             
+              
 </x-app-layout>
 
-    <script>     
-        //cibus,obtenr
-        //alert(strbus);
-    if (document.querySelector('#id_per').value==="") {
-        
-        const bobt = document.querySelector('#obtener');
-        bobt.addEventListener('click',function (event) {
-            event.preventDefault();
-            const cibus = document.querySelector('#cibus');
-            strbus = cibus.value;
-            const url ="{{route('personal.getbyci')}}?CI="+strbus;
-            fetch(url,{
-                method: 'GET',
-                headers:{
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest"
-                }
-            }).then(response=>response.json())
-            .then(function (data){
-                    //console.log('data',  data );
-                    if (data.length>0) {
-                        
-                        //console.log('first', data[0].nombres)
-                        document.querySelector('#nombre').value=data[0].nombres+' '+data[0].a_paterno+' '+data[0].a_materno;
-                        document.querySelector('#CI').value=data[0].CI;
-                        document.querySelector('#matricula').value=data[0].matricula;
-                        document.querySelector('#id_per').value=data[0].id_per;
-                    } else {
-                        alert("No se encontró el personal")
-                    }
-                    //console.log('data.length', data.length)
-            }).catch(function (error){
-                console.log('error', error);  
-            });
-          
-        });
-    }
-    </script>

@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="-mx-3 md:flex mb-6">
-                                <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                                <div class="md:w-2/5 px-3 mb-6 md:mb-0">
                                     <label for="id_niv" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Level')}}</label>
                                     <div>        
                                         <select id="id_niv" name="id_niv" class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded">
@@ -70,9 +70,9 @@
                                          <x-input-error :messages="$errors->get('id_niv')"/>
                                     </div>
                                 </div>
-                                <div class="md:w-2/3 px-3">
+                                <div class="md:w-2/5 px-3">
 
-                                    <label class="tracking-wide text-black text-xs font-bold mb-2"
+                                    <label class=" uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="motivo">
                                         {{ __('Reason for contract') }}
                                     </label>
@@ -82,6 +82,13 @@
                                     </textarea>
                                         <x-input-error :messages="$errors->get('motivo')" />
 
+                                </div>
+                                <div class="md:w-1/5 px-3">
+                                    <label for="nroReq" class="tracking-wide text-black text-xs font-bold mb-2" >
+                                        Número de Requerimiento
+                                    </label>
+                                    <input type="text" name="nroReq" id="nroReq" value="{{old('nroReq')}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    
                                 </div>
                                 
                             </div>
@@ -123,7 +130,7 @@
                             
                             
                             <div class="-mx-3 md:flex mb-6">
-                                <div class="md:w-11/12 px-3 mb-6 md:mb-0 ">
+                                <div class=" md:w-11/12 px-3 mb-6 md:mb-0 ">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                     for="observaciones">
                                     {{ __('Observations') }}
@@ -134,6 +141,7 @@
                                     </textarea>
                                     <x-input-error :messages="$errors->get('observaciones')" />                              
                                 </div>
+                                
                                
                             </div>
                             

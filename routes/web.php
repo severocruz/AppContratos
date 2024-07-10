@@ -45,13 +45,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/requerimientos', [RequerimientoController::class,'store'])->name('requerimiento.store');
     Route::get('/requerimientos/{requerimiento}/edit', [RequerimientoController::class,'edit'])->name('requerimiento.edit');
     Route::put('/requerimientos/{requerimiento}',[RequerimientoController::class,'update'])->name('requerimiento.update');
+    Route::put('/requerimientos/{requerimiento}/status',[RequerimientoController::class,'updateStatus'])->name('requerimiento.updateStatus');
     Route::get('/requerimientos/{requerimiento}/show',[RequerimientoController::class,'show'])->name('requerimiento.show');
 
     Route::post('/revisionesreq', [RevisionesReqController::class,'store'])->name('revisionesreq.store');
 
 
     Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
-
+    Route::get('contratosNew/{requerimiento}', [ContratoController::class,'create'])->name('contratos.new');
     
 });
 

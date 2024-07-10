@@ -36,7 +36,9 @@ class Requerimiento extends Model
     "id_usmodif",
     "fecha_modif",
     //"conteo_impresion",
-    "conteo_edicion"
+    "conteo_edicion",
+    "id_cono"
+
     ] ;
 
     public function centroDeSalud():BelongsTo{

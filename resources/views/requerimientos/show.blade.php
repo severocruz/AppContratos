@@ -26,7 +26,7 @@
  {{-- if (isset($this->data ['qr']): }} --}}
   {{-- <img src="./codqr/tempPersonal/" class="qr" >	 --}}
  {{-- endif }} --}}
-    @if(isset($requerimiento->foto))
+    @if(isset($requerimiento->foto) && $requerimiento->foto)
         <div class="qr">
             {!! QrCode::size(135)->generate($requerimiento->foto) !!}
         </div>
@@ -108,34 +108,58 @@
 		<tr>
 			<td><label for="matricula"><b>Matricula :</b> </label></td><td><input type="text" name="matricula" id="matricula" value="{{$persona->matricula}}" readonly></td>
 		</tr>
-		<tr>
+		{{-- <tr>
 			<td><label for="est_civil"><b>Estado Civil :</b> </label></td><td><input type="text" name="est_civil" id="est_civil" value="{{$persona->est_civil}}" readonly></td>
-		</tr>
+		</tr> --}}
 		<tr>
 			<td><label for="direccion"><b>Domicilio :</b> </label></td><td><input type="text" name="direccion" id="direccion" value="{{$persona->direccion}} calle {{$persona->calle}} Nro. {{$persona->No}}" readonly></td>
 		</tr>
-		<tr>
+		{{-- <tr>
 			<td><label for="AFP"><b>AFP Aportes :</b> </label></td><td><input type="text" name="AFP" id="AFP" value="{{$afpa->nombre}}" readonly></td>
-		</tr>
+		</tr> --}}
 		<tr>
 			<td><label for="telefono"><b>Telf/Cel :</b> </label></td><td><input type="text" name="telefono" id="telefono" value="{{$persona->telefono}}" readonly></td>
 		</tr>
-		<tr>
+		{{-- <tr>
 			<td><label for="email"><b>Correo Electrónico :</b> </label></td>
 			<td><input type="text" name="email" id="email" value="{{$persona->email}}" readonly></td>
-		</tr>
+		</tr> --}}
 		
 	</table>	
 </div>
 
-
- <p>&nbsp;</p>
- <p>&nbsp;</p>
- <p>&nbsp;</p>
-  <p>&nbsp;</p>
- <p>&nbsp;</p>
- <p>&nbsp;</p>
-
+<div class="cell"> <h2>Asesoria Legal</h2></div>	
+	@if(isset($revisionJuridico))
+	<hr>
+	<p >Revisado por <b>{{$revisionJuridico->nombres.' '.$revisionJuridico->a_paterno.' '.$revisionJuridico->a_materno}}</b> en fecha <b>{{date_format(date_create($revisionJuridico->fecha),'d/m/Y H:i:s') }} </b>  </p>
+		@if ($revisionJuridico->dictamen =='positivo')
+			<p><i>"No tiene procesos Internos con sancion y/o destitucion ejecutoriada"</i></p>
+		@else
+			<b>"Observaciones:"</b>
+			<p><i>{{$revisionJuridico->observaciones}}</i></p>
+		@endif
+	@else
+	<p>&nbsp;</p>
+	<p>Sin revisión</p>
+	<p>&nbsp;</p>
+	@endif
+	
+	<div class="cell"> <h2>Autoridad Sumariante</h2></div>	
+	@if(isset($revisionSumariante))
+	<hr>
+	<p >Revisado por <b>{{$revisionSumariante->nombres.' '.$revisionSumariante->a_paterno.' '.$revisionSumariante->a_materno}}</b> en fecha <b>{{date_format(date_create($revisionSumariante->fecha),'d/m/Y H:i:s') }} </b>  </p>
+		@if ($revisionSumariante->dictamen =='positivo')
+			<p><i>"No tiene procesos Internos con sancion y/o destitucion ejecutoriada"</i></p>
+		@else
+			<b>"Observaciones:"</b>
+			<p><i>{{$revisionSumariante->observaciones}}</i></p>
+		@endif
+	@else
+		<p>&nbsp;</p>
+		<p>Sin revisión</p>
+		<p>&nbsp;</p>
+	@endif
+	<p>&nbsp;</p>
  fecha y hora de impresion {{ date('d/m/Y H:i:s')}} <br>
  usuario {{Auth::user()->name}}
  <script type="text/javascript">
