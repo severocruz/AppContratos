@@ -38,7 +38,6 @@ class Requerimiento extends Model
     //"conteo_impresion",
     "conteo_edicion",
     "id_cono"
-
     ] ;
 
     public function centroDeSalud():BelongsTo{

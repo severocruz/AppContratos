@@ -69,7 +69,7 @@
                                                     {{-- <img class="object-cover w-8 h-8 rounded-full" src="{{$person->foto?'storage/fotos/'.$person->foto:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApLJxJLPubp4KuCafWl1G85OVieXwcG-11Q&usqp=CAU'}}" alt=""> --}}
                                                     <div>
                                                         <h2 class="text-md-center font-bold  text-gray-800 dark:text-white "> {{$requerimiento->cargos->cargo." - ".$requerimiento->cargos->tipo}}</h2>
-                                                        <p class="text-xs font-semibold text-gray-600 dark:text-gray-400"> {{$requerimiento->centroDeSalud->nombre_cs}} | Ref: {{$requerimiento->centroDeSalud->nombre_enc}}- Telf. {{$requerimiento->centroDeSalud->telefonos}}</p>
+                                                        <p class="text-xs font-semibold text-gray-600 dark:text-gray-400"> {{$requerimiento->centroDeSalud->nombre_cs}} | Telf. {{$requerimiento->centroDeSalud->telefonos}}</p>
                                                     </div>
                                                 </div>
                                             </td>

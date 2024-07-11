@@ -23,8 +23,8 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 
                 {{-- @if($personal) --}}
-                    <div class="p-6 text-gray-900 dark:text-gray-100" >
-                        <h1 class="text-2xl font-bold text-center mt-4">Datos del Personal</h1>
+                    <div class="p-2 text-gray-900 dark:text-gray-100" >
+                        <h1 class="text-2xl font-bold text-center mt-2">Datos del Personal</h1>
                         @if ($personal)
                          <div></div>    
                         @else
@@ -34,8 +34,8 @@
                                 <button class="bg-blue-200 text-blue-600 px-3 py-1 rounded-full" name="obtener" id="obtener" >Buscar</button>    
                             </form>
                         @endif
-                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                            <div class="-mx-3 md:flex mb-6">
+                        <div class="bg-white shadow-md rounded px-2 pt-2 pb-2 mb-4 flex flex-col">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-2/4 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="nombre">
@@ -64,9 +64,9 @@
                         </div>
                     </div>
                 {{-- @else --}}
-                <h1 class="text-2xl font-bold text-center mt-4">Revisiones de antecedentes</h1>
-                    <div class="bg-white w-full shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                        <div class="-mx-3 md:flex mb-6">
+                <h1 class="text-2xl font-bold text-center mt-1">Revisiones de antecedentes</h1>
+                    <div class="bg-white w-full shadow-md rounded px-4 pt-2 pb-2 mb-2 flex flex-col">
+                        <div class="-mx-3 md:flex mb-1">
                             
                             <div class="md:w-11/12 px-3">
                                 <table class="w-full text-left text-sm text-slate-700 dark:text-slate-300" >
@@ -80,11 +80,11 @@
                                     </thead>
                                     <tbody class="divide-y divide-slate-300 dark:divide-slate-700">
                                         @foreach($revisionesReq as $revision)
-                                        <tr>
-                                            <td class="p-4">{{$revision->revisorReq->tipo}}</td>
-                                            <td class="p-4">{{$revision->dictamen}}</td>
-                                            <td class="p-4">{{$revision->observaciones}}</td>
-                                            <td class="p-4">{{date_format (date_create($revision->fecha),"d/m/Y H:i:s")}}</td>
+                                        <tr class="{{$revision->dictamen=='positivo'?'bg-green-200':'bg-red-200'}}">
+                                            <td class="p-2">{{$revision->revisorReq->tipo}}</td>
+                                            <td class="p-2">{{$revision->dictamen}}</td>
+                                            <td class="p-2">{{$revision->observaciones}}</td>
+                                            <td class="p-2">{{date_format (date_create($revision->fecha),"d/m/Y H:i:s")}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -95,12 +95,12 @@
                 {{-- @endif --}}
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- @dump(old()) --}}
-                    <h1 class="text-2xl font-bold text-center mt-4">Datos del Requerimiento</h1>
+                    <h1 class="text-2xl font-bold text-center mt-1">Datos del Requerimiento</h1>
                     <form action="{{route('requerimiento.update',$requerimiento)}}" method="POST">
                         @csrf @method('PUT')
                         <input type="hidden" name="id_per" id="id_per" value="{{$personal?$personal->id_per:''}}">
-                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                            <div class="-mx-3 md:flex mb-6">
+                        <div class="bg-white shadow-md rounded px-2 pt-2 pb-2 mb-2 flex flex-col">
+                            <div class="-mx-3 md:flex mb-1">
                                 
                                 <div class="md:w-1/3 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="id_cs">
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_niv" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Level')}}</label>
                                     <div>        
@@ -171,7 +171,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/4 px-3 mb-6 md:mb-0">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="fechaIni">
                                         {{ __('Start date') }}
@@ -206,7 +206,7 @@
                                 </div>
                             </div>
                             
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
                                     @foreach($docAdjuntos as $doc )
                                     <label for="{{'adj'.$doc->id_adj}}" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >

@@ -4,18 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-class Contrato extends Model
+
+class HisContrato extends Model
 {
     use HasFactory;
-
-    protected $table = 'contrato';
+    protected $table = 'his_contrato';
     public $timestamps = false;
     
-    protected $primaryKey = 'id_con';
-    public $incrementing = true;
-
     protected $fillable = [
+        "id_con",
         "id_req",
         "id_us",
         "id_cs",
@@ -49,16 +46,4 @@ class Contrato extends Model
         "id_per",
         "id_cono"
     ];
-    public function datosPer():BelongsTo{
-        return $this->belongsTo(DatosPer::class,"id_per","id_per");
-    }
-    public function centroDeSalud():BelongsTo{
-        return $this->belongsTo(CentroDeSalud::class,"id_cs","id_cs");
-    }
-    public function cargos():BelongsTo{
-        return $this->belongsTo(Cargos::class,"id_car","id_car");
-    }
-    public function estadoContrato():BelongsTo{
-        return $this->belongsTo(EstadoContrato::class,"id_esco","id_esco");
-    }
 }

@@ -13,8 +13,8 @@
                     
                     <form action="{{route('requerimiento.store')}}" method="POST">
                         @csrf
-                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                            <div class="-mx-3 md:flex mb-6">
+                        <div class="bg-white shadow-md rounded px-2 pt-2 pb-2 mb-4 flex flex-col">
+                            <div class="-mx-3 md:flex mb-1">
                                 
                                 <div class="md:w-1/3 px-3">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="id_cs">
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-2/5 px-3 mb-6 md:mb-0">
                                     <label for="id_niv" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Level')}}</label>
                                     <div>        
@@ -92,7 +92,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/4 px-3 mb-6 md:mb-0">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="fechaIni">
                                         {{ __('Start date') }}
@@ -125,11 +125,9 @@
                                         class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                         <x-input-error :messages="$errors->get('fecha_nota')" />
                                 </div>
-                            </div>
+                            </div>                      
                             
-                            
-                            
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class=" md:w-11/12 px-3 mb-6 md:mb-0 ">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                     for="observaciones">

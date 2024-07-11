@@ -30,8 +30,6 @@ class RequerimientoController extends Controller
           $npage=1;
           $str="";
         //   $keyword="%";
-          
-  
           if (array_key_exists('npage',$request->input())) {
               $npage = $request->input()['npage']?$request->input()['npage']:1;
           }
@@ -72,7 +70,7 @@ class RequerimientoController extends Controller
      */
     public function store(StoreRequerimientoRequest $request)
     {
-        dump($request->all());
+       // dump($request->all());
         if($request->get('id_tic')!= '9')  
         {
             
@@ -110,6 +108,7 @@ class RequerimientoController extends Controller
                     //"observaciones"=>["required"],
                     //"id_esreq"=>["required"],
                     //"fecha_nota"=>["required"],
+                    "id_cono"=>["required"]
                     ]);
             }
         $requerimientoStore= $request;
@@ -254,12 +253,11 @@ class RequerimientoController extends Controller
         if (key_exists("id_per",$validated) && isset($validated["id_per"]) ) {
             if($validated["id_per"] != $requerimiento->id_per )
             {
-                $requerimientoUpdate["foto"]= Hash::make($requerimiento->id_req.$requerimiento->fechareq);
+                $requerimientoUpdate["foto"]= Hash::make($requerimiento->id_req.$requerimiento->id_us.$requerimiento->fechareq);
                 $requerimientoUpdate["id_esreq"]=1;
                 RegEstadosReq::create(["id_us"=>auth()->id(),
                 "id_req"=>$requerimiento->id_req,
-                "id_estfin"=>$requerimientoUpdate["id_esreq"],
-                "fecha"=> date('Y-m-d H:i:s')]);
+                "id_estfin"=>$requerimientoUpdate["id_esreq"]]);
                 $datosPer = DatosPer::findOrFail($validated["id_per"]);
                 $datosPer->update(["id_esper"=>'1']);
             }  
@@ -276,12 +274,17 @@ class RequerimientoController extends Controller
          $request['fecha_modif']=date("Y-m-d H:i:s");
          $request['conteo_edicion']=$requerimiento->conteo_edicion+1;
          $requerimiento->update($request->all());
+         $newStatus='2';
          if($request['id_esreq']=='2')
          {
             session()->flash('status','Requirement Rejected');
         }else{
              session()->flash('status','Requirement enabled');
+             $newStatus='5';
          }
+         RegEstadosReq::create(["id_us"=>auth()->id(),
+         "id_req"=>$requerimiento->id_req,
+         "id_estfin"=>$newStatus]);
          return to_route('requerimiento.edit',$requerimiento);
     }
     /**

@@ -50,10 +50,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/revisionesreq', [RevisionesReqController::class,'store'])->name('revisionesreq.store');
 
-
-    Route::get('/contratos', [ContratoController::class,'index'])->name('contratos.index');
-    Route::get('contratosNew/{requerimiento}', [ContratoController::class,'create'])->name('contratos.new');
-    
+    Route::get('/contratos', [ContratoController::class,'index'])->name('contrato.index');
+    Route::get('contratosNew/{contrato}', [ContratoController::class,'create'])->name('contrato.new');
+    Route::post('/contratos', [ContratoController::class,'store'])->name('contrato.store');
+    Route::get('/contratos/{contrato}/edit', [ContratoController::class,'edit'])->name('contrato.edit');
 });
 
 require __DIR__.'/auth.php';
