@@ -38,7 +38,9 @@
                                         <select id="id_tic" name="id_tic" class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
-                                                        <OPTION value="{{$tipo->id_tic}}" {{old('id_tic')==$tipo->id_tic?'selected':''}}>{{$tipo->tipo}}</OPTION>
+                                                        @if ($tipo->id_tic != '9')   
+                                                            <OPTION value="{{$tipo->id_tic}}" {{old('id_tic')==$tipo->id_tic?'selected':''}}>{{$tipo->tipo}}</OPTION>
+                                                        @endif
                                                     @endforeach
                                         </select>
                                          <x-input-error :messages="$errors->get('id_tic')"/>

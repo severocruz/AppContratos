@@ -46,6 +46,9 @@ class DatosPer extends Model
     public function estadoPersonal():BelongsTo{
         return $this->belongsTo(EstadoPersonal::class,"id_esper","id_esper");
     }
+    public function departamento():BelongsTo{
+        return $this->belongsTo(Departamento::class,"id_dep","id_dep");
+    }
     public function requerimientos(){
         return $this->hasMany('App\Models\Requerimiento','id_per','id_per');
     }

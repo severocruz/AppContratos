@@ -33,19 +33,35 @@ class RequerimientoController extends Controller
           if (array_key_exists('npage',$request->input())) {
               $npage = $request->input()['npage']?$request->input()['npage']:1;
           }
-          $fecha1="";
-          $fecha2="";
-          if (array_key_exists('fecha1',$request->input()) && array_key_exists('fecha2',$request->input()) ) {
+          $fecha1=""; //CI o nombre o apellidos
+          $fecha2=""; //Centro de salud
+          
+          if (array_key_exists('fecha1',$request->input())) {
             $fecha1=$request->input("fecha1");
+        }
+        if (array_key_exists("fecha2",$request->input())) {
             $fecha2=$request->input("fecha2");
-            $requerimientoList = Requerimiento::with('cargos')->with('centroDeSalud')->with('estadoRequerimiento')->whereBetween('fechareq',[$fecha1,$fecha2])->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
-          }else{
-            $requerimientoList = Requerimiento::with('cargos')->with('centroDeSalud')->with('estadoRequerimiento')->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
+           /// dump($fecha2);
           }
+            $requerimientoList = Requerimiento::join('cargos','requerimiento.id_car','=','cargos.id_car')
+            ->join('centro_de_salud','requerimiento.id_cs','=','centro_de_salud.id_cs')
+            ->join('estado_requerimiento','requerimiento.id_esreq','=','estado_requerimiento.id_esreq')
+            ->leftJoin('datos_per','requerimiento.id_per','=','datos_per.id_per')
+            ->where('centro_de_salud.nombre_cs','like','%'.$fecha2.'%')
+            ->where(function($q)use ($fecha1){
+                $q->where('datos_per.CI','like','%'.strtoupper($fecha1).'%')
+                ->orWhere('datos_per.a_paterno','like','%'.strtoupper($fecha1).'%','or')
+                ->orWhere('datos_per.a_materno','like','%'.strtoupper($fecha1).'%','or')
+                ->orWhere('datos_per.nombres','like','%'.strtoupper($fecha1).'%');
+            })
+            ->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
+         
           //$personalList=$personalList->with('estadoPersonal'); 
+          $centrosDeSalud = CentroDeSalud::get();
           
         return view('requerimientos.index',['requerimientoList'=>$requerimientoList,
-                                            'fecha1'=>$fecha1,'fecha2'=>$fecha2]);
+        'fecha1'=>$fecha1,'fecha2'=>$fecha2,
+        'centrosDeSalud'=>$centrosDeSalud]);
         //
     }
 

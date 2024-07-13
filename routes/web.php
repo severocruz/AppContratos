@@ -5,6 +5,8 @@ use App\Http\Controllers\DatosPerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequerimientoController;
 use App\Http\Controllers\RevisionesReqController;
+use App\Http\Controllers\VobofirmaController;
+use App\Models\Vobofirma;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::get('contratosNew/{contrato}', [ContratoController::class,'create'])->name('contrato.new');
     Route::post('/contratos', [ContratoController::class,'store'])->name('contrato.store');
     Route::get('/contratos/{contrato}/edit', [ContratoController::class,'edit'])->name('contrato.edit');
+    Route::put('/contratos/{contrato}',[ContratoController::class,'update'])->name('contrato.update');
+
+    Route::post('/vobofirmas', [VobofirmaController::class,'store'])->name('vobofirma.store');
 });
 
 require __DIR__.'/auth.php';

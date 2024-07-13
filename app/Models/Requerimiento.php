@@ -49,6 +49,9 @@ class Requerimiento extends Model
     public function estadoRequerimiento():BelongsTo{
         return $this->belongsTo(EstadoRequerimiento::class,"id_esreq","id_esreq");
     }
+    public function datosPer():BelongsTo{
+        return $this->belongsTo(DatosPer::class,"id_per","id_per");
+    }
 
     public function adjReq() {
         return $this->hasMany(AdjReq::class,"id_req","id_req");

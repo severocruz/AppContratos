@@ -311,6 +311,7 @@
      "Edit Requeriment":"Editar Requerimiento",
      "Requirement enabled":"Requerimiento habilitado",
      "Requirement Rejected":"Requerimiento rechazado",
-     "Contract created successfully":"Contrato creado exitosamente"
-
+     "Contract created successfully":"Contrato creado exitosamente",
+     "Signature registered successfully":"Firma registrada con éxito",
+     "Successfully updated Contract":"Contrato editado con éxito"
 }

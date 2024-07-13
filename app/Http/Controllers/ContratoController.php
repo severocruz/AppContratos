@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vobofirma;
 use App\Models\CircularInstReg;
 use App\Models\AutoridadesVb;
 use App\Models\RegEstadosReq;
@@ -36,19 +37,34 @@ class ContratoController extends Controller
           if (array_key_exists('npage',$request->input())) {
               $npage = $request->input()['npage']?$request->input()['npage']:1;
           }
-          $fecha1="";
-          $fecha2="";
-          if (array_key_exists('fecha1',$request->input()) && array_key_exists('fecha2',$request->input()) ) {
+          $fecha1=""; //CI, nombre o apellidos
+          $fecha2=""; //
+          if (array_key_exists('fecha1',$request->input())) {
             $fecha1=$request->input("fecha1");
+        }
+        if (array_key_exists("fecha2",$request->input())) {
             $fecha2=$request->input("fecha2");
-            $contratoList = Contrato::with('cargos')->with('centroDeSalud')->with('estadoContrato')->with('datosPer')->whereBetween('fechaCon',[$fecha1,$fecha2])->orderBy('id_con','DESC')->paginate(10,['*'],'page',$npage);
-          }else{
-            $contratoList = Contrato::with('cargos')->with('centroDeSalud')->with('estadoContrato')->with('datosPer')->orderBy('id_con','DESC')->paginate(10,['*'],'page',$npage);
+           /// dump($fecha2);
           }
+            $contratoList = contrato::join('cargos','contrato.id_car','=','cargos.id_car')
+            ->join('centro_de_salud','contrato.id_cs','=','centro_de_salud.id_cs')
+            ->join('estado_contrato','contrato.id_esco','=','estado_contrato.id_esco')
+            ->leftJoin('datos_per','contrato.id_per','=','datos_per.id_per')
+            ->where('centro_de_salud.nombre_cs','like','%'.$fecha2.'%')
+            ->where(function($q) use ($fecha1){
+                $q->where('datos_per.CI','like','%'.strtoupper($fecha1).'%')
+                ->orWhere('datos_per.a_paterno','like','%'.strtoupper($fecha1).'%')
+                ->orWhere('datos_per.a_materno','like','%'.strtoupper($fecha1).'%')
+                ->orWhere('datos_per.nombres','like','%'.strtoupper($fecha1).'%');      
+            })
+            ->orderBy('id_con','DESC')->paginate(10,['*'],'page',$npage);
+         
           //$personalList=$personalList->with('estadoPersonal'); 
+          $centrosDeSalud = CentroDeSalud::get();
           
         return view('contratos.index',['contratoList'=>$contratoList,
-                                            'fecha1'=>$fecha1,'fecha2'=>$fecha2]);
+                                            'fecha1'=>$fecha1,'fecha2'=>$fecha2,
+                                        'centrosDeSalud'=>$centrosDeSalud]);
         //
     }
 
@@ -130,6 +146,8 @@ class ContratoController extends Controller
             RegEstadosReq::create(["id_us"=>auth()->id(),
             "id_req"=>$contratoCreado->id_req,
             "id_estfin"=>"3"]);
+            $personalu =DatosPer::findOrFail($contratoCreado->id_per);
+            $personalu->update(["id_esper"=> "2"]);
             session()->flash('status','Contract created successfully');
             return to_route('contrato.index') ;
            //echo $cad; 
@@ -150,8 +168,46 @@ class ContratoController extends Controller
      */
     public function edit(Contrato $contrato)
     {
-        dump ($contrato);
-        //
+       // dump($contrato);
+        $contrato=Contrato::findOrFail($contrato->id_con);
+        $requerimiento = Requerimiento::findOrFail($contrato->id_req);
+        $centrosSalud=CentroDeSalud::where('estado','=','1')->get();
+        $tiposContrato=TipoContrato::where('estado','=','1')->get();
+        $cargos = Cargos::where('estado','=','1')->get();
+        $niveles = Nivel::where('estado','=','1')->get();
+        $personal= DatosPer::with('departamento')->where('id_per','=',$contrato->id_per)->get()->first();
+        $cirinstnal = CircularInstNal::where('estado','=','1')->get();
+        $cirinstreg = CircularInstReg::where('estado','=','1')->get();
+        $cite = Cite::where('estado','=','1')->get();
+        $yoAutoridad = AutoridadesVb::where('id_us','=',auth()->id())->where('estado','=','1')->get()->first();
+        $firmas = Vobofirma::with('autoridadesVb.user')->where('id_con','=',$contrato->id_con)->get() ;
+        
+        $nofirme=true;
+        if(isset($yoAutoridad)){
+            foreach ($firmas as $key => $value) {
+                # code...
+                if($value->id_au ==$yoAutoridad->id){
+                    $nofirme = false;
+                }
+            }
+        }
+
+
+        return view('contratos.edit',['contrato'=> $contrato,
+                                            'requerimiento'=>$requerimiento,
+                                            'centrosSalud'=>$centrosSalud,
+                                            'tiposContrato'=>$tiposContrato,
+                                            'cargos'=>$cargos,
+                                            'niveles'=>$niveles,
+                                            'personal'=> $personal,
+                                            'cirinstnal'=>$cirinstnal,
+                                            'cirinstreg'=>$cirinstreg,
+                                            'cite'=>$cite,
+                                            'yoAutoridad'=>$yoAutoridad,
+                                            'firmas'=>$firmas,
+                                            'nofirme'=>$nofirme
+                                        ]);
+        
     }
 
     /**
@@ -159,6 +215,39 @@ class ContratoController extends Controller
      */
     public function update(UpdateContratoRequest $request, Contrato $contrato)
     {
+        
+            $validated=$request->validate([
+                "id_per" => ["required"],
+                "id_req" => ["required"],
+                "partPres" => ["required"],
+                "id_cinal" => ["required"],
+                "id_cireg" => ["required"],
+                "id_cite" => ["required"],
+                "id_cs" => ["required"],
+                "id_tic" => ["required"],
+                "id_car" => ["required"],
+                "id_niv" => ["required"],
+                "firmado"=>[],
+               // "motivo" => ["required"],
+                "fechaIni" => ["required"],
+                "fechaFin" => ["required"],
+                "fecha_crea"=>[],
+                "us_crea"=>[],
+               // "nota" => ["required"],
+               // "fecha_nota" => ["required"],
+                "observaciones" => [],
+                "observaciones2" => [],
+            ]);
+        $contratoUpdate = $validated;
+        $contratoUpdate['us_modif']=auth()->id();
+        $contratoUpdate['feche_modif']=date("Y-m-d H:i:s");
+        $contratoUpdate['conteo_edicion']=$contrato->conteo_edicion+1;
+        $contrato->update($contratoUpdate);
+        $histoContrato = Contrato::findOrFail($contrato->id_con);
+        HisContrato::create($histoContrato->toArray());
+        //dump($validated);
+        session()->flash('status','Successfully updated Contract');
+        return to_route('contrato.index') ;
         //
     }
 

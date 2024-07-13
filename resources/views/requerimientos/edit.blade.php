@@ -262,7 +262,7 @@
                     @endif
                     @if ($requerimiento->id_esreq=='5')
                     <div class="md:w-1/4 px-2">
-                        <x-nav-link :href="route('contratos.new',$requerimiento)" class="bg-green-200 text-green-600 px-3 py-1 rounded-full">Crear Contrato</x-nav-link>                                            
+                        <x-nav-link :href="route('contrato.new',$requerimiento)" class="bg-green-200 text-green-600 px-3 py-1 rounded-full">Crear Contrato</x-nav-link>                                            
                     </div>
                     @endif
                 </div>    
