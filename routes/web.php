@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\DatosPerController;
+use App\Http\Controllers\FilePerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ImpresionController;
 use App\Http\Controllers\RequerimientoController;
 use App\Http\Controllers\RevisionesReqController;
 use App\Http\Controllers\VobofirmaController;
@@ -57,8 +59,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/contratos', [ContratoController::class,'store'])->name('contrato.store');
     Route::get('/contratos/{contrato}/edit', [ContratoController::class,'edit'])->name('contrato.edit');
     Route::put('/contratos/{contrato}',[ContratoController::class,'update'])->name('contrato.update');
+    Route::get('/contratos/{contrato}/show',[ContratoController::class,'show'])->name('contrato.show');
 
     Route::post('/vobofirmas', [VobofirmaController::class,'store'])->name('vobofirma.store');
+
+    Route::post('/filepers', [FilePerController::class,'store'])->name('fileper.store');
+
+    Route::get('/impresiones/{contrato}/avc', [ImpresionController::class,'avc'])->name('impresion.avc');
+    Route::get('/impresiones/{contrato}/avisobaja', [ImpresionController::class,'avisoBaja'])->name('impresion.avisobaja');
+
 });
 
 require __DIR__.'/auth.php';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Afp;
 use App\Models\DatosPer;
+use App\Models\FilePer;
 use App\Models\Departamento;
 use App\Http\Requests\StoreDatosPerRequest;
 use App\Http\Requests\UpdateDatosPerRequest;
@@ -119,8 +120,12 @@ class DatosPerController extends Controller
         $personal =DatosPer::findOrFail($datosPer); 
         $departamentos = Departamento::where ('estado','=','1')->get();
         $afps = Afp::where('estado','=','1')->get();
+        $filePer = FilePer::findOrFail($personal->id_file);
         //
-        return view('personal.edit',['personal'=>$personal,'departamentos'=>$departamentos,'afps'=>$afps]);
+        return view('personal.edit',['personal'=>$personal,
+        'departamentos'=>$departamentos,
+        'afps'=>$afps,
+        'filePer'=>$filePer]);
     }
 
     /**

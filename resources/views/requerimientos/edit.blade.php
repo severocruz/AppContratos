@@ -231,8 +231,9 @@
                             
                             
                         </div>
-                        
+                        <div class=" w-full text-right justify-items-end">
                         <x-primary-button>Guardar cambios</x-primary-button>
+                        </div>
                         {{-- <button>
                             Enviar
                         </button> --}}

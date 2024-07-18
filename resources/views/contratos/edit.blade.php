@@ -1,11 +1,43 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Editar Contrato
+             Contrato {{$contrato->noCon}} 
         </h2>
     </x-slot>
     <div class="flex-col">
-        .::.
+        <x-nav-link
+        :href="route('contrato.show',$contrato).'?cop=1'" target="_blank">
+        Original
+        </x-nav-link> .::.
+        <x-nav-link
+        :href="route('contrato.show',$contrato).'?cop=2'" target="_blank">
+        Copia Kardex
+        </x-nav-link>.::.
+        <x-nav-link
+        :href="route('contrato.show',$contrato).'?cop=3'" target="_blank">
+        Copia Interesado
+        </x-nav-link>.::.
+        <x-nav-link
+        :href="route('contrato.show',$contrato).'?cop=4'" target="_blank">
+        Copia RRHH
+        </x-nav-link>.::.
+        <x-nav-link
+        :href="route('impresion.avc',$contrato).'?cop=2'" target="_blank">
+        AVC
+        </x-nav-link>.::.
+        <x-nav-link
+        :href="route('impresion.avc',$contrato).'?cop=1'" target="_blank">
+        AVC *
+        </x-nav-link>.::.
+        <x-nav-link
+        :href="route('impresion.avisobaja',$contrato).'?cop=2'" target="_blank">
+        Aviso de Baja
+        </x-nav-link>.::.
+        <x-nav-link
+        :href="route('impresion.avisobaja',$contrato).'?cop=1'" target="_blank">
+        Aviso de Baja *
+        </x-nav-link>
+        
     </div>
     {{-- @dump($docAdjuntos) --}}
     <div class="py-3 px-0">
@@ -261,7 +293,7 @@
                                 <div class="md:w-2/3 px-3 mb-6 md:mb-0 ">
                         
                                             <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                                            for="firmas">
+                                            >
                                             firmado por:
                                             </label>
                                             <table class="w-full text-left text-sm text-slate-700 dark:text-slate-300" >
@@ -361,6 +393,7 @@
                 </div>
             </div>
         </div>      
-    @endif          
+    @endif     
+         
 </x-app-layout>
 

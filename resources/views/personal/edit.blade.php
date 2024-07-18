@@ -228,8 +228,9 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <x-primary-button>Enviar</x-primary-button>
+                        <div class=" w-full text-right justify-items-end">
+                            <x-primary-button>Guardar Cambios</x-primary-button>
+                        </div>
                         {{-- <button>
                             Enviar
                         </button> --}}
@@ -237,5 +238,71 @@
                 </div>    
             </div>  
         </div>        
-    </div>              
+    </div>   
+    
+    {{-- @if (isset($yoAutoridad) && $nofirme)        --}}
+    <div x-data="{ 'showModal': false }"
+        @keydown.escape="showModal = false"
+        >
+        <!-- Trigger for Modal -->
+
+        <button class=" p-1 rounded bg-blue-600 text-blue-50 font-extrabold" type="button" @click="showModal = true">
+             File Personal
+        </button>
+
+        <!-- Modal -->
+        <div
+            class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
+            x-show="showModal"
+        >
+            <!-- Modal inner -->
+            <div
+                class="max-w-3xl px-5 py-4 mx-auto text-left bg-white rounded shadow-xl"
+                @click.away="showModal = false"
+                x-transition:enter="motion-safe:ease-out duration-300"
+                x-transition:enter-start="opacity-0 scale-90"
+                x-transition:enter-end="opacity-100 scale-100"
+            >
+                <!-- Title / Close-->
+                <div class="flex items-center justify-between ">
+                    <h5 class="mr-3 text-black max-w-none">File Personal</h5>
+
+                    <button type="button" class="z-50 cursor-pointer" @click="showModal = false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- content -->
+                <form action="{{route('fileper.store')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id_per" value="{{$personal->id_per}}" >
+                    
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
+                            <label for="email" class="uppercase tracking-wide text-black text-xs font-bold mb-2">
+                                Número
+                            </label>
+                            <input type="nombre" required name="nombre" id="nombre" value="{{isset($filePer)?$filePer->nombre:''}}"
+                             class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                            <x-input-error :messages="$errors->get('nombre')" />
+                        </div>
+                        <div class="md:w-11/12 px-3">
+                            <label class="tracking-wide text-black text-xs font-bold mb-2"
+                                                for="ubicacion_fisica">
+                                                Ubicacion Física
+                                            </label>
+                                            <textarea type="text" name="ubicacion_fisica" id="ubicacion_fisica"  required
+                                                class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">    
+                                                {{isset($filePer)?$filePer->ubicacion_fisica:''}}
+                                            </textarea>
+                        </div>  
+                    </div>
+                    <button class="bg-blue-200 text-blue-900 px-3 py-1 rounded-full">Guardar</button>              
+                </form>
+            </div>
+        </div>
+    </div>      
+{{-- @endif  --}}
 </x-app-layout>

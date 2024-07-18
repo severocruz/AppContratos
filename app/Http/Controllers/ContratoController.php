@@ -7,6 +7,7 @@ use App\Models\CircularInstReg;
 use App\Models\AutoridadesVb;
 use App\Models\RegEstadosReq;
 use App\Models\Cite;
+use App\Models\User;
 use App\Models\CircularInstNal;
 use App\Models\Contrato;
 use App\Models\CentroDeSalud;
@@ -18,6 +19,7 @@ use App\Http\Requests\StoreContratoRequest;
 use App\Http\Requests\UpdateContratoRequest;
 use App\Models\DatosPer;
 use App\Models\HisContrato;
+use App\Utils\PersonalUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class ContratoController extends Controller
@@ -158,9 +160,56 @@ class ContratoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contrato $contrato)
+    public function show(Contrato $contrato, Request $request)
     {
-        //
+        $requerimiento = Requerimiento::findOrFail($contrato->id_req);
+        $centrosSalud=CentroDeSalud::with('cargoEnc')->findOrFail($contrato->id_cs);
+        $tiposContrato=TipoContrato::findOrFail($contrato->id_tic);
+        $cargos = Cargos::findOrFail($contrato->id_car);
+        $niveles = Nivel::findOrFail($contrato->id_niv);
+        $usuario = User::findOrFail($contrato->id_us);
+
+        $cirinstnal = CircularInstNal::findOrFail($contrato->id_cinal);
+        $cirinstreg = CircularInstReg::findOrFail($contrato->id_cireg);
+        $cite = Cite::findOrFail($contrato->id_cite);
+        $firmas = Vobofirma::with('autoridadesVb.user')->where('id_con','=',$contrato->id_con)->get() ;
+        
+        $jefeair = AutoridadesVb::with('user')->where('estado','=','1')->where('orden','=','1')->orderBy('id','desc')->get()->first();
+        $admair = AutoridadesVb::with('user')->where('estado','=','1')->where('orden','=','2')->orderBy('id','desc')->get()->first();
+        $jefeaim = AutoridadesVb::with('user')->where('estado','=','1')->where('orden','=','3')->orderBy('id','desc')->get()->first();
+        $jefeaiadm = AutoridadesVb::with('user')->where('estado','=','1')->where('orden','=','4')->orderBy('id','desc')->get()->first();
+        $datosPer = DatosPer::with('departamento')
+        ->with('filePer')->findOrFail($contrato->id_per);
+        $copia =$request->all()['cop'];
+        $jeferrhh=explode(' ',$jefeair->user->nombres);
+        $iniciales='';
+        for ($i=0; $i < sizeof($jeferrhh); $i++) {
+           // if ($i>0) {
+            $iniciales.= substr($jeferrhh[$i],0,1); 	
+           // }
+        }
+        $iniciales.= substr($jefeair->user->a_paterno,0,1);
+        $iniciales.= substr($jefeair->user->a_materno,0,1);
+        $ut = new PersonalUtil();
+        return view('contratos.show',['contrato'=>$contrato,
+        'requerimiento'=>$requerimiento,
+        'centrosal'=>$centrosSalud,
+        'tipocon'=>$tiposContrato,
+        'cargo'=>$cargos,
+        'nivel'=>$niveles,
+        'cirinsnal'=>$cirinstnal,
+        'cireg'=>$cirinstreg,
+        'cite'=>$cite,
+        'personal'=>$datosPer,
+        'jefeaim'=>$jefeaim,
+        'jefeair'=>$jefeair,
+        'admair'=>$admair,
+        'jefeaiadm'=>$jefeaiadm,
+        'copia'=>$copia,
+        'iniciales'=>$iniciales,
+        'ut'=>$ut,
+        'usuario'=>$usuario        
+        ]);
     }
 
     /**

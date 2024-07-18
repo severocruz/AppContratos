@@ -62,4 +62,6 @@ class Contrato extends Model
     public function estadoContrato():BelongsTo{
         return $this->belongsTo(EstadoContrato::class,"id_esco","id_esco");
     }
+    
+
 }

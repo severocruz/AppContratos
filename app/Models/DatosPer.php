@@ -53,4 +53,8 @@ class DatosPer extends Model
         return $this->hasMany('App\Models\Requerimiento','id_per','id_per');
     }
 
+    public function filePer():BelongsTo{
+        return $this->belongsTo(FilePer::class,"id_file","id_file");
+    }
+
 }
