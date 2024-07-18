@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto sm:px-2 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 
-                    <div class="p-0 text-gray-900 dark:text-gray-100" >
+                    <div class="px-0 text-gray-900 dark:text-gray-100" >
                         <h1 class="text-2xl font-bold text-center mt-2">Datos del Personal</h1>
                         
                         <div class="bg-emerald-100 shadow-md rounded px-4 pt-2 pb-2 mb-0 flex flex-col">

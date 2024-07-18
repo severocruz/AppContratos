@@ -8,7 +8,7 @@
     
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-emerald-100 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-3 text-gray-900 dark:text-gray-100">
                     <div class="flex-row">
                         <div class="flex-col ">

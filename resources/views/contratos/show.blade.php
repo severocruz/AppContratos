@@ -12,7 +12,7 @@
 <a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a>
  <div>
   <div id="carta">  
-    <img src="{{ asset('images/logocnsrlp.png') }}" alt="" class="logo">
+    <img src="{{asset('images/logocnsrlp.png')}}" alt="" class="logo">
   	{{-- <img src="./imagenes/logocnsrlp.png" class="logo" > --}}
 <div> 
 	<div class="titulo"><b><h1>CAJA NACIONAL DE SALUD</h1></b></div>

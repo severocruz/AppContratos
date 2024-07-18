@@ -4,20 +4,20 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('New personnel') }}
+            {{ __('Edit personnel') }}
         </h2>
     </x-slot>
 
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="py-6 px-0 text-gray-900 dark:text-gray-100">
                     {{-- @dump($errors->get('a_paterno')) --}}
                     
                     <form action="{{route('personal.update',$personal)}}" method="POST" enctype="multipart/form-data" >
                         @csrf @method('PUT')
-                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-                            <div class="-mx-3 md:flex mb-6">
+                        <div class="bg-emerald-100 shadow-md rounded px-4 pt-2 pb-2 mb-0 flex flex-col">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/5 px-3 mb-6 md:mb-0">
                                 </div>
                                 <div class="md:w-2/4 px-3 mb-6 md:mb-0">
@@ -31,15 +31,14 @@
                                     <img class="object-cover w-32 h-32 rounded-full" src="{{old('foto',$personal->foto)?'/storage/fotos/'.old('foto',$personal->foto):'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApLJxJLPubp4KuCafWl1G85OVieXwcG-11Q&usqp=CAU'}}" alt="">
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
-                                <div class="md:w-1/3 px-3 mb-6 md:mb-0">
-
+                            <div class="-mx-3 md:flex mb-1">
+                                <div class="md:w-1/3 px-3  md:mb-0">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="a_paterno">
                                         {{ __('Last name 1') }}
                                     </label>
                                     <input type="text" name="a_paterno" id="a_paterno"  value="{{old('a_paterno',$personal->a_paterno)}}"
-                                        class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                        class="uppercase w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('a_paterno')" />
                                         
 
@@ -51,7 +50,7 @@
                                         {{ __('Last name 2') }}
                                     </label>
                                     <input type="text" name="a_materno" id="a_materno"  value="{{old('a_materno',$personal->a_materno)}}"
-                                        class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                        class="uppercase w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('a_materno')" />
 
                                 </div>
@@ -62,17 +61,17 @@
                                         {{ __('Names') }}
                                     </label>
                                     <input type="text" name="nombres" id="nombres"  value="{{old('nombres',$personal->nombres)}}"
-                                        class="uppercase w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                        class="uppercase w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('nombres')" />
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2"for="CI">
                                         {{ __('CI') }}
                                     </label>
                                     <input type="text" name="CI" id="CI"  value="{{old('CI',$personal->CI)}}"
-                                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                        class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('CI')" />
                                 </div>
                                 <div class="md:w-1/3 px-3">
@@ -81,7 +80,7 @@
                                     </label>
                                     <div>
                                         <select name="id_dep" id="id_dep"
-                                            class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded">
+                                            class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                             
                                             @foreach ($departamentos as $item)
                                                 <OPTION value="{{$item->id_dep}}" {{old('id_dep',$item->id_dep)==$personal->id_dep?'selected':''}} >{{$item->nombre}}</OPTION>
@@ -96,11 +95,11 @@
                                         {{ __('Birthdate') }}
                                     </label>
                                     <input type="date" name="fecha_nac" id="fecha_nac"  value="{{old('fecha_nac',$personal->fecha_nac)}}"
-                                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                        class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                         <x-input-error :messages="$errors->get('fecha_nac')" />
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     
                                         
@@ -124,7 +123,7 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                                                         
                                             <label for="id_afp" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('AFP Contributions')}}</label>
-                                            <select id="id_afp" name="id_afp" class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded">
+                                            <select id="id_afp" name="id_afp" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                     @foreach ($afps as $afp)
                                                         <OPTION value="{{$afp->id}}" {{old('id_afp',$afp->id)==$personal->id_afp?'selected':''}}>{{$afp->nombre}}</OPTION>
                                                     @endforeach
@@ -136,11 +135,11 @@
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="matricula">
                                         {{__('Tuition')}}
                                     </label>
-                                    <input type="text" name="matricula" id="matricula" value="{{old('matricula')}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" >
+                                    <input type="text" name="matricula" id="matricula" value="{{old('matricula')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1" >
                                     
                                 </div> --}}
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-4">
                                 <div class="md:w-full px-3 mb-6 md:mb-0 ">
                                         
                                         <label for="est_civil" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
@@ -174,56 +173,56 @@
                                         <x-input-error :messages="$errors->get('est_civil')" />
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-full px-3 mb-6 md:mb-0 ">
                                 <h1 class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Address')}}</h1>
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
                                     <label for="localidad" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
                                         Localidad:
                                     </label>
-                                    <input type="text" name="localidad" id="localidad" value="{{old('localidad',$personal->localidad)}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    <input type="text" name="localidad" id="localidad" value="{{old('localidad',$personal->localidad)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('localidad')" />                                    
                                 </div>
                                 <div class="md:w-2/3 px-3 mb-6 md:mb-0 ">
                                     <label for="direccion" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
                                         Zona/Barrio:
                                     </label>
-                                    <input type="text" name="direccion" id="direccion" value="{{old('direccion',$personal->direccion)}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    <input type="text" name="direccion" id="direccion" value="{{old('direccion',$personal->direccion)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('direccion')" />                                    
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-2/3 px-3 mb-6 md:mb-0 ">
                                     <label for="calle" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
                                         Calle:
                                     </label>
-                                    <input type="text" name="calle" id="calle" value="{{old('calle',$personal->calle)}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    <input type="text" name="calle" id="calle" value="{{old('calle',$personal->calle)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('calle')" />
                                 </div>
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
                                     <label for="No" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
                                         Número de Puerta:
                                     </label>
-                                     <input type="text" name="No" id="No" value="{{old('No',$personal->No)}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                     <input type="text" name="No" id="No" value="{{old('No',$personal->No)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('No')" />
                                 </div>
                             </div>
-                            <div class="-mx-3 md:flex mb-6">
+                            <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
                                     <label for="telefono" class="uppercase tracking-wide text-black text-xs font-bold mb-2">
                                         {{__('Phone')}}s
                                     </label>
-                                    <input type="text" name="telefono" id="telefono" value="{{old('telefono',$personal->telefono)}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    <input type="text" name="telefono" id="telefono" value="{{old('telefono',$personal->telefono)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('telefono')" />
                                 </div>
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0 ">
                                     <label for="email" class="uppercase tracking-wide text-black text-xs font-bold mb-2">
                                         {{__('Email')}}
                                     </label>
-                                    <input type="email" name="email" id="email" value="{{old('email',$personal->email)}}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                                    <input type="email" name="email" id="email" value="{{old('email',$personal->email)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('email')" />
                                 </div>
                             </div>
@@ -285,7 +284,7 @@
                                 Número
                             </label>
                             <input type="nombre" required name="nombre" id="nombre" value="{{isset($filePer)?$filePer->nombre:''}}"
-                             class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
+                             class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                             <x-input-error :messages="$errors->get('nombre')" />
                         </div>
                         <div class="md:w-11/12 px-3">

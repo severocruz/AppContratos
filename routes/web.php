@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/impresiones/{contrato}/avc', [ImpresionController::class,'avc'])->name('impresion.avc');
     Route::get('/impresiones/{contrato}/avisobaja', [ImpresionController::class,'avisoBaja'])->name('impresion.avisobaja');
+    Route::get('/impresiones/{contrato}/credencial', [ImpresionController::class,'credencial'])->name('impresion.credencial');
 
 });
 

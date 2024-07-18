@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CentroDeSalud;
 use App\Models\Contrato;
 use App\Models\DatosPer;
 use App\Models\Nivel;
@@ -42,6 +43,24 @@ class ImpresionController extends Controller
                                     'cargo'=>$cargo,
                                     'rrhh'=>$rrhh,
                                     'cop'=>$cop]);
+
+    }
+    public function credencial(Contrato $contrato, Request $request){
+        $ut = new PersonalUtil();
+        $datosPer = DatosPer::with('departamento')
+        ->with('filePer')->findOrFail($contrato->id_per);
+        $centrosal = CentroDeSalud::findOrFail($contrato->id_cs);
+        $nivel = Nivel::findOrFail($contrato->id_niv);
+        $cargo = Cargos::findOrFail($contrato->id_car);
+        $rrhh = AutoridadesVb::with('user')->where('estado','=','1')->where('orden','=','1')->get()->first();
+        $cop=$request->all()['cop'];
+        return view("impresiones.credencial",['ut'=>$ut,
+                                    'persona'=>$datosPer,
+                                    'contrato'=>$contrato,
+                                    'nivel'=>$nivel,
+                                    'cargo'=>$cargo,
+                                    'rrhh'=>$rrhh,
+                                    'centrosal'=>$centrosal]);
 
     }
 }

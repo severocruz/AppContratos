@@ -8,36 +8,39 @@
         <x-nav-link
         :href="route('contrato.show',$contrato).'?cop=1'" target="_blank">
         Original
-        </x-nav-link> .::.
+        </x-nav-link> |
         <x-nav-link
         :href="route('contrato.show',$contrato).'?cop=2'" target="_blank">
         Copia Kardex
-        </x-nav-link>.::.
+        </x-nav-link>|
         <x-nav-link
         :href="route('contrato.show',$contrato).'?cop=3'" target="_blank">
         Copia Interesado
-        </x-nav-link>.::.
+        </x-nav-link>|
         <x-nav-link
         :href="route('contrato.show',$contrato).'?cop=4'" target="_blank">
         Copia RRHH
-        </x-nav-link>.::.
+        </x-nav-link>|
         <x-nav-link
         :href="route('impresion.avc',$contrato).'?cop=2'" target="_blank">
         AVC
-        </x-nav-link>.::.
+        </x-nav-link>|
         <x-nav-link
         :href="route('impresion.avc',$contrato).'?cop=1'" target="_blank">
         AVC *
-        </x-nav-link>.::.
+        </x-nav-link>|
         <x-nav-link
         :href="route('impresion.avisobaja',$contrato).'?cop=2'" target="_blank">
         Aviso de Baja
-        </x-nav-link>.::.
+        </x-nav-link>|
         <x-nav-link
         :href="route('impresion.avisobaja',$contrato).'?cop=1'" target="_blank">
         Aviso de Baja *
+        </x-nav-link>|
+        <x-nav-link
+        :href="route('impresion.credencial',$contrato).'?cop=1'" target="_blank">
+        Credencial*
         </x-nav-link>
-        
     </div>
     {{-- @dump($docAdjuntos) --}}
     <div class="py-3 px-0">
