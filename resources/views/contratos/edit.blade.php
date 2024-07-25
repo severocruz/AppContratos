@@ -336,7 +336,21 @@
                     </form>
                 
                 </div>
-                
+                <div class=" flex mb-4">
+                    <div class="md:w-1/4 px-2" >
+                        @if($contrato->id_esco == '1')
+                            <x-nav-link :href="route('requerimiento.newadenda',$contrato)" class="bg-blue-700 text-white px-3 py-1 rounded-full">
+                                Adenda
+                            </x-nav-link>
+                        @endif
+                    </div>
+                    <div class="md:w-1/4 px-2" >
+                       
+                    </div>
+                    <div class="md:w-1/4 px-2" >
+                    </div>
+
+                </div>   
             </div>
         </div>
     </div>

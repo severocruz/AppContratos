@@ -314,5 +314,7 @@
      "Contract created successfully":"Contrato creado exitosamente",
      "Signature registered successfully":"Firma registrada con éxito",
      "Successfully updated Contract":"Contrato editado con éxito",
-     "File assigned successfully":"File asignado con éxito"
+     "File assigned successfully":"File asignado con éxito",
+     "Successfully created Workplace":"Centro de trabajo creado exitosamente",
+     "Successfully updated Workplace":"Centro de trabajo modificado exitosamente"
 }

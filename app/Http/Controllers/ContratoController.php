@@ -288,6 +288,20 @@ class ContratoController extends Controller
                 "observaciones2" => [],
             ]);
         $contratoUpdate = $validated;
+        if(array_key_exists('firmado',$contratoUpdate)){
+            if(isset($contratoUpdate['firmado']) && $contratoUpdate['firmado'] != $contrato->firmado ){
+                $contratoUpdate['id_esco'] = '1';
+                $persona= DatosPer::findOrFail($contrato->id_per);
+                $persona->update(['id_esper'=>'4']);
+                $requerimiento =Requerimiento::findOrFail($contrato->id_req);
+                $requerimiento->update(['id_esreq'=>'4']);
+                RegEstadosReq::create([
+                    'id_us'=>auth()->id(),
+                    'id_req'=>$contrato->id_req,
+                    'id_estfin'=>'4'
+                ]);
+            }
+        }
         $contratoUpdate['us_modif']=auth()->id();
         $contratoUpdate['feche_modif']=date("Y-m-d H:i:s");
         $contratoUpdate['conteo_edicion']=$contrato->conteo_edicion+1;

@@ -17,6 +17,7 @@ use App\Models\Departamento;
 use App\Models\Afp;
 use App\Models\RevisionesReq;
 use App\Models\RevisorReq;
+use App\Models\Contrato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class RequerimientoController extends Controller
@@ -126,6 +127,7 @@ class RequerimientoController extends Controller
                     //"fecha_nota"=>["required"],
                     "id_cono"=>["required"]
                     ]);
+                    $request['id_esreq']='1';
             }
         $requerimientoStore= $request;
         //$requerimientoStore['motivo'] = strtoupper($requerimientoStore['motivo']);
@@ -136,10 +138,13 @@ class RequerimientoController extends Controller
              $requerimientoStore['nroReq']= '';
          }
         
-       Requerimiento::create($requerimientoStore->toArray());
+       $reqcreado = Requerimiento::create($requerimientoStore->toArray());
+       $hashreq= Hash::make($reqcreado->id_req.$reqcreado->id_us.$reqcreado->fechareq);
+       $reqcreado->update(['foto'=>$hashreq]);
+
        session()->flash('status','Requirement created successfully');
        return to_route('requerimiento.index') ;
-        
+        // dump($requerimientoStore->all());
        //return "guardando el requerimiento";
         //
     }
@@ -269,7 +274,7 @@ class RequerimientoController extends Controller
         if (key_exists("id_per",$validated) && isset($validated["id_per"]) ) {
             if($validated["id_per"] != $requerimiento->id_per )
             {
-                $requerimientoUpdate["foto"]= Hash::make($requerimiento->id_req.$requerimiento->id_us.$requerimiento->fechareq);
+                //$requerimientoUpdate["foto"]= Hash::make($requerimiento->id_req.$requerimiento->id_us.$requerimiento->fechareq);
                 $requerimientoUpdate["id_esreq"]=1;
                 RegEstadosReq::create(["id_us"=>auth()->id(),
                 "id_req"=>$requerimiento->id_req,
@@ -309,5 +314,26 @@ class RequerimientoController extends Controller
     public function destroy(Requerimiento $requerimiento)
     {
         //
+    }
+
+    public function newAdenda(Contrato $contrato){
+        $requerimient=Requerimiento::findOrFail($contrato->id_req);
+        $centrosSalud=CentroDeSalud::where('estado','=','1')->get();
+        //$tiposContrato=TipoContrato::where('estado','=','1')->get();
+        $cargos = Cargos::where('estado','=','1')->get();
+        $niveles = Nivel::where('estado','=','1')->get();
+        $docAdjuntos = DocAdjunto::where('estado','=','1')->get();
+        $personal= DatosPer::where('id_per','=',$contrato->id_per)->get()->first();
+        // $adjReq = AdjReq::where('estado','=','1')->where('id_req','=',$requerimient->id_req) ->get();       
+        return view('requerimientos.newadenda',['requerimiento'=> $requerimient,
+                                                'centrosSalud'=>$centrosSalud,
+                                                'contrato'=>$contrato,
+                                                // 'tiposContrato'=>$tiposContrato,
+                                                'cargos'=>$cargos,
+                                                'niveles'=>$niveles,
+                                                'personal'=> $personal,
+                                                'docAdjuntos'=>$docAdjuntos
+                                                // 'adjReq'=> $adjReq
+                                                ]);
     }
 }

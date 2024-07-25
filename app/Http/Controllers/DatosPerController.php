@@ -180,7 +180,10 @@ class DatosPerController extends Controller
     public function geByCI(Request $request ){
 
         $ci = trim($request->input('CI')) ;
-        $datosPer = DatosPer::where('CI','=',$ci)->get() ;
+        $datosPer = DatosPer::where('CI','=',$ci)
+        ->where('id_esper','=','3')
+        ->where('conteo','<=','3')
+        ->get() ;
         return $datosPer->all();
     }
 

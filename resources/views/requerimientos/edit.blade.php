@@ -123,10 +123,10 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Type of contract')}}</label>
                                     <div>        
-                                        <select id="id_tic" name="id_tic" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select id="id_tic" name="id_tic" {{$requerimiento->id_tic =='9'?'disabled':''}} class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
-                                                        <OPTION value="{{$tipo->id_tic}}" {{old('id_tic',$requerimiento->id_tic)==$tipo->id_tic?'selected':''}}>{{$tipo->tipo}}</OPTION>
+                                                        <OPTION value="{{$tipo->id_tic}}" {{old('id_tic',$requerimiento->id_tic)==$tipo->id_tic?'selected':''}} >{{$tipo->tipo}}</OPTION>
                                                     @endforeach
                                         </select>
                                          <x-input-error :messages="$errors->get('id_tic')"/>
@@ -234,7 +234,9 @@
                             
                         </div>
                         <div class=" w-full text-right justify-items-end">
-                        <x-primary-button>Guardar cambios</x-primary-button>
+                        @if ($requerimiento->id_esreq =='1' || $requerimiento->id_esreq =='5' || $requerimiento->id_esreq =='7'   )
+                            <x-primary-button>Guardar cambios</x-primary-button>
+                        @endif
                         </div>
                         {{-- <button>
                             Enviar
@@ -337,7 +339,9 @@
                                         </textarea>
                     </div>  
                 </div>
-                <button class="bg-blue-200 text-blue-900 px-3 py-1 rounded-full">Guardar</button>              
+                
+                 <button class="bg-blue-200 text-blue-900 px-3 py-1 rounded-full">Guardar</button>              
+                
             </form>
         </div>
     </div>

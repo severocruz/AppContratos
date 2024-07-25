@@ -5,15 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\CircularInstReg;
 use App\Http\Requests\StoreCircularInstRegRequest;
 use App\Http\Requests\UpdateCircularInstRegRequest;
-
+use Illuminate\Http\Request;
 class CircularInstRegController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $npage=1;
+        //
+        if (array_key_exists('npage',$request->input())) {
+            $npage = $request->input()['npage']?$request->input()['npage']:1;
+        }
+        $circulares = CircularInstReg::where('estado','=','1')
+        ->orderBy('id','DESC')->paginate(10,['*'],'page',$npage);
+        return view('circularinstregs.index',[
+            'circulares'=>$circulares
+        ]);
     }
 
     /**
@@ -22,6 +32,7 @@ class CircularInstRegController extends Controller
     public function create()
     {
         //
+        return view('circularinstregs.new');
     }
 
     /**
@@ -30,6 +41,14 @@ class CircularInstRegController extends Controller
     public function store(StoreCircularInstRegRequest $request)
     {
         //
+        $request->validate([
+            'no'=>['required'],
+            'fecha'=>['required']
+            ]);
+        $circularStore = $request;
+        CircularInstReg::create($circularStore->toArray());
+        session()->flash('status','Circular creado con éxito');
+        return to_route('circularinstreg.index');
     }
 
     /**
@@ -43,9 +62,12 @@ class CircularInstRegController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CircularInstReg $circularInstReg)
+    public function edit( $circularInstReg)
     {
         //
+        $circular = CircularInstReg::findOrFail($circularInstReg);
+        return view('circularinstregs.edit',
+        ['circular'=>$circular]);
     }
 
     /**
@@ -54,6 +76,18 @@ class CircularInstRegController extends Controller
     public function update(UpdateCircularInstRegRequest $request, CircularInstReg $circularInstReg)
     {
         //
+        $request->validate([
+            'no'=>['required'],
+            'fecha'=>['required']
+        ]);
+        
+        $circularStore = $request;
+        $circularUpdt= CircularInstReg::findOrFail($circularStore['id']);
+        //dump($circularUpdt->toArray());
+         $circularUpdt->update(['estado'=>'0']);
+        CircularInstReg::create($circularStore->toArray());
+        session()->flash('status','Circular editado con éxito');
+        return to_route('circularinstreg.index');
     }
 
     /**

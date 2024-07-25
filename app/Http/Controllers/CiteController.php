@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Cite;
 use App\Http\Requests\StoreCiteRequest;
 use App\Http\Requests\UpdateCiteRequest;
+use Illuminate\Http\Request;
 
 class CiteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+         //
+         $npage=1;
+         //
+         if (array_key_exists('npage',$request->input())) {
+             $npage = $request->input()['npage']?$request->input()['npage']:1;
+         }
+         $circulares = Cite::where('estado','=','1')
+         ->orderBy('id','DESC')->paginate(10,['*'],'page',$npage);
+         return view('cites.index',[
+             'circulares'=>$circulares
+         ]);
     }
 
     /**
@@ -21,6 +33,7 @@ class CiteController extends Controller
      */
     public function create()
     {
+        return view('cites.new');
         //
     }
 
@@ -30,6 +43,14 @@ class CiteController extends Controller
     public function store(StoreCiteRequest $request)
     {
         //
+        $request->validate([
+            'no'=>['required'],
+            'fecha'=>['required']
+            ]);
+        $circularStore = $request;
+        Cite::create($circularStore->toArray());
+        session()->flash('status','Cite creado con éxito');
+        return to_route('cite.index');
     }
 
     /**
@@ -43,9 +64,12 @@ class CiteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cite $cite)
+    public function edit($cite)
     {
         //
+        $circular = Cite::findOrFail($cite);
+        return view('cites.edit',
+        ['circular'=>$circular]);
     }
 
     /**
@@ -54,6 +78,18 @@ class CiteController extends Controller
     public function update(UpdateCiteRequest $request, Cite $cite)
     {
         //
+        $request->validate([
+            'no'=>['required'],
+            'fecha'=>['required']
+        ]);
+        
+        $circularStore = $request;
+        $circularUpdt= Cite::findOrFail($circularStore['id']);
+        //dump($circularUpdt->toArray());
+         $circularUpdt->update(['estado'=>'0']);
+        Cite::create($circularStore->toArray());
+        session()->flash('status','Cite editado con éxito');
+        return to_route('cite.index');
     }
 
     /**

@@ -14,5 +14,7 @@ class CircularInstReg extends Model
     protected $primaryKey = 'id';
     public $incrementing = true;
 
-    protected $fillable=[];
+    protected $fillable=['no',
+    'fecha',
+    'estado'];
 }

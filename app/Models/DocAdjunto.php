@@ -15,6 +15,8 @@ class DocAdjunto extends Model
     public $incrementing = true;
     public $checked = false;
 
+    protected $fillable=['documento','descripcion','estado'];
+    
     public function adjReq() {
         return $this->hasMany(AdjReq::class,"id_adj","id_adj");
     }

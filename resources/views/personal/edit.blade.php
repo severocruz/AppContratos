@@ -130,14 +130,7 @@
                                             </select>
                                             <x-input-error :messages="$errors->get('id_afp')"/>
                                 </div>
-                                {{-- <div class="md:w-1/3 px-3 mb-6 md:mb-0">
-                                    
-                                    <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="matricula">
-                                        {{__('Tuition')}}
-                                    </label>
-                                    <input type="text" name="matricula" id="matricula" value="{{old('matricula')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1" >
-                                    
-                                </div> --}}
+                               
                             </div>
                             <div class="-mx-3 md:flex mb-4">
                                 <div class="md:w-full px-3 mb-6 md:mb-0 ">

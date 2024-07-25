@@ -8,7 +8,12 @@ use App\Http\Controllers\ImpresionController;
 use App\Http\Controllers\RequerimientoController;
 use App\Http\Controllers\RevisionesReqController;
 use App\Http\Controllers\VobofirmaController;
-use App\Models\Vobofirma;
+use App\Http\Controllers\CentroDeSaludController;
+use App\Http\Controllers\CircularInstNalController;
+use App\Http\Controllers\CircularInstRegController;
+use App\Http\Controllers\CiteController;
+use App\Http\Controllers\DocAdjuntoController;
+// use App\Models\Vobofirma;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/requerimientos/{requerimiento}',[RequerimientoController::class,'update'])->name('requerimiento.update');
     Route::put('/requerimientos/{requerimiento}/status',[RequerimientoController::class,'updateStatus'])->name('requerimiento.updateStatus');
     Route::get('/requerimientos/{requerimiento}/show',[RequerimientoController::class,'show'])->name('requerimiento.show');
+    Route::get('/requerimientos/{contrato}/newadenda',[RequerimientoController::class,'newAdenda'])->name('requerimiento.newadenda');
 
     Route::post('/revisionesreq', [RevisionesReqController::class,'store'])->name('revisionesreq.store');
 
@@ -69,6 +75,35 @@ Route::middleware('auth')->group(function () {
     Route::get('/impresiones/{contrato}/avisobaja', [ImpresionController::class,'avisoBaja'])->name('impresion.avisobaja');
     Route::get('/impresiones/{contrato}/credencial', [ImpresionController::class,'credencial'])->name('impresion.credencial');
 
+    Route::get('/centrosdesalud',[CentroDeSaludController::class,'index'])->name('centrodesalud.index');
+    Route::get('/centrosdesaludNew',[CentroDeSaludController::class,'create'])->name('centrodesalud.new');
+    Route::post('/centrosdesalud', [CentroDeSaludController::class,'store'])->name('centrodesalud.store');
+    Route::get('/centrosdesalud/{centro}/edit',[CentroDeSaludController::class,'edit'])->name('centrodesalud.edit');
+    Route::put('/centrosdesalud/{centro}',[CentroDeSaludController::class,'update'])->name('centrodesalud.update');
+
+    Route::get('/circularinstnals',[CircularInstNalController::class,'index'])->name('circularinstnal.index');
+    Route::get('/circularinstnalsNew',[CircularInstNalController::class,'create'])->name('circularinstnal.new');
+    Route::post('/circularinstnals', [CircularInstNalController::class,'store'])->name('circularinstnal.store');
+    Route::get('/circularinstnals/{circular}/edit',[CircularInstNalController::class,'edit'])->name('circularinstnal.edit');
+    Route::put('/circularinstnals/{circular}',[CircularInstNalController::class,'update'])->name('circularinstnal.update');
+
+    Route::get('/circularinstregs',[CircularInstRegController::class,'index'])->name('circularinstreg.index');
+    Route::get('/circularinstregsNew',[CircularInstRegController::class,'create'])->name('circularinstreg.new');
+    Route::post('/circularinstregs', [CircularInstRegController::class,'store'])->name('circularinstreg.store');
+    Route::get('/circularinstregs/{circular}/edit',[CircularInstRegController::class,'edit'])->name('circularinstreg.edit');
+    Route::put('/circularinstregs/{circular}',[CircularInstRegController::class,'update'])->name('circularinstreg.update');
+
+    Route::get('/cites',[CiteController::class,'index'])->name('cite.index');
+    Route::get('/citesNew',[CiteController::class,'create'])->name('cite.new');
+    Route::post('/cites', [CiteController::class,'store'])->name('cite.store');
+    Route::get('/cites/{cite}/edit',[CiteController::class,'edit'])->name('cite.edit');
+    Route::put('/cites/{cite}',[CiteController::class,'update'])->name('cite.update');
+
+    Route::get('/docadjuntos',[DocAdjuntoController::class,'index'])->name('docadjunto.index');
+    Route::get('/docadjuntosNew',[DocAdjuntoController::class,'create'])->name('docadjunto.new');
+    Route::post('/docadjuntos', [DocAdjuntoController::class,'store'])->name('docadjunto.store');
+    Route::get('/docadjuntos/{doc}/edit',[DocAdjuntoController::class,'edit'])->name('docadjunto.edit');
+    Route::put('/docadjuntos/{doc}',[DocAdjuntoController::class,'update'])->name('docadjunto.update');
 });
 
 require __DIR__.'/auth.php';

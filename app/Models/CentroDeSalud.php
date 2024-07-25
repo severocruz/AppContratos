@@ -14,7 +14,14 @@ class CentroDeSalud extends Model
     protected $primaryKey = 'id_cs';
     public $incrementing = true;
     
-    protected $fillable = [] ;
+    protected $fillable = [
+        'codigo_cs',
+        'nombre_cs',
+        'idcargos_encs',
+        'nombre_enc',
+        'telefonos',
+        'estado'
+    ] ;
     public function cargoEnc():BelongsTo{
         return $this->belongsTo(CargoEnc::class,"idcargos_encs","idcargos_encs");
     }
