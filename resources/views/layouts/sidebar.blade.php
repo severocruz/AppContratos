@@ -240,9 +240,9 @@
                    x-bind:class="$store.sidebar.full ? expandedClass : shrinkedClass"
                    class="text-gray-10 space-y-3 ">
                   
-                  <h1 class="hover:text-gray-500 cursor-pointer">Autoridades Ejecutivas</h1>
-                  <h1 class="hover:text-gray-500 cursor-pointer">Autoridades Juridica</h1>
-                  <h1 class="hover:text-gray-500 cursor-pointer">Autoridades Sumariante</h1>
+                   <x-nav-link :href="route('autoridadvb.index')"><h1 class="hover:text-gray-500 cursor-pointer">Ejecutivas</h1></x-nav-link>
+                   <x-nav-link :href="route('revisorreq.index')"><h1 class="hover:text-gray-500 cursor-pointer">Revisoras</h1></x-nav-link>
+                  
               </div>
           </div>
 

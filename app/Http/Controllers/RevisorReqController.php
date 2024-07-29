@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RevisorReq;
+use App\Models\User;
 use App\Http\Requests\StoreRevisorReqRequest;
 use App\Http\Requests\UpdateRevisorReqRequest;
 
@@ -14,6 +15,12 @@ class RevisorReqController extends Controller
     public function index()
     {
         //
+        $autoridades = RevisorReq::with('user')
+        ->where('estado','=','1')->get();
+        $users = User::where('id_estus','=','1')->get();
+        return view('revisoresreq.index',
+        ['autoridades'=>$autoridades,
+        'users'=>$users]);
     }
 
     /**
@@ -30,6 +37,24 @@ class RevisorReqController extends Controller
     public function store(StoreRevisorReqRequest $request)
     {
         //
+        $request->validate([
+            'id_ussumariante'=>['required'],
+            'tiposumariante'=>['required'],
+            'id_usjuridico'=>['required'],
+            'tipojuridico'=>['required'],
+        ]);
+        dump($request->all());
+        RevisorReq::where('estado','=','1')->update(['estado'=>'0']);
+        RevisorReq::create([
+            'tipo'=>$request->all()['tipojuridico'],
+            'id_us'=>$request->all()['id_usjuridico']
+        ]);
+        RevisorReq::create([
+            'tipo'=>$request->all()['tiposumariante'],
+            'id_us'=>$request->all()['id_ussumariante']
+        ]);
+        session()->flash('status','Autoridades modificadas con éxito');
+        return to_route('revisorreq.index') ;
     }
 
     /**

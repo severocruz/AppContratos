@@ -13,6 +13,8 @@ use App\Http\Controllers\CircularInstNalController;
 use App\Http\Controllers\CircularInstRegController;
 use App\Http\Controllers\CiteController;
 use App\Http\Controllers\DocAdjuntoController;
+use App\Http\Controllers\AutoridadesVbController;
+use App\Http\Controllers\RevisorReqController;
 // use App\Models\Vobofirma;
 use Illuminate\Support\Facades\Route;
 
@@ -104,6 +106,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/docadjuntos', [DocAdjuntoController::class,'store'])->name('docadjunto.store');
     Route::get('/docadjuntos/{doc}/edit',[DocAdjuntoController::class,'edit'])->name('docadjunto.edit');
     Route::put('/docadjuntos/{doc}',[DocAdjuntoController::class,'update'])->name('docadjunto.update');
+
+    Route::get('/autoridadesvb',[AutoridadesVbController::class,'index'])->name('autoridadvb.index');
+    Route::post('/autoridadesvb', [AutoridadesVbController::class,'store'])->name('autoridadvb.store');
+    Route::get('/autoridadesvb/{autoridad}/edit',[AutoridadesVbController::class,'edit'])->name('autoridadvb.edit');
+    Route::put('/autoridadesvb/{autoridad}',[AutoridadesVbController::class,'update'])->name('autoridadvb.update');
+
+    Route::get('/revisoresreq',[RevisorReqController::class,'index'])->name('revisorreq.index');
+    Route::post('/revisoresreq', [RevisorReqController::class,'store'])->name('revisorreq.store');
+    Route::get('/revisoresreq/{revisor}/edit',[RevisorReqController::class,'edit'])->name('revisorreq.edit');
+    Route::put('/revisoresreq/{revisor}',[RevisorReqController::class,'update'])->name('revisorreq.update');
 });
 
 require __DIR__.'/auth.php';
