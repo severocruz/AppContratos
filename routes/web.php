@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/contratos/{contrato}/edit', [ContratoController::class,'edit'])->name('contrato.edit');
     Route::put('/contratos/{contrato}',[ContratoController::class,'update'])->name('contrato.update');
     Route::get('/contratos/{contrato}/show',[ContratoController::class,'show'])->name('contrato.show');
+    Route::get('/contratos/{contrato}/showadenda',[ContratoController::class,'showAdenda'])->name('contrato.showadenda');
 
     Route::post('/vobofirmas', [VobofirmaController::class,'store'])->name('vobofirma.store');
 

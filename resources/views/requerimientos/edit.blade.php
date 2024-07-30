@@ -123,7 +123,7 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Type of contract')}}</label>
                                     <div>        
-                                        <select id="id_tic" name="id_tic" {{$requerimiento->id_tic =='9'?'disabled':''}} class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select id="id_tic" name="id_tic" style="{{$requerimiento->id_tic =='9'?'pointer-events: none;':''}} background-color: lightblue;" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
                                                         <OPTION value="{{$tipo->id_tic}}" {{old('id_tic',$requerimiento->id_tic)==$tipo->id_tic?'selected':''}} >{{$tipo->tipo}}</OPTION>
@@ -162,7 +162,13 @@
 
                                     <label class="tracking-wide text-black text-xs font-bold mb-2"
                                         for="motivo">
-                                        {{ __('Reason for contract') }}
+                                        @if ($contrato->id_tic==9)
+                                          Informe Técnico  
+                                        @else
+                                            
+                                            {{ __('Reason for contract') }}
+                                        @endif
+                                        
                                     </label>
                                     <textarea type="text" name="motivo" id="motivo"  
                                         class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
@@ -178,7 +184,7 @@
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="fechaIni">
                                         {{ __('Start date') }}
                                     </label>
-                                    <input type="date" name="fechaIni" id="fechaIni"  value="{{old('fechaIni',$requerimiento->fechaIni)}}"
+                                    <input type="date" name="fechaIni" id="fechaIni" {{$requerimiento->id_tic=='9'? 'readonly':''}}  value="{{old('fechaIni',$requerimiento->fechaIni)}}"
                                         class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                         <x-input-error :messages="$errors->get('fechaIni')" />
                                 </div>
@@ -234,7 +240,8 @@
                             
                         </div>
                         <div class=" w-full text-right justify-items-end">
-                        @if ($requerimiento->id_esreq =='1' || $requerimiento->id_esreq =='5' || $requerimiento->id_esreq =='7'   )
+                            {{-- || $requerimiento->id_esreq =='5' --}}
+                        @if ($requerimiento->id_esreq =='1' || $requerimiento->id_esreq =='7'   )
                             <x-primary-button>Guardar cambios</x-primary-button>
                         @endif
                         </div>
@@ -281,7 +288,7 @@
     >
     <!-- Trigger for Modal -->
 
-    <button class=" bg-slate-600 text-blue-900 font-extrabold" type="button" @click="showModal = true">
+    <button class=" bg-blue-300 text-blue-900 font-extrabold rounded p-2" type="button" @click="showModal = true">
         Revision {{$yoRevisorReq->tipo}}
     </button>
 
@@ -340,7 +347,7 @@
                     </div>  
                 </div>
                 
-                 <button class="bg-blue-200 text-blue-900 px-3 py-1 rounded-full">Guardar</button>              
+                    <button class="bg-blue-200 text-blue-900 px-3 py-1 rounded-full">Guardar </button>              
                 
             </form>
         </div>

@@ -4,44 +4,66 @@
              Contrato {{$contrato->noCon}} 
         </h2>
     </x-slot>
-    <div class="flex-col">
-        <x-nav-link
-        :href="route('contrato.show',$contrato).'?cop=1'" target="_blank">
-        Original
-        </x-nav-link> |
-        <x-nav-link
-        :href="route('contrato.show',$contrato).'?cop=2'" target="_blank">
-        Copia Kardex
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('contrato.show',$contrato).'?cop=3'" target="_blank">
-        Copia Interesado
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('contrato.show',$contrato).'?cop=4'" target="_blank">
-        Copia RRHH
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('impresion.avc',$contrato).'?cop=2'" target="_blank">
-        AVC
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('impresion.avc',$contrato).'?cop=1'" target="_blank">
-        AVC *
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('impresion.avisobaja',$contrato).'?cop=2'" target="_blank">
-        Aviso de Baja
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('impresion.avisobaja',$contrato).'?cop=1'" target="_blank">
-        Aviso de Baja *
-        </x-nav-link>|
-        <x-nav-link
-        :href="route('impresion.credencial',$contrato).'?cop=1'" target="_blank">
-        Credencial*
-        </x-nav-link>
-    </div>
+    @if ($contrato->id_tic == 9)
+        <div class="flex-col">
+            <x-nav-link
+            :href="route('contrato.showadenda',$contrato).'?cop=1'" target="_blank">
+            Original
+            </x-nav-link> |
+            <x-nav-link
+            :href="route('contrato.showadenda',$contrato).'?cop=2'" target="_blank">
+            Copia Kardex
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('contrato.showadenda',$contrato).'?cop=3'" target="_blank">
+            Copia Interesado
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('contrato.showadenda',$contrato).'?cop=4'" target="_blank">
+            Copia RRHH
+            </x-nav-link>|
+        
+        </div>
+    @else
+        <div class="flex-col">
+            <x-nav-link
+            :href="route('contrato.show',$contrato).'?cop=1'" target="_blank">
+            Original
+            </x-nav-link> |
+            <x-nav-link
+            :href="route('contrato.show',$contrato).'?cop=2'" target="_blank">
+            Copia Kardex
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('contrato.show',$contrato).'?cop=3'" target="_blank">
+            Copia Interesado
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('contrato.show',$contrato).'?cop=4'" target="_blank">
+            Copia RRHH
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avc',$contrato).'?cop=2'" target="_blank">
+            AVC
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avc',$contrato).'?cop=1'" target="_blank">
+            AVC *
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avisobaja',$contrato).'?cop=2'" target="_blank">
+            Aviso de Baja
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avisobaja',$contrato).'?cop=1'" target="_blank">
+            Aviso de Baja *
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.credencial',$contrato).'?cop=1'" target="_blank">
+            Credencial*
+            </x-nav-link>
+        </div>
+    @endif
     {{-- @dump($docAdjuntos) --}}
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-2 lg:px-8">
@@ -181,10 +203,10 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Type of contract')}}</label>
                                     <div>        
-                                        <select {{$contrato->id_tic =='9'?'disabled':''}}  id="id_tic" name="id_tic" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select style="{{$contrato->id_tic =='9'?'pointer-events: none;':''}} background-color: lightblue;"  id="id_tic" name="id_tic" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
-                                                        <OPTION  value="{{$tipo->id_tic}}" {{$tipo->id_tic=='9'?'disabled':''}}  {{old('id_tic',$contrato->id_tic)==$tipo->id_tic?'selected':''}}>{{$tipo->tipo}}</OPTION>
+                                                        <OPTION  value="{{$tipo->id_tic}}"  {{old('id_tic',$contrato->id_tic)==$tipo->id_tic?'selected':''}}>{{$tipo->tipo}}</OPTION>
                                                     @endforeach
                                         </select>
                                          <x-input-error :messages="$errors->get('id_tic')"/>
@@ -275,7 +297,7 @@
                                     </label>
                                     <textarea type="text" name="observaciones" id="observaciones"  
                                     class="uppercase w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
-                                        {{$contrato->observaciones}}
+                                        {{old('id_tic',$contrato->observaciones)}}
                                     </textarea>
                                     <x-input-error :messages="$errors->get('observaciones')" />                              
                                 </div>
@@ -286,7 +308,7 @@
                                     </label>
                                     <textarea type="text" name="observaciones2" id="observaciones2"  
                                     class="uppercase w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
-                                        {{$contrato->observaciones2}}
+                                        {{old('id_tic',$contrato->observaciones2)}}
                                     </textarea>
                                     <x-input-error :messages="$errors->get('observaciones2')" />                              
                                 </div>
@@ -338,7 +360,7 @@
                 </div>
                 <div class=" flex mb-4">
                     <div class="md:w-1/4 px-2" >
-                        @if($contrato->id_esco == '1')
+                        @if($contrato->id_esco == '1' && $contrato->id_tic!=9)
                             <x-nav-link :href="route('requerimiento.newadenda',$contrato)" class="bg-blue-700 text-white px-3 py-1 rounded-full">
                                 Adenda
                             </x-nav-link>

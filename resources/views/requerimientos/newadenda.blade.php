@@ -63,6 +63,7 @@
                         @csrf
                         <input type="hidden" name="id_per" id="id_per" value="{{$personal?$personal->id_per:''}}">
                         <input type="hidden" name="id_cono" id="id_cono" value="{{$contrato?$contrato->id_con:''}}">
+                        <input type="hidden" name="fechaIni" id="fechaIni" value="{{$contrato?$contrato->fechaIni:''}}">
                         <input type="hidden" name="id_tic" id="id_tic" value="9">
                         
                         <div class="bg-emerald-100 shadow-md rounded px-2 pt-2 pb-2 mb-2 flex flex-col">
@@ -127,7 +128,7 @@
 
                                     <label class=" uppercase tracking-wide text-black text-xs font-bold mb-2"
                                         for="motivo">
-                                        {{ __('Reason for contract') }}
+                                        Informe Técnico
                                     </label>
                                     <textarea type="text" name="motivo" id="motivo"  
                                         class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
@@ -160,14 +161,14 @@
                                     <label for="nota" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
                                         {{__('Note')}}
                                     </label>
-                                    <input type="text" name="nota" id="nota" value="{{old('nota')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
+                                    <input type="text" name="nota" id="nota" value="{{old('nota',$requerimiento->nota)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                     <x-input-error :messages="$errors->get('nota')" />  
                                 </div>
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="fecha_nota">
                                         {{ __('Note Date') }}
                                     </label>
-                                    <input type="date" name="fecha_nota" id="fecha_nota"  value="{{old('fecha_nota')}}"
+                                    <input type="date" name="fecha_nota" id="fecha_nota"  value="{{old('fecha_nota',$requerimiento->fecha_nota)}}"
                                         class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                         <x-input-error :messages="$errors->get('fecha_nota')" />
                                 </div>

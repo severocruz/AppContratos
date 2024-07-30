@@ -53,6 +53,7 @@
                         @csrf 
                         <input type="hidden" name="id_per" id="id_per" value="{{$personal?$personal->id_per:''}}">
                         <input type="hidden" name="id_req" id="id_req" value="{{$requerimiento?$requerimiento->id_req:''}}">
+                        <input type="hidden" name="id_cono" id="id_cono" value="{{(isset($requerimiento->id_cono) && $requerimiento->id_cono)? $requerimiento->id_cono:''}}">
                         <div class="bg-emerald-100 shadow-md rounded px-4 pt-2 pb-1 mb-4 flex flex-col">
                             <div class="-mx-3 md:flex mb-1">
                                 <div class="md:w-1/4 px-3">
@@ -68,9 +69,15 @@
                                     <div>        
                                         <select id="id_cinal" name="id_cinal" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>Elija un circular</OPTION>
+                                                @if(isset($contrato))    
+                                                    @foreach ($cirinstnal as $cinal)
+                                                        <OPTION value="{{$cinal->id}}" {{old('id_cinal',$contrato->id_cinal)==$cinal->id?'selected':''}}>{{$cinal->no}}</OPTION>
+                                                    @endforeach
+                                                @else
                                                     @foreach ($cirinstnal as $cinal)
                                                         <OPTION value="{{$cinal->id}}" {{old('id_cinal')==$cinal->id?'selected':''}}>{{$cinal->no}}</OPTION>
                                                     @endforeach
+                                                @endif
                                         </select>
                                          <x-input-error :messages="$errors->get('id_cinal')"/>
                                     </div>
@@ -80,9 +87,15 @@
                                     <div>        
                                         <select id="id_cireg" name="id_cireg" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>Elija un circular</OPTION>
+                                                @if (isset($contrato))
+                                                    @foreach ($cirinstreg as $cireg)
+                                                        <OPTION value="{{$cireg->id}}" {{old('id_cireg',$contrato->id_cireg)==$cireg->id?'selected':''}}>{{$cireg->no}}</OPTION>
+                                                    @endforeach
+                                                @else    
                                                     @foreach ($cirinstreg as $cireg)
                                                         <OPTION value="{{$cireg->id}}" {{old('id_cireg')==$cireg->id?'selected':''}}>{{$cireg->no}}</OPTION>
                                                     @endforeach
+                                                @endif    
                                         </select>
                                          <x-input-error :messages="$errors->get('id_cireg')"/>
                                     </div>
@@ -92,9 +105,15 @@
                                     <div>        
                                         <select id="id_cite" name="id_cite" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>Elija un cite</OPTION>
+                                                @if (isset($contrato))
+                                                    @foreach ($cite as $cit)
+                                                        <OPTION value="{{$cit->id}}" {{old('id_cite',$contrato->id_cite)==$cit->id?'selected':''}}>{{$cit->no}}</OPTION>
+                                                    @endforeach
+                                                @else    
                                                     @foreach ($cite as $cit)
                                                         <OPTION value="{{$cit->id}}" {{old('id_cite')==$cit->id?'selected':''}}>{{$cit->no}}</OPTION>
                                                     @endforeach
+                                                @endif
                                         </select>
                                          <x-input-error :messages="$errors->get('id_cite')"/>
                                     </div>
@@ -120,7 +139,7 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Type of contract')}}</label>
                                     <div>        
-                                        <select readonly id="id_tic" name="id_tic" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select readonly id="id_tic" name="id_tic" style="{{$requerimiento->id_tic =='9'?'pointer-events: none;':''}} background-color: lightblue;" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
                                                            
@@ -178,6 +197,7 @@
                                         {{ __('Start date') }}
                                     </label>
                                     <input type="date" name="fechaIni" id="fechaIni"  value="{{old('fechaIni',$requerimiento->fechaIni)}}"
+                                    {{$requerimiento->id_tic=='9'?'readonly':''}}
                                         class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1">
                                         <x-input-error :messages="$errors->get('fechaIni')" />
                                 </div>
@@ -247,7 +267,7 @@
         </div>
     </div>
        
-<div x-data="{ 'showModal': false }"
+{{-- <div x-data="{ 'showModal': false }"
     @keydown.escape="showModal = false"
     >
     <!-- Trigger for Modal -->
@@ -314,7 +334,7 @@
             </form>
         </div>
     </div>
-</div>      
+</div>       --}}
               
 </x-app-layout>
 
