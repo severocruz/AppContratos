@@ -62,20 +62,18 @@
             </div>
         </form>
 
-<table>
+<div class="-mx-3 md:flex mb-6 mt-6">
     @foreach($imagenes as $imagen)    
-    <tr>
-        <td>
-            <img src="{{'/storage/contratos/'.$imagen->imagen}}" width="200" height="10" >
-        </td>
-        <td>
-            <x-nav-link
-            :href="'/storage/contratos/'.$imagen->imagen" target="_blank">
+    <div class="md:w-1/3 px-3" >
+        <p class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
             {{$imagen->detalle}}
-            </x-nav-link>
-            
-    </tr>
+       </p> 
+        <x-nav-link
+        :href="'/storage/contratos/'.$imagen->imagen" target="_blank">
+            <img src="{{'/storage/contratos/'.$imagen->imagen}}" id="img{{$imagen->id}}" width="200" height="200" >
+        </x-nav-link>
+    </div>    
     @endforeach
-</table>
+</div>
 </x-app-layout>
 

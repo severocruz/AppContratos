@@ -120,7 +120,7 @@ class DatosPerController extends Controller
         $personal =DatosPer::findOrFail($datosPer); 
         $departamentos = Departamento::where ('estado','=','1')->get();
         $afps = Afp::where('estado','=','1')->get();
-        $filePer = FilePer::findOrFail($personal->id_file);
+        $filePer = FilePer::find($personal->id_file);
         //
         return view('personal.edit',['personal'=>$personal,
         'departamentos'=>$departamentos,

@@ -14,6 +14,7 @@ use App\Http\Controllers\CircularInstRegController;
 use App\Http\Controllers\CiteController;
 use App\Http\Controllers\DocAdjuntoController;
 use App\Http\Controllers\AutoridadesVbController;
+use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\RevisorReqController;
 // use App\Models\Vobofirma;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/personal/{datosper}/edit',[DatosPerController::class,'edit'])->name('personal.edit');
     Route::put('/personal/{datosPer}',[DatosPerController::class,'update'])->name('personal.update');
     
-    
+    Route::get('/curriculum/{personal}', [CurriculumController::class,'index'])->name('curriculum.index');
+
+
     Route::get('/requerimientos',[RequerimientoController::class,'index'])->name('requerimiento.index');
     Route::get('/requerimientosNew',[RequerimientoController::class,'create'])->name('requerimiento.new');
     Route::post('/requerimientos', [RequerimientoController::class,'store'])->name('requerimiento.store');

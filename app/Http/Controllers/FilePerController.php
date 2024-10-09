@@ -32,7 +32,11 @@ class FilePerController extends Controller
     {
        // dump($request->all());
         $personal = DatosPer::findOrFail($request->all()["id_per"]);
+        
         $fileper = FilePer::create($request->all());
+        FilePer::where('id_file','<>',$fileper->id_file)
+               ->where('nombre','=',$fileper->nombre)
+                ->update(['estado'=>'0']);
         $personal->update(["id_file"=> $fileper->id_file]);
         session()->flash('status','File assigned successfully');
         return to_route('personal.edit',$personal) ;

@@ -7,7 +7,14 @@
             {{ __('Edit personnel') }}
         </h2>
     </x-slot>
-
+    <div class="flex-col ">
+        <x-nav-link
+        :href="route('curriculum.index',$personal)" target="_blank">
+        Curriculum Vitae
+        </x-nav-link>
+        .::.
+        
+    </div>
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
