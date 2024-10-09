@@ -22,7 +22,10 @@
             :href="route('contrato.showadenda',$contrato).'?cop=4'" target="_blank">
             Copia RRHH
             </x-nav-link>|
-        
+            <x-nav-link
+            :href="route('imagencontrato.index',$contrato)">
+            Imagenes
+            </x-nav-link>|
         </div>
     @else
         <div class="flex-col">
@@ -61,7 +64,11 @@
             <x-nav-link
             :href="route('impresion.credencial',$contrato).'?cop=1'" target="_blank">
             Credencial*
-            </x-nav-link>
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('imagencontrato.index',$contrato)">
+            Imagenes
+            </x-nav-link>|
         </div>
     @endif
     {{-- @dump($docAdjuntos) --}}

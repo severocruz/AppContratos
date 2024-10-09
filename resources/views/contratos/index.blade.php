@@ -81,7 +81,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{date_format (date_create($contrato->fechareq),"d/m/Y")}}</td>
+                                            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{date_format (date_create($contrato->fechaCon),"d/m/Y")}}</td>
                                             {{-- <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                                 <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 {{$person->conteo<3?'text-emerald-500 bg-emerald-100/60':'text-red-500 bg-red-100/60'}} dark:bg-gray-800">
                                                    

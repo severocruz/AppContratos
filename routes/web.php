@@ -1,6 +1,6 @@
 <?php
-
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\ImagenContratoController;
 use App\Http\Controllers\DatosPerController;
 use App\Http\Controllers\FilePerController;
 use App\Http\Controllers\ProfileController;
@@ -17,7 +17,6 @@ use App\Http\Controllers\AutoridadesVbController;
 use App\Http\Controllers\RevisorReqController;
 // use App\Models\Vobofirma;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,6 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/contratos/{contrato}/show',[ContratoController::class,'show'])->name('contrato.show');
     Route::get('/contratos/{contrato}/showadenda',[ContratoController::class,'showAdenda'])->name('contrato.showadenda');
 
+    Route::get('/imagenescontratos/{contrato}', [ImagenContratoController::class,'index'])->name('imagencontrato.index');
+    Route::post('/imagenescontratos', [ImagenContratoController::class,'store'])->name('imagencontrato.store');
+    
     Route::post('/vobofirmas', [VobofirmaController::class,'store'])->name('vobofirma.store');
 
     Route::post('/filepers', [FilePerController::class,'store'])->name('fileper.store');

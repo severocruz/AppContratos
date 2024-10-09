@@ -162,7 +162,7 @@
 
                                     <label class="tracking-wide text-black text-xs font-bold mb-2"
                                         for="motivo">
-                                        @if ($contrato->id_tic==9)
+                                        @if ($requerimiento->id_tic==9)
                                           Informe Técnico  
                                         @else
                                             
