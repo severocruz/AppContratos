@@ -7,6 +7,10 @@
     @if ($contrato->id_tic == 9)
         <div class="flex-col">
             <x-nav-link
+            :href="route('contrato.showalladenda',$contrato)" target="_blank">
+            Todas
+            </x-nav-link> |
+            <x-nav-link
             :href="route('contrato.showadenda',$contrato).'?cop=1'" target="_blank">
             Original
             </x-nav-link> |
@@ -29,6 +33,10 @@
         </div>
     @else
         <div class="flex-col">
+            <x-nav-link
+            :href="route('contrato.showall',$contrato)" target="_blank">
+            Todas
+            </x-nav-link> |
             <x-nav-link
             :href="route('contrato.show',$contrato).'?cop=1'" target="_blank">
             Original

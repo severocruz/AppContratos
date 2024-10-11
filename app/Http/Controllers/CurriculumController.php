@@ -20,13 +20,16 @@ class CurriculumController extends Controller
         if(!isset($personal->id_cv)){
             $curriculum = Curriculum::create(['fecha'=>date('Y-m-d')]);
             $personal->update(['id_cv'=>$curriculum->id_cv]);
+        }else{
+            $curriculum = Curriculum::findOrFail($personal->id_cv);
         }
         $detalle = DetalleCurriculum::where('estado','=','activo')
                                     ->where('id_cv','=',$personal->id_cv)
                                     ->get();
         return view('curriculum.index',[
         'personal'=>$personal,
-        'detalle'=>$detalle
+        'detalle'=>$detalle,
+        'curriculum'=>$curriculum
         ]);
     }
 

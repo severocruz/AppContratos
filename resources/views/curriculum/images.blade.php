@@ -2,21 +2,20 @@
     
     <x-slot name="header">
         <h2 class=" h-auto font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Imagenes del contrato: {{$contrato->noCon}}&nbsp;de fecha&nbsp;
-            {{date_format (date_create($contrato->fechaIni),"d/m/Y").' al '.date_format (date_create($contrato->fechaFin),"d/m/Y")}}
+            Detalle: {{$detalle->dato1}}
             
         </h2>
     </x-slot>
         <!-- content -->
-        <form action="{{route('imagencontrato.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('imagencurriculum.store')}}" method="POST" enctype="multipart/form-data">
             @csrf @method('POST')
-            <input type="hidden" name="id_con" value="{{$contrato->id_con}}" >
-            <div class="-mx-3 md:flex mb-6 mt-6">
+            <input type="hidden" name="id_dcv" value="{{$detalle->id_dcv}}" >
+            <div class="-mx-3 md:flex mb-6 mt-6 w-screen">
             
                 <div class="md:w-2/4 px-3">
                     <div class="flex flex-col flex-grow mb-3">
                         <div x-data="{ files: null }" id="FileUpload" class="block w-full py-2 px-3 relative bg-white appearance-none border-2 border-gray-300 border-solid rounded-md hover:shadow-outline-gray">
-                            <input type="file" name="imagencontrato" accept="image/*"
+                            <input type="file" name="imagencurriculum" accept="image/*"
                                 class="absolute inset-0 z-50 m-0 p-0 w-full h-full outline-none opacity-0"
                                 x-on:change="files = $event.target.files; console.log($event.target.files);"
                                 x-on:dragover="$el.classList.add('active')" x-on:dragleave="$el.classList.remove('active')" x-on:drop="$el.classList.remove('active')"
@@ -62,15 +61,15 @@
             </div>
         </form>
 
-<div class="-mx-3 md:flex mb-6 mt-6">
+<div class="md:flex mb-6 mt-6 mx-6">
     @foreach($imagenes as $imagen)    
     <div class="md:w-1/3 px-3" >
         <p class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
             {{$imagen->detalle}}
        </p> 
         <x-nav-link
-        :href="'/storage/contratos/'.$imagen->imagen" target="_blank">
-            <img src="{{'/storage/contratos/'.$imagen->imagen}}" id="img{{$imagen->id}}" width="200" height="200" >
+        :href="'/storage/curriculums/'.$imagen->imagen" target="_blank">
+            <img src="{{'/storage/curriculums/'.$imagen->imagen}}" id="img{{$imagen->id}}" width="200" height="200" >
         </x-nav-link>
     </div>    
     @endforeach

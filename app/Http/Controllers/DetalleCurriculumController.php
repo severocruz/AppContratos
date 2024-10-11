@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetalleCurriculum;
+use App\Models\DatosPer;
 use App\Http\Requests\StoreDetalleCurriculumRequest;
 use App\Http\Requests\UpdateDetalleCurriculumRequest;
 
@@ -29,7 +30,10 @@ class DetalleCurriculumController extends Controller
      */
     public function store(StoreDetalleCurriculumRequest $request)
     {
-        //
+       DetalleCurriculum::create($request->all());
+       $personal = DatosPer::where("id_cv","=",$request->all()['id_cv'])->first();
+       session()->flash('status','Successfully created item');
+       return to_route('curriculum.index',['personal'=>$personal]);
     }
 
     /**

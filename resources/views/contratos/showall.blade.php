@@ -1,15 +1,16 @@
- 
-  {{isset($personal->filePer)?$personal->filePer->nombre:'No tiene File'}}
+
+{{-- {{isset($personal->filePer)?$personal->filePer->nombre:'No tiene File'}} --}}
 <!DOCTYPE html>
 <html lang="es">
-<head>
-	<title>Contrato imprimible</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="{{asset('css/estilo.css')}}">
-</head>
+    <head>
+        <title>Contrato imprimible</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/estilo.css')}}">
+    </head>
 <body>
- <a href="#" onclick="window.close()"  id="listarcon">Volver</a>
+<a href="#" onclick="window.close()"  id="listarcon">Volver</a>
 <a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a>
+@for($copia = 1; $copia <= 4; $copia++)
  <div>
   <div id="carta">  
     <img src="{{asset('images/logocnsrlp.png')}}" alt="" class="logo">
@@ -149,7 +150,10 @@ Atentamente,<br>
     @default
     NO VALIDO
 @endswitch
-File Personal No:&nbsp; {{isset($personal->filePer)?$personal->filePer->nombre:'Sin asignar'}}</small>
+File Personal No:&nbsp; 
+{{isset($personal->filePer)?$personal->filePer->nombre:'Sin asignar'}}
+
+</small>
 <hr>
 		<i>{{$contrato->fechaCon}}</i>&nbsp;&nbsp;
 		<i>{{$contrato->hash1."  ".$usuario->name}}</i>
@@ -355,8 +359,9 @@ File Personal No:&nbsp;@if (isset($personal->fileper))
 		<i>{{$contrato->hash1."  ".$usuario->name}}</i>
 </div>
 {{-- <a  href="?action=verContrato&id=$this->data['contrato']['id_con']" id="listarcon">Volver</a> --}}
-<a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a>
+{{-- <a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a> --}}
 </div>
+@endfor
 <script type="text/javascript">
 function imprimirCon(){
  window.print()	

@@ -15,7 +15,9 @@ use App\Http\Controllers\CiteController;
 use App\Http\Controllers\DocAdjuntoController;
 use App\Http\Controllers\AutoridadesVbController;
 use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\DetalleCurriculumController;
 use App\Http\Controllers\RevisorReqController;
+use App\Http\Controllers\ImagenCurriculumController;
 // use App\Models\Vobofirma;
 use Illuminate\Support\Facades\Route;
 /*
@@ -51,7 +53,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/personal/{datosPer}',[DatosPerController::class,'update'])->name('personal.update');
     
     Route::get('/curriculum/{personal}', [CurriculumController::class,'index'])->name('curriculum.index');
+    
+    Route::post('/detallescurriculum', [DetalleCurriculumController::class,'store'])->name('detallecurriculum.store');
 
+    Route::get('/imagenescurriculum/{detalle}', [ImagenCurriculumController::class,'index'])->name('imagencurriculum.index');
+    Route::post('/imagenescurriculum', [ImagenCurriculumController::class,'store'])->name('imagencurriculum.store');
 
     Route::get('/requerimientos',[RequerimientoController::class,'index'])->name('requerimiento.index');
     Route::get('/requerimientosNew',[RequerimientoController::class,'create'])->name('requerimiento.new');
@@ -70,7 +76,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/contratos/{contrato}/edit', [ContratoController::class,'edit'])->name('contrato.edit');
     Route::put('/contratos/{contrato}',[ContratoController::class,'update'])->name('contrato.update');
     Route::get('/contratos/{contrato}/show',[ContratoController::class,'show'])->name('contrato.show');
+    Route::get('/contratos/{contrato}/showall',[ContratoController::class,'showall'])->name('contrato.showall');
     Route::get('/contratos/{contrato}/showadenda',[ContratoController::class,'showAdenda'])->name('contrato.showadenda');
+    Route::get('/contratos/{contrato}/showalladenda',[ContratoController::class,'showallAdenda'])->name('contrato.showalladenda');
 
     Route::get('/imagenescontratos/{contrato}', [ImagenContratoController::class,'index'])->name('imagencontrato.index');
     Route::post('/imagenescontratos', [ImagenContratoController::class,'store'])->name('imagencontrato.store');
