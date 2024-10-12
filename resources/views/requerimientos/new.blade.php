@@ -33,9 +33,10 @@
                                     </div>
                                 </div>
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Type of contract')}}</label>
+                                    <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">
+                                        {{__('Type of contract')}}</label>
                                     <div>        
-                                        <select id="id_tic" name="id_tic" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select id="id_tic" name="id_tic" onchange="habilitar()" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
                                                         @if ($tipo->id_tic != '9')   
@@ -141,14 +142,123 @@
                                     </textarea>
                                     <x-input-error :messages="$errors->get('observaciones')" />                              
                                 </div>
-                                
-                               
+                              
                             </div>
                             
-                            
                         </div>
-                        
-                        <x-primary-button>Enviar</x-primary-button>
+                        <div id="residencia" class="collapse">
+                            <h1 class="font-bold mx-5"> Datos de Residencia Médica o ASSO</h1>
+                            <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
+                                <div class="-mx-3 md:flex mb-1">
+                                    <div class="md:w-1/4 px-3">
+                                        <label for="id_residente" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
+                                            Id de Residente
+                                        </label>
+                                        <input type="text" name="id_residente" id="id_residente" value="{{old('id_residente')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/4 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="id_esp">
+                                            Especialidad
+                                        </label>
+                                        <div>
+                                            <select name="id_esp" id="id_esp" 
+                                                class="sel w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija una especialidad</OPTION>
+                                                @foreach ($especialidades as $especialidad)
+                                                    <OPTION value="{{$especialidad->id}}" {{old('id_esp')==$especialidad->id_esp?'selected':''}} >{{$especialidad->nombre}}</OPTION>
+                                                @endforeach
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/4 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cargo">
+                                            Cargo
+                                        </label>
+                                        <div>
+                                            <select name="cargo" id="cargo"
+                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija un Cargo</OPTION>
+                                                <OPTION  values="1">R I</OPTION>
+                                                <OPTION  values="2">R II</OPTION>
+                                                <OPTION  values="3">R III</OPTION>
+                                                <OPTION  values="4">R IV</OPTION>
+                                                {{-- @foreach ($centrosSalud as $centro)
+                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
+                                                @endforeach --}}
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/4 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="duracion">
+                                            Duración
+                                        </label>
+                                        <div>
+                                            <select name="duracion" id="duracion"
+                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija una Duración</OPTION>
+                                                <OPTION  values="1">1 año</OPTION>
+                                                <OPTION  values="2">2 años</OPTION>
+                                                <OPTION  values="3">3 años</OPTION>
+                                                <OPTION  values="4">4 años</OPTION>
+                                                {{-- @foreach ($centrosSalud as $centro)
+                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
+                                                @endforeach --}}
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                </div>
+                            {{-- </div>
+                            <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col"> --}}
+                                <div class="-mx-3 md:flex mb-1">
+                                    <div class="md:w-1/5 px-3">
+                                        <label for="gestion" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
+                                            Gestión
+                                        </label>
+                                        <input type="number" name="gestion" id="gestion" min="{{date('Y')}}" value="{{old('gestion',date('Y'))}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/5 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="gari">
+                                            Garante 1
+                                        </label>
+                                        <div>
+                                            <select name="gari" id="gari"
+                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija un garante</OPTION>
+                                                {{-- @foreach ($centrosSalud as $centro)
+                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
+                                                @endforeach --}}
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-2/5 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="garii">
+                                            Garante 2
+                                        </label>
+                                        <div>
+                                            <select name="garii" id="garii"
+                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija un garante</OPTION>
+                                                {{-- @foreach ($centrosSalud as $centro)
+                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
+                                                @endforeach --}}
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <x-primary-button>Guardar Requerimiento</x-primary-button>
                         {{-- <button>
                             Enviar
                         </button> --}}
@@ -156,6 +266,22 @@
                 </div>
             </div>
         </div>   
-    </div>                    
-                    
+    </div>                            
 </x-app-layout>
+<script>
+    $(document).ready(function() {
+        $('.sel').select2();
+    });
+    function habilitar() {
+        
+        const tic=document.querySelector("#id_tic");
+        const resi = document.querySelector("#residencia");
+        if(tic.value>=10){
+            resi.className  = "visible"
+        }else{
+            resi.className  = "collapse"
+        }
+        
+        
+    }
+</script>
