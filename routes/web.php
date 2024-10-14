@@ -18,7 +18,9 @@ use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\DetalleCurriculumController;
 use App\Http\Controllers\RevisorReqController;
 use App\Http\Controllers\ImagenCurriculumController;
+use App\Http\Controllers\GaranteController;
 // use App\Models\Vobofirma;
+use App\Policies\GarantePolicy;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +132,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/revisoresreq', [RevisorReqController::class,'store'])->name('revisorreq.store');
     Route::get('/revisoresreq/{revisor}/edit',[RevisorReqController::class,'edit'])->name('revisorreq.edit');
     Route::put('/revisoresreq/{revisor}',[RevisorReqController::class,'update'])->name('revisorreq.update');
+
+    Route::post('/garantes', [GaranteController::class,'store'])->name('garante.store');
+    Route::get('/garantesByCI', [GaranteController::class,'geByCI'])->name('garante.getbyci');
+
 });
 
 require __DIR__.'/auth.php';

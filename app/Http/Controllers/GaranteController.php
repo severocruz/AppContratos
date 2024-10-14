@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Garante;
 use App\Http\Requests\StoreGaranteRequest;
 use App\Http\Requests\UpdateGaranteRequest;
-
+use Illuminate\Http\Request;
 class GaranteController extends Controller
 {
     /**
@@ -30,6 +30,21 @@ class GaranteController extends Controller
     public function store(StoreGaranteRequest $request)
     {
         //
+        $request->validate([
+            "a_paterno"=>["required"],
+            "a_materno"=>["required"],
+            "nombres"=>["required"],
+            "ci"=>["required"],
+            "id_dep"=>["required"],
+            "origen"=>["required"]
+            ]);
+        $garanteStore=$request;
+        if($garanteStore['origen']=='requerimiento'){
+            $garante = Garante::create($garanteStore->toArray());
+            session()->flash('status','Successfully created guarantor');
+            return to_route('requerimiento.new') ;
+        }
+         dump($request->all());
     }
 
     /**
@@ -55,6 +70,15 @@ class GaranteController extends Controller
     {
         //
     }
+
+    public function geByCI(Request $request ){
+
+        $ci = trim($request->input('CI')) ;
+        $datosPer = Garante::where('CI','=',$ci)
+        ->where('estado','=','1')->get() ;
+        return $datosPer->all();
+    }
+
 
     /**
      * Remove the specified resource from storage.

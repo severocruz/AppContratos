@@ -19,6 +19,7 @@ use App\Models\RevisionesReq;
 use App\Models\RevisorReq;
 use App\Models\Contrato;
 use App\Models\EspecialidadResidente;
+use App\Models\Garante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class RequerimientoController extends Controller
@@ -77,11 +78,16 @@ class RequerimientoController extends Controller
         $cargos = Cargos::where('estado','=','1')->get();
         $niveles = Nivel::where('estado','=','1')->get();
         $especialidades = EspecialidadResidente::where('estado','=','1')->get();
+        $departamentos = Departamento::where('estado','=','1')->get();
+        $garantes = Garante::where('estado','=','1')->get();
         return view('requerimientos.new',['centrosSalud'=> $centrosSalud,
                                           'tiposContrato'=>$tiposContrato,
                                           'cargos'=>$cargos,
                                           'niveles'=>$niveles,
-                                          'especialidades'=>$especialidades]);
+                                          'especialidades'=>$especialidades,
+                                          'departamentos'=> $departamentos,
+                                          'garantes'=>$garantes]);
+                                          
         //
     }
 

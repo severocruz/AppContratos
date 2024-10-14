@@ -318,5 +318,7 @@
      "Successfully created Workplace":"Centro de trabajo creado exitosamente",
      "Successfully updated Workplace":"Centro de trabajo modificado exitosamente",
      "Successfully created image":"Imagen creada con éxito",
-     "Successfully created item":"Item creado con éxito"
+     "Successfully created item":"Item creado con éxito",
+     "Successfully created guarantor":"Garante creado con éxito"
+     
 }
