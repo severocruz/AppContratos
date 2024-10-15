@@ -19,6 +19,7 @@ use App\Models\RevisionesReq;
 use App\Models\RevisorReq;
 use App\Models\Contrato;
 use App\Models\EspecialidadResidente;
+use App\Models\ComplementoResidente;
 use App\Models\Garante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -99,24 +100,46 @@ class RequerimientoController extends Controller
        // dump($request->all());
         if($request->get('id_tic')!= '9')  
         {
-            
-        $request->validate([
-                "id_cs"=>["required"],
-                "id_tic"=>["required"],
-                "id_niv"=>["required"],
-                "id_car"=>["required"],
-                //"nroReq"=>["required"],
-                "motivo"=>["required"],
-                //"fechareq"=>["required"],
-                "fechaIni"=>["required"],
-                "fechaFin"=>["required"],
-                //"jornada"=>["required"],
-                //"nota"=>["required"],
-                //"foto"=>["required"],
-                //"observaciones"=>["required"],
-                //"id_esreq"=>["required"],
-                //"fecha_nota"=>["required"],
+            if($request->get('id_tic')== '10'){
+                $request->validate([
+                    "id_cs"=>["required"],
+                    "id_tic"=>["required"],
+                    "id_niv"=>["required"],
+                    "id_car"=>["required"],
+                    //"nroReq"=>["required"],
+                    "motivo"=>["required"],
+                    //"fechareq"=>["required"],
+                    "fechaIni"=>["required"],
+                    "fechaFin"=>["required"],
+                    
+                    "id_residente"=>["required"],
+                    "id_esp"=>["required"],
+                    "anio_formacion"=>["required"],
+                    "duracion"=>["required"],
+                    "gestion"=>["required"],
+                    "id_gari"=>["required"],
+                    "id_garii"=>["required"]
                 ]);
+
+            }else{
+                $request->validate([
+                        "id_cs"=>["required"],
+                        "id_tic"=>["required"],
+                        "id_niv"=>["required"],
+                        "id_car"=>["required"],
+                        //"nroReq"=>["required"],
+                        "motivo"=>["required"],
+                        //"fechareq"=>["required"],
+                        "fechaIni"=>["required"],
+                        "fechaFin"=>["required"],
+                        //"jornada"=>["required"],
+                        //"nota"=>["required"],
+                        //"foto"=>["required"],
+                        //"observaciones"=>["required"],
+                        //"id_esreq"=>["required"],
+                        //"fecha_nota"=>["required"],
+                        ]);
+            }
             }else{
                 $request->validate([
                     "id_cs"=>["required"],
@@ -151,6 +174,36 @@ class RequerimientoController extends Controller
        $hashreq= Hash::make($reqcreado->id_req.$reqcreado->id_us.$reqcreado->fechareq);
        $reqcreado->update(['foto'=>$hashreq]);
 
+       if($request->get('id_tic')== '10'){
+        $residenteStore=[];
+        switch ($request['anio_formacion']) {
+            case '1':
+                $residenteStore['cargo']="R I";
+                break;
+            case '2':
+                $residenteStore['cargo']="R II";
+                break;
+            case '3':
+                $residenteStore['cargo']="R III";
+                break;
+            case '4':
+                $residenteStore['cargo']="R IV";
+                break;       
+                default:
+                $residenteStore['cargo']="R IV";
+                break;
+        }     
+        $residenteStore['id_req']=$reqcreado->id_req;
+        $residenteStore['id_residente']=$requerimientoStore['id_residente'];
+        $residenteStore['id_esp']=$requerimientoStore['id_esp'];
+        $residenteStore['anio_formacion']=$requerimientoStore['anio_formacion'];
+        $residenteStore['duracion']=$requerimientoStore['duracion'];
+        $residenteStore['gestion']=$requerimientoStore['gestion'];
+        $residenteStore['id_garii']=$requerimientoStore['id_garii'];
+        $residenteStore['id_gari']=$requerimientoStore['id_gari'];
+        ComplementoResidente::create($residenteStore);
+       }
+       
        session()->flash('status','Requirement created successfully');
        return to_route('requerimiento.index') ;
         // dump($requerimientoStore->all());

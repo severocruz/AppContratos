@@ -39,6 +39,9 @@ class GaranteController extends Controller
             "origen"=>["required"]
             ]);
         $garanteStore=$request;
+        $garanteStore['nombres'] = strtoupper(trim($garanteStore['nombres']));
+        $garanteStore['a_paterno'] = strtoupper(trim($garanteStore['a_paterno']));
+        $garanteStore['a_materno'] = strtoupper(trim($garanteStore['a_materno']));
         if($garanteStore['origen']=='requerimiento'){
             $garante = Garante::create($garanteStore->toArray());
             session()->flash('status','Successfully created guarantor');

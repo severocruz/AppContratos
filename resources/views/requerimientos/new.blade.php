@@ -151,7 +151,7 @@
                             <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
                                 <div class="-mx-3 md:flex mb-1">
                                     <div class="md:w-1/6 px-3">
-                                        <label for="id_residente" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
+                                        <label for="id_residente" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
                                             Id de Residente
                                         </label>
                                         <input type="text" name="id_residente" id="id_residente" value="{{old('id_residente')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
@@ -173,11 +173,11 @@
                                         </div>
                                     </div>
                                     <div class="md:w-1/6 px-3">
-                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cargo">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="anio_formacion">
                                             Cargo
                                         </label>
                                         <div>
-                                            <select name="cargo" id="cargo"
+                                            <select name="anio_formacion" id="anio_formacion"
                                                 class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>Elija un Cargo</OPTION>
                                                 <OPTION  values="1">R I</OPTION>
@@ -189,7 +189,7 @@
                                                 @endforeach --}}
                                                 
                                             </select>
-                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                            <x-input-error :messages="$errors->get('anio_formacion')" />
                                         </div>
                                     </div>
                                     <div class="md:w-1/6 px-3">
@@ -235,13 +235,13 @@
                                         <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="nombregari">
                                             Nombre Garante 1
                                         </label>
-                                        <input type="text" name="nombregari" id="nombregari" value="{{old('nombregari')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                        <input type="text" readonly name="nombregari" id="nombregari" value="{{old('nombregari')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
                                     </div>
                                     <div class="md:w-1/6 px-3">
                                         <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cigarii">
                                             CI Garante 2
                                         </label>
-                                        <input type="hidden" name="id_garii" id="id_garii" value="{{old('id_garii')}}" >
+                                        <input type="hidden" readonly name="id_garii" id="id_garii" value="{{old('id_garii')}}" >
                                         <input type="text" name="cigarii" id="cigarii" onchange="buscagarByCI(2)" value="{{old('cigarii')}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
                                     </div>
                                     <div class="md:w-2/6 px-3">
