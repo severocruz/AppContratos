@@ -123,7 +123,7 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_tic" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Type of contract')}}</label>
                                     <div>        
-                                        <select id="id_tic" name="id_tic" style="{{$requerimiento->id_tic =='9'?'pointer-events: none;':''}} background-color: lightblue;" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select id="id_tic" name="id_tic" style="{{$requerimiento->id_tic =='9' || $requerimiento->id_tic =='10'?'pointer-events: none; background-color: lightblue;':''}} " class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Type of contract')}}</OPTION>
                                                     @foreach ($tiposContrato as $tipo)
                                                         <OPTION value="{{$tipo->id_tic}}" {{old('id_tic',$requerimiento->id_tic)==$tipo->id_tic?'selected':''}} >{{$tipo->tipo}}</OPTION>
@@ -135,10 +135,10 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_car" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Position')}}</label>
                                     <div>        
-                                        <select id="id_car" name="id_car" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select id="id_car" name="id_car" onchange="cambiaCargo(event.target)" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Position')}}</OPTION>
                                                     @foreach ($cargos as $cargo)
-                                                        <OPTION value="{{$cargo->id_car}}" {{old('id_car',$requerimiento->id_car)==$cargo->id_car?'selected':''}}>{{$cargo->cargo}}</OPTION>
+                                                        <OPTION value="{{$cargo->id_car}}" {{old('id_car',$requerimiento->id_car)==$cargo->id_car?'selected':''}} tipo="{{$cargo->tipo}}">{{$cargo->cargo}}</OPTION>
                                                     @endforeach
                                         </select>
                                          <x-input-error :messages="$errors->get('id_car')"/>
@@ -164,8 +164,7 @@
                                         for="motivo">
                                         @if ($requerimiento->id_tic==9)
                                           Informe Técnico  
-                                        @else
-                                            
+                                        @else                    
                                             {{ __('Reason for contract') }}
                                         @endif
                                         
@@ -239,6 +238,109 @@
                             
                             
                         </div>
+                        @if($requerimiento->id_tic=='10')
+                        <div id="residencia" class="{{(old('id_tic','')=='10'||old('id_tic','')=='11')?'collapse':'visible'}}">
+                         {{-- @dump($complemento) --}}
+                            <h1 class="font-bold mx-5"> Datos de Residencia Médica o ASSO</h1>
+                            <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
+                                <div class="-mx-3 md:flex mb-1">
+                                    <div class="md:w-1/6 px-3">
+                                        <label for="id_residente" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
+                                            Id de Residente
+                                        </label>
+                                        <input type="text" name="id_residente" id="id_residente" value="{{old('id_residente',$complemento->id_residente)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="id_esp">
+                                            Especialidad
+                                        </label>
+                                        <div>
+                                            <select name="id_esp" id="id_esp" 
+                                                class="sel w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija una especialidad</OPTION>
+                                                @foreach ($especialidades as $especialidad)
+                                                    <OPTION value="{{$especialidad->id}}" {{old('id_car',$complemento->id_esp)==$especialidad->id?'selected':''}} >{{$especialidad->nombre}}</OPTION>
+                                                    {{-- <OPTION value="{{$cargo->id_car}}" {{old('id_car',$requerimiento->id_car)==$cargo->id_car?'selected':''}}>{{$cargo->cargo}}</OPTION> --}}
+                                                @endforeach
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="anio_formacion">
+                                            # Año
+                                        </label>
+                                            <input type="text" name="anio_formacion" id="anio_formacion" value="{{old('anio_formacion',$complemento->anio_formacion)}}" 
+                                            class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                            <x-input-error :messages="$errors->get('anio_formacion')" />
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="duracion">
+                                            Duración
+                                        </label>
+                                        <div>
+                                            <select name="duracion" id="duracion"
+                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija una Duración</OPTION>
+                                                <OPTION  value="1" {{old('duracion',$complemento->duracion.'')=='1'?'selected':''}}>1 año</OPTION>
+                                                <OPTION  value="2" {{old('duracion',$complemento->duracion.'')=='2'?'selected':''}}>2 años</OPTION>
+                                                <OPTION  value="3" {{old('duracion',$complemento->duracion.'')=='3'?'selected':''}}>3 años</OPTION>
+                                                <OPTION  value="4" {{old('duracion',$complemento->duracion.'')=='4'?'selected':''}}>4 años</OPTION>
+                                                {{-- @foreach ($centrosSalud as $centro)
+                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
+                                                @endforeach --}}
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label for="gestion" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
+                                            Gestión
+                                        </label>
+                                        <input type="number" name="gestion" id="gestion" min="{{date('Y')}}" value="{{old('gestion',$complemento->gestion)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                </div>
+                            {{-- </div>
+                            <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col"> --}}
+                                <div class="-mx-3 md:flex mb-1">
+                                    
+                                    
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cigari">
+                                            CI Garante 1
+                                        </label>
+                                        <input type="hidden" name="id_gari" id="id_gari" value="{{old('id_gari',$garante1->id)}}" >
+                                        <input type="text" name="cigari" id="cigari"  value="{{old('cigari',$garante1->ci)}}" onchange="buscagarByCI(1)" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="nombregari">
+                                            Nombre Garante 1
+                                        </label>
+                                        <input type="text" readonly name="nombregari" id="nombregari" value="{{old('nombregari',$garante1->nombres.' '.$garante1->a_paterno.' '.$garante1->a_materno )}}" 
+                                        class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cigarii">
+                                            CI Garante 2
+                                        </label>
+                                        <input type="hidden" readonly name="id_garii" id="id_garii" value="{{old('id_garii',$garante2->id)}}" >
+                                        <input type="text" name="cigarii" id="cigarii" onchange="buscagarByCI(2)" value="{{old('cigarii',$garante2->ci)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="nombregarii">
+                                            Nombre Garante 2
+                                        </label>
+                                        <input type="text" name="nombregarii" id="nombregarii" value="{{old('nombregarii',$garante2->nombres.' '.$garante2->a_paterno.' '.$garante2->a_materno)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        @endif
                         <div class=" w-full text-right justify-items-end">
                             {{-- || $requerimiento->id_esreq =='5' --}}
                         @if ($requerimiento->id_esreq =='1' || $requerimiento->id_esreq =='7'   )
@@ -359,6 +461,7 @@
     <script>     
         //cibus,obtenr
         //alert(strbus);
+    var array_niveles= @json($niveles);
     if (document.querySelector('#id_per').value==="") {
         
         const bobt = document.querySelector('#obtener');
@@ -392,5 +495,83 @@
             });
           
         });
+    }
+    function buscagarByCI(a){
+        // event.preventDefault();
+        let cigar;
+            if (a==1) {
+                 cigar = document.querySelector('#cigari');
+            }else{
+                 cigar = document.querySelector('#cigarii');
+            }
+            strbus = cigar.value;
+            const url ="{{route('garante.getbyci')}}?CI="+strbus;
+            fetch(url,{
+                method: 'GET',
+                headers:{
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }).then(response=>response.json())
+            .then(function (data){
+                    //console.log('data',  data );
+                    if (data.length>0) {
+                        
+                        console.log('first', data[0].nombres)
+                        if (a==1) {
+                            document.querySelector('#nombregari').value=data[0].nombres+' '+data[0].a_paterno+' '+data[0].a_materno;
+                            document.querySelector('#id_gari').value=data[0].id;
+                        } else {
+                            document.querySelector('#nombregarii').value=data[0].nombres+' '+data[0].a_paterno+' '+data[0].a_materno;
+                            document.querySelector('#id_garii').value=data[0].id;
+                        }
+                       
+                    } else {
+                        alert("No se encontró el garante, registre un garante con ese CI")
+                        if (a==1) {
+                            document.querySelector('#nombregari').value='';
+                            document.querySelector('#id_gari').value='';
+                        } else {
+                            document.querySelector('#nombregarii').value='';
+                            document.querySelector('#id_garii').value='';
+                        }
+                    }
+                    //console.log('data.length', data.length)
+            }).catch(function (error){
+                console.log('error', error);  
+            });
+          
+    }
+
+    function cambiaCargo(evt) {
+        var carsel = evt.selectedOptions[0].getAttribute('tipo'); 
+        // alert (carsel   );
+        e=evt.value;
+         const anio = document.querySelector('#anio_formacion');
+         aniof = e-80;
+         if(aniof>0 && aniof<=4){
+             anio.value = aniof; 
+         }
+        const idnivel = document.querySelector('#id_niv');
+        const nivelelegido =idnivel.value
+        // alert (nivelelegido);
+        filtroniveles(carsel);
+        idnivel.value=nivelelegido;
+
+         
+    }
+
+    function filtroniveles(tipo)
+    {
+        var sel_niveles='<option selected disabled>Elija un nivel</option>';       
+        for (var i = array_niveles.length - 1; i >= 0; i--) {
+            if (array_niveles[i]['descripcion']==tipo) {
+            sel_niveles+='<option value="'+array_niveles[i]['id_niv']+'" >'
+            sel_niveles += array_niveles[i]['nivel']+" | "+array_niveles[i]['horas_trab']+" | "+array_niveles[i]['descripcion'];
+            sel_niveles +='</option>';     	
+            }  
+        }
+        document.querySelector('#id_niv').innerHTML=sel_niveles
+        // $('#id_niv').html(sel_cargos);
     }
     </script>

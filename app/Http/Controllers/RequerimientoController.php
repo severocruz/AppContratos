@@ -53,10 +53,12 @@ class RequerimientoController extends Controller
             ->leftJoin('datos_per','requerimiento.id_per','=','datos_per.id_per')
             ->where('centro_de_salud.nombre_cs','like','%'.$fecha2.'%')
             ->where(function($q)use ($fecha1){
-                $q->where('datos_per.CI','like','%'.strtoupper($fecha1).'%')
-                ->orWhere('datos_per.a_paterno','like','%'.strtoupper($fecha1).'%','or')
-                ->orWhere('datos_per.a_materno','like','%'.strtoupper($fecha1).'%','or')
-                ->orWhere('datos_per.nombres','like','%'.strtoupper($fecha1).'%');
+                if(strlen($fecha1)>0){
+                    $q->where('datos_per.CI','like','%'.strtoupper($fecha1).'%')
+                    ->orWhere('datos_per.a_paterno','like','%'.strtoupper($fecha1).'%','or')
+                    ->orWhere('datos_per.a_materno','like','%'.strtoupper($fecha1).'%','or')
+                    ->orWhere('datos_per.nombres','like','%'.strtoupper($fecha1).'%');
+                }
             })
             ->orderBy('id_req','DESC')->paginate(10,['*'],'page',$npage);
          
@@ -97,50 +99,9 @@ class RequerimientoController extends Controller
      */
     public function store(StoreRequerimientoRequest $request)
     {
-       // dump($request->all());
-        if($request->get('id_tic')!= '9')  
-        {
-            if($request->get('id_tic')== '10'){
-                $request->validate([
-                    "id_cs"=>["required"],
-                    "id_tic"=>["required"],
-                    "id_niv"=>["required"],
-                    "id_car"=>["required"],
-                    //"nroReq"=>["required"],
-                    "motivo"=>["required"],
-                    //"fechareq"=>["required"],
-                    "fechaIni"=>["required"],
-                    "fechaFin"=>["required"],
-                    
-                    "id_residente"=>["required"],
-                    "id_esp"=>["required"],
-                    "anio_formacion"=>["required"],
-                    "duracion"=>["required"],
-                    "gestion"=>["required"],
-                    "id_gari"=>["required"],
-                    "id_garii"=>["required"]
-                ]);
-
-            }else{
-                $request->validate([
-                        "id_cs"=>["required"],
-                        "id_tic"=>["required"],
-                        "id_niv"=>["required"],
-                        "id_car"=>["required"],
-                        //"nroReq"=>["required"],
-                        "motivo"=>["required"],
-                        //"fechareq"=>["required"],
-                        "fechaIni"=>["required"],
-                        "fechaFin"=>["required"],
-                        //"jornada"=>["required"],
-                        //"nota"=>["required"],
-                        //"foto"=>["required"],
-                        //"observaciones"=>["required"],
-                        //"id_esreq"=>["required"],
-                        //"fecha_nota"=>["required"],
-                        ]);
-            }
-            }else{
+        $ticon = $request->get('id_tic');
+        switch ($ticon) {
+            case '9':
                 $request->validate([
                     "id_cs"=>["required"],
                     "id_tic"=>["required"],
@@ -160,10 +121,50 @@ class RequerimientoController extends Controller
                     "id_cono"=>["required"]
                     ]);
                     $request['id_esreq']='1';
-            }
+                break;
+            case '10':
+                $request->validate([
+                    "id_cs"=>["required"],
+                    "id_tic"=>["required"],
+                    "id_niv"=>["required"],
+                    "id_car"=>["required"],
+                    //"nroReq"=>["required"],
+                    "motivo"=>["required"],
+                    //"fechareq"=>["required"],
+                    "fechaIni"=>["required"],
+                    "fechaFin"=>["required"],
+                    
+                    "id_residente"=>["required"],
+                    "id_esp"=>["required"],
+                    "anio_formacion"=>["required"],
+                    "duracion"=>["required"],
+                    "gestion"=>["required"],
+                    "id_gari"=>["required"],
+                    "id_garii"=>["required"]
+                ]);
+                break;
+            default:
+            $request->validate([
+                "id_cs"=>["required"],
+                "id_tic"=>["required"],
+                "id_niv"=>["required"],
+                "id_car"=>["required"],
+                //"nroReq"=>["required"],
+                "motivo"=>["required"],
+                //"fechareq"=>["required"],
+                "fechaIni"=>["required"],
+                "fechaFin"=>["required"],
+                //"jornada"=>["required"],
+                //"nota"=>["required"],
+                //"foto"=>["required"],
+                //"observaciones"=>["required"],
+                //"id_esreq"=>["required"],
+                //"fecha_nota"=>["required"],
+                ]);
+                break;
+        }
         $requerimientoStore= $request;
         //$requerimientoStore['motivo'] = strtoupper($requerimientoStore['motivo']);
-       
         $requerimientoStore['id_us']=auth()->id();
         $nro=$requerimientoStore->get('nroReq');
          if(!(isset($nro))){
@@ -175,24 +176,7 @@ class RequerimientoController extends Controller
        $reqcreado->update(['foto'=>$hashreq]);
 
        if($request->get('id_tic')== '10'){
-        $residenteStore=[];
-        switch ($request['anio_formacion']) {
-            case '1':
-                $residenteStore['cargo']="R I";
-                break;
-            case '2':
-                $residenteStore['cargo']="R II";
-                break;
-            case '3':
-                $residenteStore['cargo']="R III";
-                break;
-            case '4':
-                $residenteStore['cargo']="R IV";
-                break;       
-                default:
-                $residenteStore['cargo']="R IV";
-                break;
-        }     
+        $residenteStore=[];     
         $residenteStore['id_req']=$reqcreado->id_req;
         $residenteStore['id_residente']=$requerimientoStore['id_residente'];
         $residenteStore['id_esp']=$requerimientoStore['id_esp'];
@@ -277,6 +261,15 @@ class RequerimientoController extends Controller
         }
         $revisionesReq = RevisionesReq::with('revisorReq')->where('id_req','=',$requerimient->id_req)->get();
         $yoRevisorReq = RevisorReq::where('id_us','=',auth()->id())->where('estado','=','1')->get()->first();
+        $especialidades = EspecialidadResidente::where('estado','=','1')->get();
+        $complemento = NULL;
+        $garante1 = NULL;
+        $garante2 = NULL;
+        if($requerimient->id_tic=='10'){
+            $complemento = ComplementoResidente::where('id_req','=',$requerimient->id_req)->get()->first();
+            $garante1=Garante::findOrFail($complemento->id_gari);
+            $garante2=Garante::findOrFail($complemento->id_garii);
+        }
         
         return view('requerimientos.edit',['requerimiento'=> $requerimient,
                                             'centrosSalud'=>$centrosSalud,
@@ -287,7 +280,11 @@ class RequerimientoController extends Controller
                                             'docAdjuntos'=>$docAdjuntos,
                                             'adjReq'=> $adjReq,
                                             'revisionesReq'=>$revisionesReq,
-                                            'yoRevisorReq'=> $yoRevisorReq
+                                            'yoRevisorReq'=> $yoRevisorReq,
+                                            'especialidades'=>$especialidades,
+                                            'complemento'=>$complemento,
+                                            'garante1'=>$garante1,
+                                            'garante2'=>$garante2
                                             ]);
         
     }
@@ -297,26 +294,82 @@ class RequerimientoController extends Controller
      */
     public function update(UpdateRequerimientoRequest $request, Requerimiento $requerimiento)
     {
+        $ticon = $request->get('id_tic');
+        switch ($ticon) {
+            case '9':
+            $validated= $request->validate([
+                    "id_cs"=>["required"],
+                    "id_tic"=>["required"],
+                    "id_niv"=>["required"],
+                    "id_car"=>["required"],
+                    //"nroReq"=>["required"],
+                    "motivo"=>["required"],
+                    //"fechareq"=>["required"],
+                    //"fechaIni"=>["required"],
+                    "fechaFin"=>["required"],
+                    //"jornada"=>["required"],
+                    //"nota"=>["required"],
+                    //"foto"=>["required"],
+                    //"observaciones"=>["required"],
+                    //"id_esreq"=>["required"],
+                    //"fecha_nota"=>["required"],
+                    "id_cono"=>["required"]
+                    ]);
+                    // $request['id_esreq']='1';
+                break;
+            case '10':
+            $validated=   $request->validate([
+                    "id_cs"=>["required"],
+                    "id_tic"=>["required"],
+                    "id_niv"=>["required"],
+                    "id_car"=>["required"],
+                    "id_per"=>[],
+                    "nroReq"=>[],
+                    //"nroReq"=>["required"],
+                    "motivo"=>["required"],
+                    //"fechareq"=>["required"],
+                    "fechaIni"=>["required"],
+                    "fechaFin"=>["required"],
+                    "nota"=>[],
+                    //"foto"=>["required"],
+                    "observaciones"=>[],
+                    "id_esreq"=>[],
+                    "fecha_nota"=>[],
+                    "docadj"=>[],
+                    
+                    "id_residente"=>["required"],
+                    "id_esp"=>["required"],
+                    "anio_formacion"=>["required"],
+                    "duracion"=>["required"],
+                    "gestion"=>["required"],
+                    "id_gari"=>["required"],
+                    "id_garii"=>["required"]
+                ]);
+                break;
+            default:
+            $validated= $request->validate([
+                "id_cs"=>["required"],
+                "id_tic"=>["required"],
+                "id_niv"=>["required"],
+                "id_car"=>["required"],
+                "id_per"=>[],
+                "nroReq"=>[],
+                "motivo"=>["required"],
+                //"fechareq"=>["required"],
+                "fechaIni"=>["required"],
+                "fechaFin"=>["required"],
+                //"jornada"=>["required"],
+                "nota"=>[],
+                //"foto"=>["required"],
+                "observaciones"=>[],
+                "id_esreq"=>[],
+                "fecha_nota"=>[],
+                "docadj"=>[]
+                ]);
+                break;
+        }
         
-        $validated= $request->validate([
-            "id_cs"=>["required"],
-            "id_tic"=>["required"],
-            "id_niv"=>["required"],
-            "id_car"=>["required"],
-            "id_per"=>[],
-            "nroReq"=>[],
-            "motivo"=>["required"],
-            //"fechareq"=>["required"],
-            "fechaIni"=>["required"],
-            "fechaFin"=>["required"],
-            //"jornada"=>["required"],
-            "nota"=>[],
-            //"foto"=>["required"],
-            "observaciones"=>[],
-            "id_esreq"=>[],
-            "fecha_nota"=>[],
-            "docadj"=>[]
-            ]);
+       
         //$docsAdj = $request["docadj"];
     $requerimientoUpdate = $validated;
         if (key_exists("docadj",$validated)) {
@@ -345,6 +398,22 @@ class RequerimientoController extends Controller
                 $datosPer->update(["id_esper"=>'1']);
             }  
         }
+
+        if($request->get('id_tic')== '10'){
+            $residenteUpdate=[];     
+            $complementoResidente = ComplementoResidente::where('id_req','=',$requerimiento->id_req)
+                                                        ->get()->first(); 
+            // $residenteUpdate['id_req']=$requerimiento->id_req;
+            $residenteUpdate['id_residente']=$requerimientoUpdate['id_residente'];
+            $residenteUpdate['id_esp']=$requerimientoUpdate['id_esp'];
+            $residenteUpdate['anio_formacion']=$requerimientoUpdate['anio_formacion'];
+            $residenteUpdate['duracion']=$requerimientoUpdate['duracion'];
+            $residenteUpdate['gestion']=$requerimientoUpdate['gestion'];
+            $residenteUpdate['id_garii']=$requerimientoUpdate['id_garii'];
+            $residenteUpdate['id_gari']=$requerimientoUpdate['id_gari'];
+            $complementoResidente->update($residenteUpdate);
+           }
+
         $requerimiento->update($requerimientoUpdate);   
         session()->flash('status','Successfully updated Requirement');
         return to_route('requerimiento.index') ;

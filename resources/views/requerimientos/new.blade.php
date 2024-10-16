@@ -50,10 +50,10 @@
                                 <div class="md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="id_car" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{__('Position')}}</label>
                                     <div>        
-                                        <select id="id_car" name="id_car" class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                        <select id="id_car" name="id_car" onchange="cambiaCargo(event.target)" class=" sel w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>{{__('Choose a Position')}}</OPTION>
                                                     @foreach ($cargos as $cargo)
-                                                        <OPTION value="{{$cargo->id_car}}" {{old('id_car')==$cargo->id_car?'selected':''}}>{{$cargo->cargo}}</OPTION>
+                                                        <OPTION value="{{$cargo->id_car}}" {{old('id_car')==$cargo->id_car?'selected':''}} tipo="{{$cargo->tipo}}">{{$cargo->cargo}}</OPTION>
                                                     @endforeach
                                         </select>
                                          <x-input-error :messages="$errors->get('id_car')"/>
@@ -174,23 +174,11 @@
                                     </div>
                                     <div class="md:w-1/6 px-3">
                                         <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="anio_formacion">
-                                            Cargo
+                                            # Año
                                         </label>
-                                        <div>
-                                            <select name="anio_formacion" id="anio_formacion"
-                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
-                                                <OPTION selected disabled>Elija un Cargo</OPTION>
-                                                <OPTION  values="1">R I</OPTION>
-                                                <OPTION  values="2">R II</OPTION>
-                                                <OPTION  values="3">R III</OPTION>
-                                                <OPTION  values="4">R IV</OPTION>
-                                                {{-- @foreach ($centrosSalud as $centro)
-                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
-                                                @endforeach --}}
-                                                
-                                            </select>
+                                            <input type="text" name="anio_formacion" id="anio_formacion" value="{{old('anio_formacion')}}" 
+                                            class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
                                             <x-input-error :messages="$errors->get('anio_formacion')" />
-                                        </div>
                                     </div>
                                     <div class="md:w-1/6 px-3">
                                         <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="duracion">
@@ -200,10 +188,10 @@
                                             <select name="duracion" id="duracion"
                                                 class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>Elija una Duración</OPTION>
-                                                <OPTION  values="1">1 año</OPTION>
-                                                <OPTION  values="2">2 años</OPTION>
-                                                <OPTION  values="3">3 años</OPTION>
-                                                <OPTION  values="4">4 años</OPTION>
+                                                <OPTION  value="1">1 año</OPTION>
+                                                <OPTION  value="2">2 años</OPTION>
+                                                <OPTION  value="3">3 años</OPTION>
+                                                <OPTION  value="4">4 años</OPTION>
                                                 {{-- @foreach ($centrosSalud as $centro)
                                                     <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
                                                 @endforeach --}}
@@ -391,9 +379,39 @@
     </div>                            
 </x-app-layout>
 <script>
+var array_niveles= @json($niveles);
+
     $(document).ready(function() {
         $('.sel').select2();
     });
+
+    function cambiaCargo(evt) {
+        var carsel = evt.selectedOptions[0].getAttribute('tipo'); 
+        // alert (carsel   );
+        e=evt.value;
+         const anio = document.querySelector('#anio_formacion');
+         aniof = e-80;
+         if(aniof>0 && aniof<=4){
+             anio.value = aniof; 
+         }
+        filtroniveles(carsel);
+         
+    }
+
+    function filtroniveles(tipo)
+    {
+        var sel_niveles='<option selected disabled>Elija un nivel</option>';       
+        for (var i = array_niveles.length - 1; i >= 0; i--) {
+            if (array_niveles[i]['descripcion']==tipo) {
+            sel_niveles+='<option value="'+array_niveles[i]['id_niv']+'" >'
+            sel_niveles += array_niveles[i]['nivel']+" | "+array_niveles[i]['horas_trab']+" | "+array_niveles[i]['descripcion'];
+            sel_niveles +='</option>';     	
+            }  
+        }
+        document.querySelector('#id_niv').innerHTML=sel_niveles
+        // $('#id_niv').html(sel_cargos);
+    }
+// filtroniveles('medico');
     function habilitar() {
         
         const tic=document.querySelector("#id_tic");
@@ -436,7 +454,7 @@
                         }
                        
                     } else {
-                        alert("No se encontró el garante")
+                        alert("No se encontró el garante, registre un garante con ese CI")
                         if (a==1) {
                             document.querySelector('#nombregari').value='';
                             document.querySelector('#id_gari').value='';
