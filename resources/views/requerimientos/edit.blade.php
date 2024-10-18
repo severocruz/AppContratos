@@ -238,8 +238,8 @@
                             
                             
                         </div>
-                        @if($requerimiento->id_tic=='10')
-                        <div id="residencia" class="{{(old('id_tic','')=='10'||old('id_tic','')=='11')?'collapse':'visible'}}">
+                        @if($requerimiento->id_tic=='10' || $requerimiento->id_tic=='11' )
+                        <div id="residencia" class="{{(old('id_tic','')=='10'||old('id_tic','')=='11')?'visible':'collapse'}}">
                          {{-- @dump($complemento) --}}
                             <h1 class="font-bold mx-5"> Datos de Residencia Médica o ASSO</h1>
                             <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
@@ -299,7 +299,7 @@
                                         <label for="gestion" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
                                             Gestión
                                         </label>
-                                        <input type="number" name="gestion" id="gestion" min="{{date('Y')}}" value="{{old('gestion',$complemento->gestion)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                        <input type="number" name="gestion" id="gestion" value="{{old('gestion',$complemento->gestion)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
                                     </div>
                                 </div>
                             {{-- </div>

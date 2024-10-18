@@ -15,10 +15,14 @@ use App\Models\Nivel;
 use App\Models\TipoContrato;
 use App\Models\Cargos;
 use App\Models\Requerimiento;
+use App\Models\EspecialidadResidente;
+
 use App\Http\Requests\StoreContratoRequest;
 use App\Http\Requests\UpdateContratoRequest;
 use App\Models\DatosPer;
 use App\Models\HisContrato;
+use App\Models\ComplementoResidente;
+use App\Models\Garante;
 use App\Utils\PersonalUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -88,7 +92,15 @@ class ContratoController extends Controller
         if(isset($requerimiento->id_cono) && $requerimiento->id_cono){
             $contrato = Contrato::findOrFail($requerimiento->id_cono);
         }
-
+        $especialidades = EspecialidadResidente::where('estado','=','1')->get();
+        $complemento = NULL;
+        $garante1 = NULL;
+        $garante2 = NULL;
+        if($requerimiento->id_tic=='10'){
+            $complemento = ComplementoResidente::where('id_req','=',$requerimiento->id_req)->get()->first();
+            $garante1=Garante::findOrFail($complemento->id_gari);
+            $garante2=Garante::findOrFail($complemento->id_garii);
+        }
         return view('contratos.new',[
             'personal'=>$personal,
             'centrosSalud'=> $centrosSalud,
@@ -99,7 +111,11 @@ class ContratoController extends Controller
             'cirinstnal'=>$cirinstnal,
             'cirinstreg'=>$cirinstreg,
             'cite'=>$cite,
-            'contrato'=>$contrato]);
+            'contrato'=>$contrato,
+            'especialidades'=>$especialidades,
+            'complemento'=>$complemento,
+            'garante1'=>$garante1,
+            'garante2'=>$garante2]);
             
         //
     }
@@ -109,55 +125,80 @@ class ContratoController extends Controller
      */
     public function store(StoreContratoRequest $request)
     {
-        if($request->get('id_tic')!= '9')  
-        {
-            $request->validate([
-                "id_per" => ["required"],
-                "id_req" => ["required"],
-                "partPres" => ["required"],
-                "id_cinal" => ["required"],
-                "id_cireg" => ["required"],
-                "id_cite" => ["required"],
-                "id_cs" => ["required"],
-                "id_tic" => ["required"],
-                "id_car" => ["required"],
-                "id_niv" => ["required"],
-               // "motivo" => ["required"],
-                "fechaIni" => ["required"],
-                "fechaFin" => ["required"],
-                "fecha_crea"=>[],
-                "us_crea"=>[],
-               // "nota" => ["required"],
-               // "fecha_nota" => ["required"],
-                "observaciones" => [],
-                "observaciones2" => [],
-            ]);
-            
-        }else{
-            $request->validate([
-                "id_per" => ["required"],
-                "id_req" => ["required"],
-                "partPres" => ["required"],
-                "id_cinal" => ["required"],
-                "id_cireg" => ["required"],
-                "id_cite" => ["required"],
-                "id_cs" => ["required"],
-                "id_tic" => ["required"],
-                "id_car" => ["required"],
-                "id_niv" => ["required"],
-               // "motivo" => ["required"],
-                "fechaIni" => ["required"],
-                "fechaFin" => ["required"],
-                "fecha_crea"=>[],
-                "us_crea"=>[],
-               // "nota" => ["required"],
-               // "fecha_nota" => ["required"],
-                "observaciones" => [],
-                "observaciones2" => [],
-                "id_cono" => ['required']
-
-            ]);
-            
+        $ticon = $request->get('id_tic');
+        switch ($ticon) {
+            case '9':
+                $request->validate([
+                    "id_per" => ["required"],
+                    "id_req" => ["required"],
+                    "partPres" => ["required"],
+                    "id_cinal" => ["required"],
+                    "id_cireg" => ["required"],
+                    "id_cite" => ["required"],
+                    "id_cs" => ["required"],
+                    "id_tic" => ["required"],
+                    "id_car" => ["required"],
+                    "id_niv" => ["required"],
+                   // "motivo" => ["required"],
+                    "fechaIni" => ["required"],
+                    "fechaFin" => ["required"],
+                    "fecha_crea"=>[],
+                    "us_crea"=>[],
+                   // "nota" => ["required"],
+                   // "fecha_nota" => ["required"],
+                    "observaciones" => [],
+                    "observaciones2" => [],
+                    "id_cono" => ['required']
+    
+                ]);
+                break;
+            case '10':
+                $request->validate([
+                    "id_per" => ["required"],
+                    "id_req" => ["required"],
+                    "partPres" => ["required"],
+                    "id_cinal" => ["required"],
+                    "id_cireg" => ["required"],
+                    "id_cite" => ["required"],
+                    "id_cs" => ["required"],
+                    "id_tic" => ["required"],
+                    "id_car" => ["required"],
+                    "id_niv" => ["required"],
+                   // "motivo" => ["required"],
+                    "fechaIni" => ["required"],
+                    "fechaFin" => ["required"],
+                    "fecha_crea"=>[],
+                    "us_crea"=>[],
+                   // "nota" => ["required"],
+                   // "fecha_nota" => ["required"],
+                    "observaciones" => [],
+                    "observaciones2" => [],
+                    "id_complemento" => ["required"]
+                ]);
+                break;
+            default:
+                $request->validate([
+                    "id_per" => ["required"],
+                    "id_req" => ["required"],
+                    "partPres" => ["required"],
+                    "id_cinal" => ["required"],
+                    "id_cireg" => ["required"],
+                    "id_cite" => ["required"],
+                    "id_cs" => ["required"],
+                    "id_tic" => ["required"],
+                    "id_car" => ["required"],
+                    "id_niv" => ["required"],
+                // "motivo" => ["required"],
+                    "fechaIni" => ["required"],
+                    "fechaFin" => ["required"],
+                    "fecha_crea"=>[],
+                    "us_crea"=>[],
+                // "nota" => ["required"],
+                // "fecha_nota" => ["required"],
+                    "observaciones" => [],
+                    "observaciones2" => [],
+                ]);
+                break;
         }
             $contratoStore = $request;
             $contratoStore['id_us']=auth()->id();
@@ -179,6 +220,12 @@ class ContratoController extends Controller
             "id_estfin"=>"3"]);
             $personalu =DatosPer::findOrFail($contratoCreado->id_per);
             $personalu->update(["id_esper"=> "2"]);
+            
+            if($ticon=='10'){
+                $complementoResidente = ComplementoResidente::findOrFail($contratoStore['id_complemento']); 
+                $complementoResidente->update(['id_con'=>$contratoCreado->id_con]);
+            }
+            
             session()->flash('status','Contract created successfully');
             return to_route('contrato.index') ;
            //echo $cad; 
@@ -424,7 +471,16 @@ class ContratoController extends Controller
                 }
             }
         }
-
+        $complemento = NULL;
+        $garante1 = NULL;
+        $garante2 = NULL;
+        $especialidades=[];
+        if($requerimiento->id_tic=='10'){
+            $complemento = ComplementoResidente::where('id_req','=',$requerimiento->id_req)->get()->first();
+            $garante1=Garante::findOrFail($complemento->id_gari);
+            $garante2=Garante::findOrFail($complemento->id_garii);
+            $especialidades = EspecialidadResidente::where('estado','=','1')->get();
+        }
 
         return view('contratos.edit',['contrato'=> $contrato,
                                             'requerimiento'=>$requerimiento,
@@ -438,7 +494,11 @@ class ContratoController extends Controller
                                             'cite'=>$cite,
                                             'yoAutoridad'=>$yoAutoridad,
                                             'firmas'=>$firmas,
-                                            'nofirme'=>$nofirme
+                                            'nofirme'=>$nofirme,
+                                            'complemento'=>$complemento,
+                                            'garante1'=>$garante1,
+                                            'garante2'=>$garante2,
+                                            'especialidades'=>$especialidades
                                         ]);
         
     }

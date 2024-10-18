@@ -146,7 +146,7 @@
                             </div>
                             
                         </div>
-                        <div id="residencia" class="{{(old('id_tic','')=='10'||old('id_tic','')=='11')?'collapse':'visible'}}">
+                        <div id="residencia" class="{{(old('id_tic','')=='10'||old('id_tic','')=='11')?'visible':'collapse'}}">
                             <h1 class="font-bold mx-5"> Datos de Residencia Médica o ASSO</h1>
                             <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
                                 <div class="-mx-3 md:flex mb-1">
@@ -165,7 +165,7 @@
                                                 class="sel w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
                                                 <OPTION selected disabled>Elija una especialidad</OPTION>
                                                 @foreach ($especialidades as $especialidad)
-                                                    <OPTION value="{{$especialidad->id}}" {{old('id_esp')==$especialidad->id_esp?'selected':''}} >{{$especialidad->nombre}}</OPTION>
+                                                    <OPTION value="{{$especialidad->id}}" {{old('id_esp')==$especialidad->id?'selected':''}} >{{$especialidad->nombre}}</OPTION>
                                                 @endforeach
                                                 
                                             </select>
@@ -204,7 +204,7 @@
                                         <label for="gestion" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
                                             Gestión
                                         </label>
-                                        <input type="number" name="gestion" id="gestion" min="{{date('Y')}}" value="{{old('gestion',date('Y'))}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                        <input type="number" name="gestion" id="gestion" value="{{old('gestion',date('Y'))}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
                                     </div>
                                 </div>
                             {{-- </div>

@@ -82,14 +82,14 @@ class RequerimientoController extends Controller
         $niveles = Nivel::where('estado','=','1')->get();
         $especialidades = EspecialidadResidente::where('estado','=','1')->get();
         $departamentos = Departamento::where('estado','=','1')->get();
-        $garantes = Garante::where('estado','=','1')->get();
+        // $garantes = Garante::where('estado','=','1')->get();
         return view('requerimientos.new',['centrosSalud'=> $centrosSalud,
                                           'tiposContrato'=>$tiposContrato,
                                           'cargos'=>$cargos,
                                           'niveles'=>$niveles,
                                           'especialidades'=>$especialidades,
                                           'departamentos'=> $departamentos,
-                                          'garantes'=>$garantes]);
+                                          ]);
                                           
         //
     }
@@ -369,7 +369,6 @@ class RequerimientoController extends Controller
                 break;
         }
         
-       
         //$docsAdj = $request["docadj"];
     $requerimientoUpdate = $validated;
         if (key_exists("docadj",$validated)) {

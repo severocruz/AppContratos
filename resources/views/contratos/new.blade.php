@@ -253,6 +253,105 @@
                             </div>
                             
                         </div>
+                        <div id="residencia" class="{{(old('id_tic',$requerimiento->id_tic)=='10'||old('id_tic',$requerimiento->id_tic)=='11')?'visible':'collapse'}}">
+                            <h1 class="font-bold mx-5"> Datos de Residencia Médica o ASSO</h1>
+                            <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
+                                <input type="hidden" name="id_complemento" id="id_complemento" value="{{old('id_complemento',$complemento->id)}}">
+                                <div class="-mx-3 md:flex mb-1">
+                                    <div class="md:w-1/6 px-3">
+                                        <label for="id_residente" class="uppercase tracking-wide text-black text-xs font-bold mb-2" >
+                                            Id de Residente
+                                        </label>
+                                        <input disabled type="text" name="id_residente" id="id_residente" value="{{old('id_residente',$complemento->id_residente)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="id_esp">
+                                            Especialidad
+                                        </label>
+                                        <div>
+                                            <select disabled name="id_esp" id="id_esp" 
+                                                class="sel w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija una especialidad</OPTION>
+                                                @foreach ($especialidades as $especialidad)
+                                                    <OPTION value="{{$especialidad->id}}" {{old('id_esp',$complemento->id_esp)==$especialidad->id?'selected':''}} >{{$especialidad->nombre}}</OPTION>
+                                                @endforeach
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="anio_formacion">
+                                            # Año
+                                        </label>
+                                            <input disabled type="text" name="anio_formacion" id="anio_formacion" value="{{old('anio_formacion',$complemento->anio_formacion)}}" 
+                                            class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                            <x-input-error :messages="$errors->get('anio_formacion')" />
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="duracion">
+                                            Duración
+                                        </label>
+                                        <div>
+                                            <select disabled name="duracion" id="duracion"
+                                                class="w-full bg-emerald-50 border border-lime-900 text-black text-md py-2 px-4 pr-8 mb-2 rounded">
+                                                <OPTION selected disabled>Elija una Duración</OPTION>
+                                                <OPTION  value="1" {{$complemento->duracion=='1'?'selected':''}}>1 año</OPTION>
+                                                <OPTION  value="2" {{$complemento->duracion=='2'?'selected':''}}>2 años</OPTION>
+                                                <OPTION  value="3" {{$complemento->duracion=='3'?'selected':''}}>3 años</OPTION>
+                                                <OPTION  value="4" {{$complemento->duracion=='4'?'selected':''}}>4 años</OPTION>
+                                                {{-- @foreach ($centrosSalud as $centro)
+                                                    <OPTION value="{{$centro->id_cs}}" {{old('id_cs')==$centro->id_cs?'selected':''}} >{{$centro->nombre_cs}}</OPTION>
+                                                @endforeach --}}
+                                                
+                                            </select>
+                                            <x-input-error :messages="$errors->get('id_esp')" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label for="gestion" class="uppercase tracking-wide text-black text-sm font-bold mb-2" >
+                                            Gestión
+                                        </label>
+                                        <input disabled type="number" name="gestion" id="gestion"  value="{{old('gestion',$complemento->gestion)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                </div>
+                            {{-- </div>
+                            <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col"> --}}
+                                <div class="-mx-3 md:flex mb-1">
+                                    
+                                    
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cigari">
+                                            CI Garante 1
+                                        </label>
+                                        <input type="hidden" name="id_gari" id="id_gari" value="{{old('id_gari',$complemento->id_gari)}}" >
+                                        <input disabled type="text" name="cigari" id="cigari"  value="{{old('cigari',$garante1->ci)}}" onchange="buscagarByCI(1)" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="nombregari">
+                                            Nombre Garante 1
+                                        </label>
+                                        <input type="text" readonly name="nombregari" id="nombregari" value="{{old('nombregari',$garante1->nombres.' '.$garante1->a_paterno.' '.$garante1->a_materno)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-1/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="cigarii">
+                                            CI Garante 2
+                                        </label>
+                                        <input type="hidden"  name="id_garii" id="id_garii" value="{{old('id_garii',$complemento->id_garii)}}" >
+                                        <input readonly type="text" name="cigarii" id="cigarii" onchange="buscagarByCI(2)" value="{{old('cigarii',$garante2->ci)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    <div class="md:w-2/6 px-3">
+                                        <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="nombregarii">
+                                            Nombre Garante 2
+                                        </label>
+                                        <input disabled type="text" name="nombregarii" id="nombregarii" value="{{old('nombregarii',$garante1->nombres.' '.$garante1->a_paterno.' '.$garante1->a_materno)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
                         <div class=" w-full text-right justify-items-end">
                             <x-primary-button class="justify-center w-1/4 bg-blue-800 text-white">Guardar </x-primary-button>
                         </div>
