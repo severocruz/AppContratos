@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ComplementoResidente extends Model
 {
     use HasFactory;
@@ -28,4 +28,7 @@ class ComplementoResidente extends Model
     "tipo",
     "estado"
     ];
+    public function especialidad():BelongsTo{
+        return $this->belongsTo(EspecialidadResidente::class,"id_esp","id");
+    }
 }

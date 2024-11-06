@@ -1,0 +1,107 @@
+/*--------contrato------------*/
+@media all {
+  div.saltopagina{
+     display: none;
+  }
+}
+  
+@media print{
+  div.saltopagina{ 
+     display:block; 
+     page-break-before:always;
+  }
+  #listarcon{
+    visibility: hidden;
+  }
+  #imprimirc{
+    visibility: hidden;
+  }
+ 
+}
+body, p, td, th{
+ font-family:"Times New Roman", Arial, Helvetica, sans-serif, calibri;
+ font-size: 10pt;
+ color: #000;
+ background: #fff;
+}
+h1, h2, h3, h4, h5, h6{
+ font-family:"Trebuchet MS", Verdana, Arial, sans-serif;
+ text-align: center;
+}
+
+#cod{
+  font-family:calibri;  
+  text-align: right;
+  font-size: 11pt;
+}
+#mat{
+  font-family:calibri;  
+  text-align: left;
+  font-size: 11pt;
+}
+#f1	{text-align: left;
+ margin-top: 50px;
+ margin-bottom: 50px;
+ }
+#lema{text-align: center;
+   margin-top: 10px;
+   margin-bottom: 70px;
+}
+table{ width: 100%; 
+}
+.parrafo{
+  font-family: calibri;
+  text-align: justify;
+  font-size: 11pt;
+}
+
+blockquote, pre, code, cite{
+ color:#666;
+}
+.firmas{
+ text-align: center;
+}
+.titulo{
+ font: 100% "Times New Roman";
+ text-align: center;
+ font-size: 18pt;
+ font-weight: 50;
+ letter-spacing: 0.30em;
+ word-spacing: 0.30em;
+}
+.subtis{
+  font: 100%;
+ text-align: center;
+}
+.linea{
+  position:relative;
+  height: 3px;
+  background: gray;
+  width: 50%;
+}
+.subtitulo{
+  font: 100% "Times New Roman";
+ text-align: center;
+ font-size: 18pt;
+ font-weight:bold;
+}
+.subtitulo2{
+ font:120% calibri;
+ text-align: center;	
+ font-size: 14pt;
+ width: 100%;
+}
+.logo{
+ float: right;
+ width: 120px;
+ height: 133px;
+}
+.qr{
+ float: left;
+ width: 135px;
+ height: 135px;
+}
+#carta{
+ margin-left: 35px;
+ margin-right: 25px;
+}

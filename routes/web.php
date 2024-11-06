@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/contratos/{contrato}/showall',[ContratoController::class,'showall'])->name('contrato.showall');
     Route::get('/contratos/{contrato}/showadenda',[ContratoController::class,'showAdenda'])->name('contrato.showadenda');
     Route::get('/contratos/{contrato}/showalladenda',[ContratoController::class,'showallAdenda'])->name('contrato.showalladenda');
+    Route::get('/contratos/{contrato}/showresidente',[ContratoController::class,'showResidente'])->name('contrato.showresidente');
 
     Route::get('/imagenescontratos/{contrato}', [ImagenContratoController::class,'index'])->name('imagencontrato.index');
     Route::post('/imagenescontratos', [ImagenContratoController::class,'store'])->name('imagencontrato.store');

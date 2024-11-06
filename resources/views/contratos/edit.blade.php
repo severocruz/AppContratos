@@ -4,7 +4,8 @@
              Contrato {{$contrato->noCon}} 
         </h2>
     </x-slot>
-    @if ($contrato->id_tic == 9)
+    @switch($contrato->id_tic)
+        @case(9)
         <div class="flex-col">
             <x-nav-link
             :href="route('contrato.showalladenda',$contrato)" target="_blank">
@@ -31,7 +32,56 @@
             Imagenes
             </x-nav-link>|
         </div>
-    @else
+            @break
+        @case(10)
+        <div class="flex-col">
+            {{-- <x-nav-link
+            :href="route('contrato.showall',$contrato)" target="_blank">
+            Todas
+            </x-nav-link> | --}}
+            <x-nav-link
+            :href="route('contrato.showresidente',$contrato).'?cop=1'" target="_blank">
+            Original
+            </x-nav-link> |
+            <x-nav-link
+            :href="route('contrato.showresidente',$contrato).'?cop=2'" target="_blank">
+            Copia Kardex
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('contrato.showresidente',$contrato).'?cop=3'" target="_blank">
+            Copia Interesado
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('contrato.showresidente',$contrato).'?cop=4'" target="_blank">
+            Copia RRHH
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avc',$contrato).'?cop=2'" target="_blank">
+            AVC
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avc',$contrato).'?cop=1'" target="_blank">
+            AVC *
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avisobaja',$contrato).'?cop=2'" target="_blank">
+            Aviso de Baja
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.avisobaja',$contrato).'?cop=1'" target="_blank">
+            Aviso de Baja *
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('impresion.credencial',$contrato).'?cop=1'" target="_blank">
+            Credencial*
+            </x-nav-link>|
+            <x-nav-link
+            :href="route('imagencontrato.index',$contrato)">
+            Imagenes
+            </x-nav-link>|
+        </div> 
+            @break
+        @default
         <div class="flex-col">
             <x-nav-link
             :href="route('contrato.showall',$contrato)" target="_blank">
@@ -77,9 +127,10 @@
             :href="route('imagencontrato.index',$contrato)">
             Imagenes
             </x-nav-link>|
-        </div>
-    @endif
-    {{-- @dump($docAdjuntos) --}}
+        </div>  
+    @endswitch
+    
+    
     <div class="py-3 px-0">
         <div class="max-w-7xl mx-auto sm:px-2 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -364,6 +415,7 @@
                             </div>
                             
                         </div>
+                    @if(old('id_tic',$contrato->id_tic)=='10'||old('id_tic',$contrato->id_tic)=='11')    
                         <div id="residencia" class="{{(old('id_tic',$contrato->id_tic)=='10'||old('id_tic',$contrato->id_tic)=='11')?'visible':'collapse'}}">
                             <h1 class="font-bold mx-5"> Datos de Residencia Médica o ASSO</h1>
                             <div class="bg-emerald-100 shadow-md rounded px-6 pt-2 pb-2 mb-4 flex flex-col">
@@ -455,7 +507,7 @@
                                         <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="nombregarii">
                                             Nombre Garante 2
                                         </label>
-                                        <input disabled type="text" name="nombregarii" id="nombregarii" value="{{old('nombregarii',$garante1->nombres.' '.$garante1->a_paterno.' '.$garante1->a_materno)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
+                                        <input disabled type="text" name="nombregarii" id="nombregarii" value="{{old('nombregarii',$garante2->nombres.' '.$garante2->a_paterno.' '.$garante2->a_materno)}}" class="w-full bg-emerald-50 text-black border border-lime-900 rounded py-1 px-3 mb-1 ">
                                     </div>
                                     
                                 </div>
@@ -463,8 +515,9 @@
                             </div>
                             
                         </div>
+                    @endif    
                         <div class=" w-full text-right justify-items-end">
-                            <x-primary-button class="justify-center w-1/4 bg-blue-800 text-white">Guardar </x-primary-button>
+                            <x-primary-button class="justify-center w-1/4 bg-blue-800 text-white">Guardar Cambios </x-primary-button>
                         </div>
                         {{-- <button>
                             Enviar

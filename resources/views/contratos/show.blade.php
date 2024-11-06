@@ -175,13 +175,13 @@ File Personal No:&nbsp; {{isset($personal->filePer)?$personal->filePer->nombre:'
 <p><b>PRIMERA DE LAS PARTES.-</b> Intervienen y suscriben el presente contrato, por una parte, la Caja Nacional de Salud, 
 representada legalmente en este acto por los Señores 
 {{$jefeair->nombre.' '.$jefeair->user->nombres.' '.$jefeair->user->a_paterno.' '.$jefeair->user->a_materno}} ,
+, {{$jefeair->cargo}} Regional La Paz,
  @if ($cargo->tipo=='medico') 
 	 {{$jefeaim->nombre.' '.$jefeaim->user->nombres.' '.$jefeaim->user->a_paterno.' '.$jefeaim->user->a_materno }}
       @else  
       {{$jefeaiadm->nombre.' '.$jefeaiadm->user->nombres.' '.$jefeaiadm->user->a_paterno.' '.$jefeaiadm->user->a_materno}}
       @endif y
       {{$admair->nombre.' '.$admair->user->nombres.' '.$admair->user->a_paterno.' '.$admair->user->a_materno}}   
-    , {{$jefeair->cargo}} Regional La Paz,
  @if ($cargo->tipo=='medico') {{$jefeaim->cargo;}}
  @else {{$jefeaiadm->cargo}} @endif Regional La Paz  y {{$admair->cargo}}
   Regional La Paz respectivamente, que en adelante se denominará <b>"CONTRATANTE"</b> y, 
