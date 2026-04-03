@@ -182,7 +182,8 @@ class DatosPerController extends Controller
         $ci = trim($request->input('CI')) ;
         $datosPer = DatosPer::where('CI','=',$ci)
         ->where('id_esper','=','3')
-        ->where('conteo','<=','3')
+        ->where('conteo','<=','2')
+        ->whereIn('estado_conteo',['habil','recurrente']) 
         ->get() ;
         return $datosPer->all();
     }

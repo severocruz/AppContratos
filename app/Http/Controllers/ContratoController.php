@@ -207,6 +207,8 @@ class ContratoController extends Controller
             $contratoStore['horaCon']=date('h:i:s');
             $autoridad=AutoridadesVb::where('estado','=','1')->first();
             $contratoStore['gestion_au']=$autoridad->gestion_au;
+            $personalu =DatosPer::findOrFail($contratoStore['id_per']);
+            $contratoStore['estado_conteo']=$personalu->estado_conteo;
             $contratoCreado=Contrato::create($contratoStore->toArray());
             $cad=implode($contratoCreado->toArray());
             $hash = Hash::make($cad);
@@ -218,7 +220,6 @@ class ContratoController extends Controller
             RegEstadosReq::create(["id_us"=>auth()->id(),
             "id_req"=>$contratoCreado->id_req,
             "id_estfin"=>"3"]);
-            $personalu =DatosPer::findOrFail($contratoCreado->id_per);
             $personalu->update(["id_esper"=> "2"]);
             
             if($ticon=='10'){
@@ -513,6 +514,75 @@ class ContratoController extends Controller
         ]);
 
     }
+    public function showallResidente(Contrato $contrato,Request $request){
+        $requerimiento = Requerimiento::findOrFail($contrato->id_req);
+        $centrosSalud=CentroDeSalud::with('cargoEnc')->findOrFail($contrato->id_cs);
+        $tiposContrato=TipoContrato::findOrFail($contrato->id_tic);
+        $cargos = Cargos::findOrFail($contrato->id_car);
+        $niveles = Nivel::findOrFail($contrato->id_niv);
+        $usuario = User::findOrFail($contrato->id_us);
+
+        $cirinstnal = CircularInstNal::findOrFail($contrato->id_cinal);
+        $cirinstreg = CircularInstReg::findOrFail($contrato->id_cireg);
+        $cite = Cite::findOrFail($contrato->id_cite);
+        $firmas = Vobofirma::with('autoridadesVb.user')->where('id_con','=',$contrato->id_con)->get() ;
+        
+        $jefeair = AutoridadesVb::with(['user'=> function($query){
+            return $query->with('departamento');
+        }])->where('estado','=','1')->where('orden','=','1')->orderBy('id','desc')->get()->first();
+        $admair = AutoridadesVb::with(['user'=> function($query){
+            return $query->with('departamento');
+        }])->where('estado','=','1')->where('orden','=','2')->orderBy('id','desc')->get()->first();
+        $jefeaim = AutoridadesVb::with(['user'=> function($query){
+            return $query->with('departamento');
+        }])->where('estado','=','1')->where('orden','=','3')->orderBy('id','desc')->get()->first();
+        $jefeaiadm = AutoridadesVb::with(['user'=> function($query){
+            return $query->with('departamento');
+        }])->where('estado','=','1')->where('orden','=','4')->orderBy('id','desc')->get()->first();
+        $datosPer = DatosPer::with('departamento')
+        ->with('filePer')->findOrFail($contrato->id_per);
+        $copia = 1; //$request->all()['cop'];
+        $jeferrhh=explode(' ',$jefeair->user->nombres);
+        $iniciales='';
+        for ($i=0; $i < sizeof($jeferrhh); $i++) {
+           // if ($i>0) {
+            $iniciales.= substr($jeferrhh[$i],0,1); 	
+           // }
+        }
+        $iniciales.= substr($jefeair->user->a_paterno,0,1);
+        $iniciales.= substr($jefeair->user->a_materno,0,1);
+        $ut = new PersonalUtil();
+
+         $complemento= ComplementoResidente::with('especialidad')
+                                           ->where('id_con','=',$contrato->id_con)
+                                           ->get()->first();
+        $garante1 = Garante::with('departamento')->findOrFail($complemento->id_gari);
+        $garante2 = Garante::with('departamento')->findOrFail($complemento->id_garii);
+
+        return view('contratos.showallresidente',['contrato'=>$contrato,
+        'requerimiento'=>$requerimiento,
+        'centrosal'=>$centrosSalud,
+        'tipocon'=>$tiposContrato,
+        'cargo'=>$cargos,
+        'nivel'=>$niveles,
+        'cirinsnal'=>$cirinstnal,
+        'cireg'=>$cirinstreg,
+        'cite'=>$cite,
+        'personal'=>$datosPer,
+        'jefeaim'=>$jefeaim,
+        'jefeair'=>$jefeair,
+        'admair'=>$admair,
+        'jefeaiadm'=>$jefeaiadm,
+        'copia'=>$copia,
+        'iniciales'=>$iniciales,
+        'ut'=>$ut,
+        'usuario'=>$usuario,
+        'complemento'=>$complemento,
+        'garante1'=>$garante1,
+        'garante2'=>$garante2
+        ]);
+
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -611,7 +681,15 @@ class ContratoController extends Controller
                 if($contratoUpdate['id_tic'] == '9' || $contratoUpdate['id_tic'] == '10' || $contratoUpdate['id_tic'] == '11'  ){
                     $persona->update(['id_esper'=>'4']);
                 }else{
-                    $persona->update(['id_esper'=>'4','conteo'=>$cont]);
+                    if($cont < 2 ){
+                        $persona->update(['id_esper'=>'4','conteo'=>$cont]);
+                    }else{
+                        if($persona->estado_conteo == 'habil'){
+                            $persona->update(['id_esper'=>'4','conteo'=>$cont,'estado_conteo'=>'inhabil']);
+                        }else{
+                            $persona->update(['id_esper'=>'4','conteo'=>$cont,'estado_conteo'=>'recurrente']);
+                        }
+                    }                   
                 }
 
                 $requerimiento =Requerimiento::findOrFail($contrato->id_req);

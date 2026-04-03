@@ -164,14 +164,14 @@ File Personal No:&nbsp; {{isset($personal->filePer)?$personal->filePer->nombre:'
 		<div class="titulo"><b><h1>CAJA NACIONAL DE SALUD</h1></b></div>
 		<div class="subtitulo"><b>ADMINISTRACIÓN REGIONAL LA PAZ </b></div>
 		<div class="subtitulo2"><b>CONTRATO DE PRESTACIÓN DE SERVICIOS</b></div>
-		<div class="subtitulo2"><b>(TRABAJADOR EVENTUAL)</b></div>
+		<div class="subtitulo2"><b>(TRABAJADOR  {{$contrato->estado_conteo=='recurrente'?'RECURRENTE':'EVENTUAL'}})</b></div>
 	</div>
 <p id="cod"><b>C-{{$ut->rellenaceros($contrato->noCon)}}</b></p>
 
 <hr>
 <div class="parrafo">
   <p><b>MAT-{{$personal->matricula}}</b></p>	                          
-<p>Conste por el presente Contrato de Trabajo Eventual, que se conviene y acuerda al tenor de las siguientes cláusulas:</p>
+<p>Conste por el presente Contrato de Trabajo {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}}, que se conviene y acuerda al tenor de las siguientes cláusulas:</p>
 <p><b>PRIMERA DE LAS PARTES.-</b> Intervienen y suscriben el presente contrato, por una parte, la Caja Nacional de Salud, 
 representada legalmente en este acto por los Señores 
 {{$jefeair->nombre.' '.$jefeair->user->nombres.' '.$jefeair->user->a_paterno.' '.$jefeair->user->a_materno}} ,
@@ -186,14 +186,14 @@ representada legalmente en este acto por los Señores
  @else {{$jefeaiadm->cargo}} @endif Regional La Paz  y {{$admair->cargo}}
   Regional La Paz respectivamente, que en adelante se denominará <b>"CONTRATANTE"</b> y, 
   por otra, el (la) Señor (a) <b>{{$personal->a_paterno}}&nbsp;{{$personal->a_materno}}&nbsp;{{$personal->nombres}}</b>, 
-  con C.I. Nº <b>{{$personal->CI}}-{{$personal->departamento->sigla}}</b> en lo sucesivo denominado <b>"Trabajador Eventual"</b>.</p>
+  con C.I. Nº <b>{{$personal->CI}}-{{$personal->departamento->sigla}}</b> en lo sucesivo denominado <b>"Trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}}"</b>.</p>
 <p><b>SEGUNDA: DE LOS ANTECEDENTES.-</b> La Caja Nacional de Salud, institución descentralizada de derecho público sin fines de lucro, 
     con personalidad Jurídica , autonomía de gestión y patrimonio independiente, encargada de la gestión, 
     aplicación y ejecución del régimen de Seguridad Social a Corto Plazo, para cuya finalidad se requiere el servicio de personal adecuado 
     en función de las necesidades y circunstancias, enmarcado en las previsiones establecidas en el Código de Seguridad Social, su Decreto 
     reglamentario y demás disposiciones conexas.</p>
 
-<p><b>TERCERA: DEL OBJETO.-</b> El presente Contrato de Trabajo Eventual tiene como único objeto el contar con los servicios profesionales
+<p><b>TERCERA: DEL OBJETO.-</b> El presente Contrato de Trabajo {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}} tiene como único objeto el contar con los servicios profesionales
      y/o administrativos de un (a) <b>{{$cargo->cargo}}</b> para que trabaje en tal condición en el (la)
       <b>{{$centrosal->nombre_cs}}</b> dependiente de la Administración Regional La Paz a 
       Nota: {{$requerimiento->nota}} de fecha {{$ut->cambiaformatofecha($requerimiento->fecha_nota)}} , 
@@ -201,32 +201,32 @@ representada legalmente en este acto por los Señores
       DEL DEPARTAMENTO NACIONAL DE RECURSOS HUMANOS, CIRCULAR INSTRUCTIVO {{$cireg->no}} DE FECHA {{$ut->cambiaformatofecha($cireg->fecha)}} 
       DEL DEPARTAMENTO REGIONAL DE RECURSOS HUMANOS,  DE ACUERDO A CITE N° {{$cite->no}} DE {{$ut->cambiaformatofecha($cite->fecha)}} 
       EMITIDO POR LA ADMINISTRACION REGIONAL LA PAZ, con <b>{{$nivel->horas_trab}}</b></p>
-<P><b>CUARTA: DE LA VIGENCIA.-</b> El Contrato de Trabajo Eventual, tendrá una vigencia de 
+<P><b>CUARTA: DE LA VIGENCIA.-</b> El Contrato de Trabajo {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}}, tendrá una vigencia de 
     <b>{{$ut->diasdifentrefechas($contrato->fechaIni,$contrato->fechaFin)}}  días</b> computable a partir del 
     <b>{{$ut->cambiaformatofecha($contrato->fechaIni)}}</b>, fecha en la cual empezará a prestar servicios el 
-    Trabajador Eventual, hasta el <b>{{$ut->cambiaformatofecha($contrato->fechaFin)}}</b>. 
-Por sus características de eventualidad, el presente Contrato de Trabajo Eventual <b>NO ADMITE NI ES SUSCEPTIBLE DE TÁCITA RECONDUCCIÓN</b> 
+    Trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}}, hasta el <b>{{$ut->cambiaformatofecha($contrato->fechaFin)}}</b>. 
+Por sus características de eventualidad, el presente Contrato de Trabajo {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}} <b>NO ADMITE NI ES SUSCEPTIBLE DE TÁCITA RECONDUCCIÓN</b> 
 y en la fecha establecida de culminación, ipso facto, sin necesidad de previo aviso concluye el presente contrato.</P>
-<p><b>QUINTA: DEL PAGO POR SERVICIOS.-</b> El contratante pagará al Trabajador Eventual, por los servicios prestados la remuneración 
+<p><b>QUINTA: DEL PAGO POR SERVICIOS.-</b> El contratante pagará al Trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}}, por los servicios prestados la remuneración 
     mensual que asciende a la suma de <b>Bs {{$nivel->salario}} ({{$nivel->literal}} 00/100 BOLIVIANOS)</b>, 
     con cargo a la partida <i>Nº {{$contrato->partPres}}</i> y nivel salarial <b>{{$nivel->nivel}}, 
     {{$tipocon->tipo}}, DE ACUERDO A NOTA N°  {{$requerimiento->nota}} DE FECHA 
     {{$ut->cambiaformatofecha($requerimiento->fecha_nota)}} EMITIDO POR LA ADMINISTRACION REGIONAL LA PAZ.</b><br>
 El contratante actuará como agente de retención de los descuentos establecidos por Ley sobre el total ganado mensual 
 antes referido.</p>
-<p>Todos los derechos del Trabajador Eventual emergentes del presente contrato, sin distinción alguna, se encuentran incluidos
+<p>Todos los derechos del Trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}} emergentes del presente contrato, sin distinción alguna, se encuentran incluidos
      en el monto mencionado, como remuneración mensual, en la presente cláusula, no pudiendo, por tanto,
       reclamar ningún otro beneficio ni otra suma adicional por ningún otro concepto.</p>
-<p><b>SEXTA: DE LA ACLARACION NECESARIA</b>.- El trabajador Eventual se compromete a prestar sus servicios 
+<p><b>SEXTA: DE LA ACLARACION NECESARIA</b>.- El trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}} se compromete a prestar sus servicios 
     en la Caja Nacional de Salud, sujetándose a las disposiciones de la Ley General de Trabajo, 
     Decreto Reglamentario de la Ley General del Trabajo, Código de Seguridad Social y su Reglamento, 
     Reglamento Interno de trabajo del Personal de la C.N.S., Ley Nº 1178 de Administración y 
     Control Gubernamentales y demás disposiciones conexas, sin que pueda alegar desconocimiento de las mismas.</p>
-<p><b>SEPTIMA: DE LAS OBLIGACIONES DEL TRABAJADOR EVENTUAL.-</b></p>
+<p><b>SEPTIMA: DE LAS OBLIGACIONES DEL TRABAJADOR {{$contrato->estado_conteo=='recurrente'?'RECURRENTE':'EVENTUAL'}}.-</b></p>
 
-<p>7.1 El Trabajador Eventual se compromete y obliga a prestar los servicios, objeto del presente documento, con diligencia, eficiencia, ética, e integridad profesional, tomando en cuenta la naturaleza y propósito del contrato, de la confidencialidad de documentación que se maneja y someterse a las evaluaciones, controles y observaciones que realice su inmediato superior.</p>
+<p>7.1 El Trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}} se compromete y obliga a prestar los servicios, objeto del presente documento, con diligencia, eficiencia, ética, e integridad profesional, tomando en cuenta la naturaleza y propósito del contrato, de la confidencialidad de documentación que se maneja y someterse a las evaluaciones, controles y observaciones que realice su inmediato superior.</p>
 <p>7.2 Asumirá total responsabilidad en la ejecución y resultados del trabajo encomendado, obligándose a la preservación de los documentos, equipos y materiales que se le confíen y devolverlos en iguales condiciones.</p>
-<p>7.3 En caso de requerirse el trabajo y la colaboración del Trabajador Eventual en otra Policlínica, Centro Médico u otra dependencia de la C.N.S. podrá ser transferido sin observación ni cuestionamiento alguno y bajo las mismas condiciones estipuladas en el presente contrato.</p>
+<p>7.3 En caso de requerirse el trabajo y la colaboración del Trabajador {{$contrato->estado_conteo=='recurrente'?'Recurrente':'Eventual'}} en otra Policlínica, Centro Médico u otra dependencia de la C.N.S. podrá ser transferido sin observación ni cuestionamiento alguno y bajo las mismas condiciones estipuladas en el presente contrato.</p>
 <p>7.4 Dedicarse exclusivamente al servicio que requiere el contrato y durante la vigencia establecida en el mismo; por consiguiente, no podrá ejercer actividades profesionales o de consultoría en forma simultánea al servicio que se obliga por el presente documento.</p>
 </div>
 <p>&nbsp;</p>

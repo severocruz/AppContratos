@@ -48,7 +48,8 @@ class Contrato extends Model
         "conteo_impresion",
         "id_per",
         "id_cono",
-        "conteo_edicion"
+        "conteo_edicion",
+        "estado_conteo"
     ];
     public function datosPer():BelongsTo{
         return $this->belongsTo(DatosPer::class,"id_per","id_per");

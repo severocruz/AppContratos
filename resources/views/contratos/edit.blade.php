@@ -35,10 +35,10 @@
             @break
         @case(10)
         <div class="flex-col">
-            {{-- <x-nav-link
-            :href="route('contrato.showall',$contrato)" target="_blank">
+            <x-nav-link
+            :href="route('contrato.showallresidente',$contrato)" target="_blank">
             Todas
-            </x-nav-link> | --}}
+            </x-nav-link> |
             <x-nav-link
             :href="route('contrato.showresidente',$contrato).'?cop=1'" target="_blank">
             Original

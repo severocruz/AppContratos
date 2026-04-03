@@ -10,7 +10,7 @@
   <body>
    <a href="#" onclick="window.close()"  id="listarcon">Volver</a>
   <a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a>
-  
+  @for($copia=1;$copia<=4;$copia++)
    <div>
     <div id="carta">  
   			
@@ -511,8 +511,13 @@
           <i>{{$contrato->hash1."  ".$usuario->name}}</i>
   </div>
   {{-- <a  href="?action=verContrato&id=$this->data['contrato']['id_con']" id="listarcon">Volver</a> --}}
-  <a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a>
-  </div>
+</div>
+@if($copia<4)
+<div class="saltopagina"></div> 
+@endif
+@endfor
+
+<a href="#" onclick="imprimirCon()" id="imprimirc">imprimir</a>
   <script type="text/javascript">
   function imprimirCon(){
    window.print()	

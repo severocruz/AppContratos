@@ -15,6 +15,7 @@ use App\Http\Controllers\CiteController;
 use App\Http\Controllers\DocAdjuntoController;
 use App\Http\Controllers\AutoridadesVbController;
 use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetalleCurriculumController;
 use App\Http\Controllers\RevisorReqController;
 use App\Http\Controllers\ImagenCurriculumController;
@@ -40,12 +41,11 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::view('/dashboard','dashboard')->name('dashboard');
-        
+    // Route::view('/dashboard','dashboard')->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     
     Route::get('/personal',[DatosPerController::class,'index'])->name('personal.index');
     Route::get('/personalByCI', [DatosPerController::class,'geByCI'])->name('personal.getbyci');
@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/contratos/{contrato}/showadenda',[ContratoController::class,'showAdenda'])->name('contrato.showadenda');
     Route::get('/contratos/{contrato}/showalladenda',[ContratoController::class,'showallAdenda'])->name('contrato.showalladenda');
     Route::get('/contratos/{contrato}/showresidente',[ContratoController::class,'showResidente'])->name('contrato.showresidente');
+    Route::get('/contratos/{contrato}/showallresidente',[ContratoController::class,'showallResidente'])->name('contrato.showallresidente');
 
     Route::get('/imagenescontratos/{contrato}', [ImagenContratoController::class,'index'])->name('imagencontrato.index');
     Route::post('/imagenescontratos', [ImagenContratoController::class,'store'])->name('imagencontrato.store');

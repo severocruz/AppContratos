@@ -14,4 +14,7 @@
             </div>
         </div>
     </div>
+    
+    @dump($contratos)
+    
 </x-app-layout>
